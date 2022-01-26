@@ -61,11 +61,11 @@ body{background:#f9f9f9;}
     padding-left: 10%;
 }
 
-.mantenimiento-item{
+.cursos-item{
     display: none;
     padding-left: 10%;
 }
-.mantenimiento-item{
+.cursos-item{
     display: none;
     padding-left: 10%;
 }
@@ -87,7 +87,7 @@ body{background:#f9f9f9;}
 .open-session .fa-chevron-down{
         display: none;
 }
-.open-mantenimiento .fa-chevron-down{
+.open-cursos .fa-chevron-down{
         display: none;
 }
 .open-calidad .fa-chevron-down{
@@ -109,7 +109,7 @@ body{background:#f9f9f9;}
 .open-session .fa-chevron-up{
         display: inline-block;
 }
-.open-mantenimiento .fa-chevron-up{
+.open-cursos .fa-chevron-up{
         display: inline-block;
 }
 .open-calidad .fa-chevron-up{
