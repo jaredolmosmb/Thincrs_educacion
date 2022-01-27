@@ -24,6 +24,28 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ('email',)
         
+class CourseForm(forms.ModelForm):
+	class Meta:
+		model=CourseModel
+		fields = (
+        'id_course',
+        'title',
+        'description',
+        'url',
+        'estimated_content_length',
+        'has_closed_caption',
+        #'last_update_date'
+        )
+		widgets = {
+			'id_course': forms.TextInput(attrs={'class': 'form-control'}),
+			'title': forms.Textarea(attrs={'class': 'form-control' , 'rows' : '4'}),
+			'description': forms.TextInput(attrs={'class': 'form-control'}),
+	        'url': forms.TextInput(attrs={'class': 'form-control'}),
+	        'estimated_content_length':forms.TextInput(attrs={'class': 'form-control'}),
+	        'has_closed_caption':forms.TextInput(attrs={'class': 'form-control'}),
+	        #'last_update_date':forms.TextInput(attrs={'class': 'form-control'}),
+			}
+
 """class RegistroForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'input90', 'placeholder':'Password', 'id':'password2'}))
 	class Meta:

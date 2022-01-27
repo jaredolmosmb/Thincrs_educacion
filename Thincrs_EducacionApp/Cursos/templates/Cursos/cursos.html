@@ -1,0 +1,91 @@
+{% extends 'Cursos/index2.html' %}
+{% load static %}
+{% block content %}
+<!--breadcumb-->
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Cursos</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><a href="#">Hijo1</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Nieto1</a></li>
+        </ol>
+</nav>
+<h1 class="text-center">Cursos</h1>
+
+<div class="row row-cols-1 row-cols-md-3">
+  <div class=" col-sm-12 col-md-6 col-xl-4">
+        <div class="card card-lista-fotos">
+                <img  src="{% static 'img/pie.jpg' %}" class="img-fluid d-block mx-auto rounded-circle fotos-tarjetas-individual" >
+          <div class="card-body">
+            <h5 class="card-title text-center text-primary">Analisis 1 </h5>
+            <p class="card-text text-center lead nombre-card" >
+                Detalles de Analisis
+            </p>
+          </div>
+            <div class="card-footer">
+                <div class="row">
+                <div class="col-6 col-sm-6 col-md-6">
+                    <a href="#">
+                        <img src="{% static 'img/Detalles.png'%}" class="img-fluid mx-auto d-block">
+                     </a>
+                </div>
+                <div class="col-6 col-sm-6 col-md-6">
+                    <a href="#">
+                        <img src="{% static 'img/Actualizar.png'%}" class="img-fluid mx-auto d-block">
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+  </div>
+  <div class=" col-sm-12 col-md-6 col-xl-4">
+        <div class="card card-lista-fotos">
+                <img  src="{% static 'img/pie.jpg' %}" class="img-fluid d-block mx-auto rounded-circle fotos-tarjetas-individual" >
+          <div class="card-body">
+            <h5 class="card-title text-center text-primary">Analisis 2 </h5>
+            <p class="card-text text-center lead nombre-card" >
+                Detalles de Analisis 2
+            </p>
+          </div>
+            <div class="card-footer">
+                <div class="row">
+                <div class="col-6 col-sm-6 col-md-6">
+                    <a href="#">
+                        <img src="{% static 'img/Detalles.png'%}" class="img-fluid mx-auto d-block">
+                     </a>
+                </div>
+                <div class="col-6 col-sm-6 col-md-6">
+                    <a href="#">
+                        <img src="{% static 'img/Actualizar.png'%}" class="img-fluid mx-auto d-block">
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+  </div>
+  <div class=" col-sm-12 col-md-6 col-xl-4">
+        <div class="card card-lista-fotos">
+                <img  src="{% static 'img/regresion.png' %}" class="img-fluid d-block mx-auto rounded-circle fotos-tarjetas-individual" >
+          <div class="card-body">
+            <h5 class="card-title text-center text-primary">Analisis 3 </h5>
+            <p class="card-text text-center lead nombre-card" >
+                Detalles de Analisis 3
+            </p>
+          </div>
+            <div class="card-footer">
+                <div class="row">
+                <div class="col-6 col-sm-6 col-md-6">
+                    <a href="#">
+                        <img src="{% static 'img/Detalles.png'%}" class="img-fluid mx-auto d-block">
+                     </a>
+                </div>
+                <div class="col-6 col-sm-6 col-md-6">
+                    <a href="#">
+                        <img src="{% static 'img/Actualizar.png'%}" class="img-fluid mx-auto d-block">
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+{% endblock %}

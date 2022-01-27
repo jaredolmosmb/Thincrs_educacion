@@ -8,6 +8,36 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib import messages 
 from .decorators import authenticated_user
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
+@authenticated_user
+def CursosView(request):
+    return render (request, 'Cursos/cursos.html')
+
+@authenticated_user
+def ListaCursosView(request):
+    todos_m=CourseModel.objects.all()
+    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m})
+# Create your views here.
+
+class ActualizarCursos(UpdateView):
+    model = CourseModel
+    form_class = CourseForm
+    template_name = 'Cursos/modM.html'
+    success_url = reverse_lazy('cursos:lista')
+
+class CrearCursos(CreateView):
+    model = CourseModel
+    form_class = CourseForm
+    template_name = 'Cursos/modCM.html'
+    success_url = reverse_lazy('cursos:lista')
+
+class EliminarCursos(DeleteView):
+    model = CourseModel
+    form_class = CourseForm
+    template_name = 'Cursos/man_confirm_delete.html'
+    success_url = reverse_lazy('cursos:lista')
 
 # Create your views here.
 @authenticated_user

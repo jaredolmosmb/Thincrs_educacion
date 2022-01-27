@@ -33,7 +33,7 @@ class CourseModel(models.Model):
 	url=models.CharField(max_length=500)
 	estimated_content_length=models.IntegerField()
 	has_closed_caption=models.BooleanField()
-	last_update_date=models.DateTimeField(auto_now=True)
+	#last_update_date=models.DateTimeField(auto_now=True)
 	#cliente=models.ForeignKey(ClienteModel, on_delete=models.SET_NULL, null=True)
 
 	def __str__(self):
