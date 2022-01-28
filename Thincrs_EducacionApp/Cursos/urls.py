@@ -6,6 +6,7 @@ app_name = 'cursos'
 
 urlpatterns = [
 	path('index/', views.IndexView, name =  "index"),
+	path('prueba/', views.PruebaView, name =  "prueba"),
 	path('', views.Index2View, name =  "index2"),
 	path('inicioPlataforma', views.InicioPlataforma.as_view(), name='inicioPlataforma'),
 	path('loginJson/', views.LoginJsonView.as_view(), name='loginjson'),

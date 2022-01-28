@@ -40,6 +40,7 @@
                             <td>URL</td>
                             <td>DURACION</td>
                             <td>TIENE SUBTITULOS</td>
+                            <td>QUE APRENDERAS </td>
                             <td>ACCIONES</td>
                         </tr>
                     </thead>
@@ -55,6 +56,14 @@
                             <td>{{ m.url }}</td>
                             <td>{{ m.estimated_content_length }}</td>
                             <td>{{ m.has_closed_caption }}</td>
+                            <td>
+                                {% for chw in todos_CHW %}
+                               
+                                    {% if m.id == chw.course_id %}
+                                        {{ chw.what_you_will_learn}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
                             <td>
                                 <div class="text-center">
                                     <a href="#" id='{{m.id}}'>

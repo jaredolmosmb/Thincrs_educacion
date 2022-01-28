@@ -32,6 +32,25 @@ admin.site.register(CourseModel)
 admin.site.register(WhatYouWillLearnModel)
 admin.site.register(CourseHasWhatYouWillLearn)
 
+admin.site.register(CaptionLanguagesModel)
+admin.site.register(CourseHasCaptionLanguage)
+admin.site.register(InstructorsModel)
+
+admin.site.register(CourseHasInstructor)
+admin.site.register(RequirementsModel)
+admin.site.register(CourseHasRequirement)
+
+admin.site.register(LocalesModel)
+admin.site.register(CourseHasLocales)
+admin.site.register(CategoriesModel)
+
+admin.site.register(CourseHasCategories)
+admin.site.register(PrimaryCategoriesModel)
+admin.site.register(CourseHasPrimaryCategories)
+
+admin.site.register(RequiredEducationModel)
+admin.site.register(CourseHasRequiredEducation)
+
 # Register your models here.
 # Register your models here.
 # Register your models here.
