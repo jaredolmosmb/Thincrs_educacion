@@ -31,7 +31,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Lista Cursos</h5>
-                <table class="table table-bordered datatable "  id="myTable">
+                <table class="table table-striped w-auto datatable"  id="myTable">
                     <thead>
                         <tr>
                             <td>ID</td>
@@ -41,6 +41,13 @@
                             <td>DURACION</td>
                             <td>TIENE SUBTITULOS</td>
                             <td>QUE APRENDERAS </td>
+                            <td>SUBTITULOS</td>
+                            <td>INSTRUCTORES</td>
+                            <td>REQUERIMIENTOS</td>
+                            <td>IDIOMA</td>
+                            <td>CATEGORIAS</td>
+                            <td>CATEGORIA PRIMARIA</td>
+                            <td>NIVEL DE EDUCACION</td>
                             <td>ACCIONES</td>
                         </tr>
                     </thead>
@@ -50,21 +57,77 @@
                         {% if todos_m %}
                         {% for m in todos_m %}
                         <tr>
-                            <td>{{ m.id_course }}</td>
-                            <td>{{ m.title }}</td>
-                            <td>{{ m.description }}</td>
-                            <td>{{ m.url }}</td>
-                            <td>{{ m.estimated_content_length }}</td>
-                            <td>{{ m.has_closed_caption }}</td>
-                            <td>
+                            <td><small>{{ m.id_course }}</td>
+                            <td><small>{{ m.title }}</td>
+                            <td><small>{{ m.description }}</td>
+                            <td><small>{{ m.url }}</td>
+                            <td><small>{{ m.estimated_content_length }}</td>
+                            <td><small>{{ m.has_closed_caption }}</td>
+                            <td style="width: 50px; white-space: nowrap;"><small>
                                 {% for chw in todos_CHW %}
                                
                                     {% if m.id == chw.course_id %}
-                                        {{ chw.what_you_will_learn}} </br>
+                                        {{ chw.what_you_will_learn}}</br>
                                     {% endif %}
                                 {% endfor %}
                             </td>
-                            <td>
+                            <td><small>
+                                {% for chc in todos_CHC %}
+                               
+                                    {% if m.id == chc.course_id %}
+                                        {{ chc.language}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><small>
+                                {% for chi in todos_CHI %}
+                               
+                                    {% if m.id == chi.course_id %}
+                                        {{ chi.name}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><small>
+                                {% for chr in todos_CHR %}
+                               
+                                    {% if m.id == chr.course_id %}
+                                        {{ chr.requirements}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><small>
+                                {% for chl in todos_CHL %}
+                               
+                                    {% if m.id == chl.course_id %}
+                                        {{ chl.locale_description}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><small>
+                                {% for chc in todos_CHC %}
+                               
+                                    {% if m.id == chc.course_id %}
+                                        {{ chc.category}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><small>
+                                {% for chpc in todos_CHP %}
+                               
+                                    {% if m.id == chpc.course_id %}
+                                        {{ chpc.primary_category}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><small>
+                                {% for chre in todos_CHRE %}
+                               
+                                    {% if m.id == chre.course_id %}
+                                        {{ chre.required_education}} </br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><small>
                                 <div class="text-center">
                                     <a href="#" id='{{m.id}}'>
                                         <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:actualizar' m.id %}')" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
@@ -73,7 +136,7 @@
                                         <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:eliminar' m.id %}')" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
                                     </a>
                                 </div>
-                            </td>
+                            </td></small>
                         </tr>
                         {% endfor %}
                         {% else %}
@@ -96,6 +159,8 @@
 $(document).ready(function() {
     $('#myTable').DataTable({
         dom: 'Bfrtilp',
+        scrollX: "true",
+        responsive: "true",
         buttons: [{
                 extend: 'excelHtml5',
                 text: '<i class="fas fa-file-excel"></i> ',
