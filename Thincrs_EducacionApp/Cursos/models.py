@@ -42,7 +42,8 @@ class CourseModel(models.Model):
 class Course2Model(models.Model):
 	creado_en=models.DateTimeField(auto_now_add=True)
 	actualzado_en=models.DateTimeField(auto_now=True)
-	id_course=models.IntegerField()
+	id_course = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+	#id_course=models.IntegerField()
 	title=models.CharField(max_length=200)
 	description=models.CharField(max_length=200)
 	url=models.CharField(max_length=500)

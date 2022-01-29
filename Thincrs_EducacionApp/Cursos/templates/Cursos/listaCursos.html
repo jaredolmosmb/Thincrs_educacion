@@ -73,7 +73,6 @@
                             </td>
                             <td><small>
                                 {% for chc in todos_CHC %}
-                               
                                     {% if m.id == chc.course_id %}
                                         {{ chc.language}} </br>
                                     {% endif %}
@@ -104,15 +103,15 @@
                                 {% endfor %}
                             </td>
                             <td><small>
-                                {% for chc in todos_CHC %}
+                                {% for chca in todos_CHCA %}
                                
-                                    {% if m.id == chc.course_id %}
-                                        {{ chc.category}} </br>
+                                    {% if m.id == chca.course_id %}
+                                        {{ chca.category}} </br>
                                     {% endif %}
                                 {% endfor %}
                             </td>
                             <td><small>
-                                {% for chpc in todos_CHP %}
+                                {% for chpc in todos_CHPC %}
                                
                                     {% if m.id == chpc.course_id %}
                                         {{ chpc.primary_category}} </br>

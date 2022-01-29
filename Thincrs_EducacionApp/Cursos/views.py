@@ -90,11 +90,11 @@ def ListaCursosView(request):
     todos_CHI = CourseHasInstructor.objects.all()
     todos_CHR = CourseHasRequirement.objects.all()
     todos_CHL = CourseHasLocales.objects.all()
-    todos_CHC = CourseHasCategories.objects.all()
+    todos_CHCA = CourseHasCategories.objects.all()
     todos_CHPC = CourseHasPrimaryCategories.objects.all()
     todos_CHRE = CourseHasRequiredEducation.objects.all()
     return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m, 'todos_CHW': todos_CHW, 'todos_CHI': todos_CHI, 
-        'todos_CHR':todos_CHR, 'todos_CHL':todos_CHL, 'todos_CHC':todos_CHC, 'todos_CHPC':todos_CHPC, 'todos_CHRE':todos_CHRE})
+        'todos_CHR':todos_CHR, 'todos_CHL':todos_CHL, 'todos_CHC':todos_CHC, 'todos_CHCA':todos_CHCA, 'todos_CHPC':todos_CHPC, 'todos_CHRE':todos_CHRE})
 # Create your views here.
 
 class ActualizarCursos(UpdateView):
