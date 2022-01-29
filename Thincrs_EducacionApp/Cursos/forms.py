@@ -46,6 +46,44 @@ class CourseForm(forms.ModelForm):
 	        #'last_update_date':forms.TextInput(attrs={'class': 'form-control'}),
 			}
 
+class Course2Form(forms.ModelForm):
+	class Meta:
+		model=Course2Model
+		fields = (
+        'id_course',
+        'title',
+        'description',
+        'url',
+        'estimated_content_length',
+        'has_closed_caption',
+        'what_you_will_learn',
+		'language',
+		'name',
+		'requirements', 
+		'locale_description',
+		'category',
+		'primary_category',
+		'required_education',
+        #'last_update_date'
+        )
+		widgets = {
+			'id_course': forms.TextInput(attrs={'class': 'form-control'}),
+			'title': forms.Textarea(attrs={'class': 'form-control' , 'rows' : '4'}),
+			'description': forms.TextInput(attrs={'class': 'form-control'}),
+	        'url': forms.TextInput(attrs={'class': 'form-control'}),
+	        'estimated_content_length':forms.TextInput(attrs={'class': 'form-control'}),
+	        'has_closed_caption':forms.TextInput(attrs={'class': 'form-control'}),
+	        'what_you_will_learn':forms.TextInput(attrs={'class': 'form-control'}),
+			'language':forms.TextInput(attrs={'class': 'form-control'}),
+			'name':forms.TextInput(attrs={'class': 'form-control'}),
+			'requirements':forms.TextInput(attrs={'class': 'form-control'}), 
+			'locale_description':forms.TextInput(attrs={'class': 'form-control'}),
+			'category':forms.TextInput(attrs={'class': 'form-control'}),
+			'primary_category':forms.TextInput(attrs={'class': 'form-control'}),
+			'required_education':forms.TextInput(attrs={'class': 'form-control'}),
+	        #'last_update_date':forms.TextInput(attrs={'class': 'form-control'}),
+			}
+
 """class RegistroForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'input90', 'placeholder':'Password', 'id':'password2'}))
 	class Meta:
