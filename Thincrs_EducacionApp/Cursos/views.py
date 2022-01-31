@@ -82,7 +82,7 @@ def PruebaView(request):
 def CursosView(request):
     return render (request, 'Cursos/cursos.html')
 
-@authenticated_user
+#@authenticated_user
 def ListaCursosView(request):
     todos_m=CourseModel.objects.all()
     todos_CHW = CourseHasWhatYouWillLearn.objects.all()
