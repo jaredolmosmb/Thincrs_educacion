@@ -6,5 +6,6 @@ def authenticated_user(view_func):
 		if request.user.is_authenticated:
 			return view_func(request, *args, **kwargs)
 		else:
-			return redirect('cursos:inicioPlataforma')
+			#return redirect('cursos:inicioPlataforma')
+			return redirect('cursos:lista')
 	return wrapper_func
