@@ -3,9 +3,13 @@
     color: white!important;
 }
 
-div.ColVis {
-        float: left;
-    }
+.dt-button-collection{
+    padding-top: 10%;
+
+    display: block;
+    height: 100% !important;
+    overflow-y: scroll !important;
+}
 
 .btn-excel{
     background: rgb(13,109, 58)!important;
