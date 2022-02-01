@@ -85,18 +85,12 @@ def CursosView(request):
 #@authenticated_user
 def ListaCursosView(request):
     todos_m=CourseModel.objects.all()
-    todos_CHW = CourseHasWhatYouWillLearn.objects.all()
-    todos_CHC = CourseHasCaptionLanguage.objects.all()
-    todos_CHI = CourseHasInstructor.objects.all()
-    todos_CHR = CourseHasRequirement.objects.all()
-    todos_CHL = CourseHasLocales.objects.all()
-    todos_CHCA = CourseHasCategories.objects.all()
-    todos_CHPC = CourseHasPrimaryCategories.objects.all()
-    todos_CHRE = CourseHasRequiredEducation.objects.all()
 
-    todos_m2 = Course2Model.objects.all()
-    return render(request, 'Cursos/listaCursos.html', {'todos_m2': todos_m2,'todos_m': todos_m, 'todos_CHW': todos_CHW, 'todos_CHI': todos_CHI, 
-        'todos_CHR':todos_CHR, 'todos_CHL':todos_CHL, 'todos_CHC':todos_CHC, 'todos_CHCA':todos_CHCA, 'todos_CHPC':todos_CHPC, 'todos_CHRE':todos_CHRE})
+    for i in todos_m:
+        print(i.id_course)
+
+
+    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m})
 # Create your views here.
 
 class ActualizarCursos(UpdateView):
@@ -114,7 +108,7 @@ class CrearCursos(CreateView):
 class EliminarCursos(DeleteView):
     model = CourseModel
     form_class = CourseForm
-    template_name = 'Cursos/man_confirm_delete.html'
+    template_name = 'Cursos/cur_confirm_delete.html'
     success_url = reverse_lazy('cursos:lista')
 
 # Create your views here.

@@ -29,8 +29,8 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(CourseModel)
-admin.site.register(Course2Model)
-admin.site.register(WhatYouWillLearnModel)
+#admin.site.register(Course2Model)
+"""admin.site.register(WhatYouWillLearnModel)
 admin.site.register(CourseHasWhatYouWillLearn)
 
 admin.site.register(CaptionLanguagesModel)
@@ -50,7 +50,7 @@ admin.site.register(PrimaryCategoriesModel)
 admin.site.register(CourseHasPrimaryCategories)
 
 admin.site.register(RequiredEducationModel)
-admin.site.register(CourseHasRequiredEducation)
+admin.site.register(CourseHasRequiredEducation)"""
 
 # Register your models here.
 # Register your models here.

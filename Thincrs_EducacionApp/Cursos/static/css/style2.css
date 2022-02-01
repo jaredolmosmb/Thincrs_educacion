@@ -3,6 +3,10 @@
     color: white!important;
 }
 
+div.ColVis {
+        float: left;
+    }
+
 .btn-excel{
     background: rgb(13,109, 58)!important;
     color: white!important;
