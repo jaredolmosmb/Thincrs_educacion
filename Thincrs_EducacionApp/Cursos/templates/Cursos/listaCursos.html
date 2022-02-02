@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 
-<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script> 
 <style>
       .table{
         background: #27CF7E; color: #fff; border: #DADADA 1px solid; font-size: 14px;
@@ -118,20 +117,27 @@ $(document).ready(function() {
         dom: 'Brtilp',
         scrollX: "true",
         responsive: "true",
-
+        select: {
+            style: 'multi'
+        },
         buttons: [{
                 extend: 'excelHtml5',
                 text: '<i class="fas fa-file-excel"></i> ',
                 titleAttr: 'Exportar a Excel',
                 className: 'btn btn-success',
                 exportOptions: {
-                    columns: ':visible'
+                    columns: ':visible',
+                    modifier: {
+                        selected: true
+                    }
                 }
+                
             },
             {
                 extend:    'colvis',
                 text:      '<i class="fas fa-columns"></i> ',
                 titleAttr: 'Escoger columnas',
+                columns: ':not(.noVis)',
                 className: 'btn btn-success',
                 columnText: function ( dt, idx, title ) {
             return (idx+1)+': '+title;

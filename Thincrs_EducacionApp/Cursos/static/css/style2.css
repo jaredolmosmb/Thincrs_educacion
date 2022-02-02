@@ -3,12 +3,132 @@
     color: white!important;
 }
 
-.dt-button-collection{
-    padding-top: 10%;
-
-    display: block;
+/*.dt-button-collection{
+    padding-top: 30px;
+    display: inline-block;
     height: 100% !important;
-    overflow-y: scroll !important;
+    overflow-y: scroll;
+    
+    font-size: 12px;
+}*/
+
+div.dt-buttons {
+position: relative;
+float: left;
+font: 0.9em Arial;
+padding-bottom: 0.25em;
+}
+
+div.dt-buttons .dt-button {
+margin: 0.25em 0.333em 0.25em 0;
+}
+
+div.dt-button-collection {
+font: 0.9em Arial;
+position: absolute;
+margin-top: 3px;
+padding: 4px;
+border: 1px solid #ccc;
+background-color: #fff;
+overflow: hidden;
+height: auto !important;
+overflow-y: scroll !important;
+z-index: 2002;
+width: auto !important;
+}
+
+div.dt-button-collection .dt-button {
+text-align: center;
+position: relative;
+display: inline;
+margin-right: 0;
+width: 10em;
+}
+
+div.dt-button-background {
+zoom: 1;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: #000;
+filter: alpha(opacity=35);
+opacity: .35;
+z-index: 2001;
+}
+
+dt-button.buttons-select-cells,
+dt-button.buttons-select-rows,
+dt-button.buttons-select-columns {
+position: relative;
+width: 175px;
+text-align: left;
+}
+
+dt-button.buttons-columnVisibility.ui-button-text-only {
+padding-left: 10px;
+}
+
+dt-button.buttons-columnVisibility.ui-state-active,
+dt-button.buttons-columnVisibility {
+position: relative;
+width: auto;
+*width: 230px;
+text-align: left;
+*zoom: expression(this.runtimeStyle.zoom="1", 
+this.insertBefore(document.createElement("div"), 
+this.childNodes[0]).className="before", 
+this.appendChild(document.createElement("div")).className="after");
+}
+
+dt-button.buttons-columnVisibility:before,
+dt-button.buttons-columnVisibility.ui-state-active:after {
+display: block;
+position: absolute;
+top: 1em;
+margin-top: -8px;
+margin-left: -6px;
+width: 16px;
+height: 16px;
+box-sizing: border-box;
+background-color: red;
+}
+
+dt-button.buttons-columnVisibility:before {
+content: ' ';
+border: 2px solid black;
+border-radius: 3px;
+}
+
+dt-button.buttons-columnVisibility.ui-state-active:after {
+font: 0.9em Arial;
+content: '\2714';
+text-align: center;
+}
+
+*dt-button.buttons-columnVisibility .before,
+*dt-button.buttons-columnVisibility.ui-state-active .after,
+*dt-button.buttons-columnVisibility.ui-state-active:hover .after {
+position: absolute;
+margin: 6px 0px 0px -6px;
+width: 16px;
+height: 16px;
+background-position: 0px 0px;
+}
+
+*dt-button.buttons-columnVisibility .before {
+background-position: 0px 0px;
+
+}
+
+*dt-button.buttons-columnVisibility.ui-state-active .before {
+background-position: 0px 16px;
+}
+
+*.dt-button.buttons-columnVisibility.ui-state-active:hover .before {
+
+background-position: 16px 0px;
 }
 
 .btn-excel{
@@ -52,7 +172,7 @@ body{background:#f9f9f9;}
     font-size: 18px;
 
 }
-}
+}*/
 .animate{-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;-ms-transition:all .3s ease-in-out;transition:all .3s ease-in-out}
 .nav-link img {
     width: 20px;
