@@ -202,8 +202,23 @@ $(document).ready(function() {
     }
 
     function filterGlobal () {
+
+        var barra = $('#global_filter').val();
+        var or_string = " && ";
+        var para_buscar = "";
+        if(barra.indexOf(or_string) != -1){
+            let myArray = barra.split(" && ");
+            for (let i = 0; i < myArray.length; i++) {
+                para_buscar = para_buscar+"(?=.*"+myArray[i]+")";
+               // alert(para_buscar);
+            }
+            //alert("if "+para_buscar);
+            //(?=.*word1)(?=.*word2)(?=.*word3)
+        }else{
+            para_buscar = barra;
+        }
     $('#example').DataTable().search(
-        $('#global_filter').val(),
+        para_buscar,
         $('#global_regex').prop('checked'),
         $('#global_smart').prop('checked')
     ).draw();
