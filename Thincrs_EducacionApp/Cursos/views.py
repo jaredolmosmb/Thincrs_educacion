@@ -39,6 +39,22 @@ def PruebaView(request):
 
     for indx, curso in enumerate(data['results']):
         if indx == 1:
+            c = CourseModel(
+                id_course = curso['id'],
+                title=curso['title'],
+                description=cleanhtml(curso['description']),
+                url=curso['url'],
+                estimated_content_length=curso['estimated_content_length'],
+                has_closed_caption=curso['has_closed_caption'],
+                what_you_will_learn='\n'.join([str(item) for item in curso['what_you_will_learn']['list']]),
+                language = '\n'.join([str(item) for item in curso['caption_languages']]),
+                name = '\n'.join([str(item) for item in curso['instructors']]),
+                requirements = '\n'.join([str(item) for item in curso['requirements']['list']]),
+                locale_description = curso['locale']['locale'],
+                category = '\n'.join([str(item) for item in curso['categories']]),
+                primary_category=curso['primary_category']['title'])
+
+            c.save()
             print(curso['id'])
             print(type(curso['id']))
             print(curso['title'])

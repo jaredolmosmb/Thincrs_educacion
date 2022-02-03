@@ -12,6 +12,13 @@
     font-size: 12px;
 }*/
 
+td.scrollableCell{
+    width: 500px !important;
+    overflow-y: scroll !important;
+    height:100px !important;
+    display:  block;
+}
+
 div.dt-buttons {
 position: relative;
 float: left;
