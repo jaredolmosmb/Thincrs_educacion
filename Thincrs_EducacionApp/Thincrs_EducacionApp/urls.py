@@ -22,6 +22,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Cursos.urls')),
