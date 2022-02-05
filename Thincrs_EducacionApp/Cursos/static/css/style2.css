@@ -74,8 +74,10 @@ text-align: left;
 }
 
 dt-button.buttons-columnVisibility.ui-button-text-only {
-padding-left: 10px;
+padding-left: 30px;
 }
+
+
 
 dt-button.buttons-columnVisibility.ui-state-active,
 dt-button.buttons-columnVisibility {
@@ -83,6 +85,7 @@ position: relative;
 width: auto;
 *width: 230px;
 text-align: left;
+background-color: red!important;
 *zoom: expression(this.runtimeStyle.zoom="1", 
 this.insertBefore(document.createElement("div"), 
 this.childNodes[0]).className="before", 
@@ -99,7 +102,7 @@ margin-left: -6px;
 width: 16px;
 height: 16px;
 box-sizing: border-box;
-background-color: red;
+background-color: red!important;
 }
 
 dt-button.buttons-columnVisibility:before {
@@ -112,6 +115,7 @@ dt-button.buttons-columnVisibility.ui-state-active:after {
 font: 0.9em Arial;
 content: '\2714';
 text-align: center;
+background-color: red!important;
 }
 
 *dt-button.buttons-columnVisibility .before,
@@ -347,3 +351,6 @@ body{background:#f9f9f9;}
       min-height: 40px;
     }
 
+.dt-button.active{
+    background-color: #A9A9A9 !important;
+}
