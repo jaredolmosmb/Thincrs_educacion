@@ -11,7 +11,7 @@ from .decorators import authenticated_user
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 import requests
-import pandas as pd
+#import pandas as pd
 import json
 from datetime import date
 import re
