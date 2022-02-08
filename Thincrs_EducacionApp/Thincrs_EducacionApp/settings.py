@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Cursos.apps.CursosConfig',
-    'gunicorn'
 ]
 
 MIDDLEWARE = [
@@ -70,7 +69,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Thincrs_EducacionApp.wsgi.application'
-
 
 
 # Database
