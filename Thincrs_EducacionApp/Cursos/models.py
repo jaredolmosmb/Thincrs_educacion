@@ -42,7 +42,7 @@ class CustomUser(AbstractUser):
 class CourseModel(models.Model):
 	creado_en=models.DateTimeField(auto_now_add=True)
 	actualzado_en=models.DateTimeField(auto_now=True)
-	id_course = models.IntegerField()
+	id_course = models.IntegerField(unique = True)
 	#id_course=models.IntegerField()
 	title=models.CharField(max_length=2000)
 	description=models.CharField(max_length=2000)
@@ -57,6 +57,8 @@ class CourseModel(models.Model):
 	category = models.CharField(max_length=2000, default = '')
 	primary_category=models.CharField(max_length=2000)
 	required_education=models.CharField(max_length=2000)
+	keyword= models.CharField(max_length=2000)
+	empresa = models.CharField(max_length=200)
 	#last_update_date=models.DateTimeField(auto_now=True)
 	#cliente=models.ForeignKey(ClienteModel, on_delete=models.SET_NULL, null=True)
 

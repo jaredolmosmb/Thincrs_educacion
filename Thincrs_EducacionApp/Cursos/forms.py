@@ -64,6 +64,8 @@ class CourseForm(forms.ModelForm):
 		'category',
 		'primary_category',
 		'required_education',
+		'keyword',
+		'empresa'
         #'last_update_date'
         )
 		widgets = {
@@ -81,6 +83,8 @@ class CourseForm(forms.ModelForm):
 			'category':forms.TextInput(attrs={'class': 'form-control'}),
 			'primary_category':forms.TextInput(attrs={'class': 'form-control'}),
 			'required_education':forms.TextInput(attrs={'class': 'form-control'}),
+			'keyword':forms.TextInput(attrs={'class': 'form-control'}),
+			'empresa':forms.TextInput(attrs={'class': 'form-control'}),
 	        #'last_update_date':forms.TextInput(attrs={'class': 'form-control'}),
 			}
 
