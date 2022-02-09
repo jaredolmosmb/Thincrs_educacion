@@ -52,15 +52,22 @@
                 <td>TITLE</td>
                 <td>DESCRIPCION</td>
                 <td>URL</td>
-                <td>DURACION</td>
-                <td>TIENE SUBTITULOS</td>
-                <td>QUE APRENDERAS </td>
-                <td>SUBTITULOS</td>
+                <td>DURACION ESTIMADA</td>
+                <td>CATEGORIAS</td>
+                <td>NUM. LECTURAS</td>
+                <td>NUM. VIDEOS</td>
                 <td>INSTRUCTORES</td>
                 <td>REQUERIMIENTOS</td>
+                <td>QUE APRENDERAS </td>
                 <td>IDIOMA</td>
-                <td>CATEGORIAS</td>
+                <td>ES CURSO DE PRACTICA</td>
                 <td>CATEGORIA PRIMARIA</td>
+                <td>SUBCATEGORIA PRIMARIA</td>
+                <td>NUM. QUIZZES</td>
+                <td>NUM. PRACTICAS DE PRUEBA</td>
+                <td>TIENE SUBTITULOS</td>                
+                <td>SUBTITULOS</td>
+                <td>DURACION DE VIDEO ESTIMADA</td>              
                 <td>NIVEL DE EDUCACION</td>
                 <td>KEYWORD</td>
                 <td>EMPRESA</td>
@@ -75,15 +82,22 @@
                 <td class= "scrollableCell">{{ m.description }}</td>
                 <td>{{ m.url }}</td>
                 <td>{{ m.estimated_content_length }}</td>
-                <td>{{ m.has_closed_caption }}</td>
-                <td class= "scrollableCell">{{ m.what_you_will_learn }}</td>
-                <td>{{ m.language }}</td>
+                <td>{{ m.category }}</td>
+                <td>{{ m.num_lectures }}</td>
+                <td>{{ m.num_videos }}</td>
                 <td>{{ m.name }}</td>
                 <td class= "scrollableCell">{{ m.requirements }}</td>
+                <td class= "scrollableCell">{{ m.what_you_will_learn }}</td>
                 <td>{{ m.locale_description }}</td>
-                <td>{{ m.category }}</td>
+                <td>{{ m.is_practice_test_course }}</td>
                 <td>{{ m.primary_category }}</td>
-                <td>{{ m.required_education }}</td>
+                <td>{{ m.primary_subcategory }}</td>
+                <td>{{ m.num_quizzes }}</td>
+                <td>{{ m.num_practice_tests }}</td>
+                <td>{{ m.has_closed_caption }}</td>
+                <td>{{ m.caption_languages }}</td>
+                <td>{{ m.estimated_content_length_video }}</td>
+                <td>{{ m.required_education }}</td>             
                 <td>{{ m.keyword }}</td>
                 <td>{{ m.empresa }}</td>
                 <td>
