@@ -29,105 +29,40 @@ def cleanhtml(raw_html):
   return cleantext
 
 def PruebaView(request):
-    response = requests.get(url, auth=(CLIENT_ID, SECRET_ID))
-    print("type(prueba)")
-    print(type(response))
-    data = response.json() # ya esta parseado
-    print("type(data)")
-    print(type(data))
-    print(len(data['results']))
+    url = f'https://{ACCOUNT_NAME}.udemy.com/api-2.0/organizations/{ACCOUNT_ID}/courses/list/?page_size=12'
 
-    for indx, curso in enumerate(data['results']):
-        if indx == 1:
-            c = CourseModel(
-                id_course = curso['id'],
-                title=curso['title'],
-                description=cleanhtml(curso['description']),
-                url=curso['url'],
-                estimated_content_length=curso['estimated_content_length'],
-                has_closed_caption=curso['has_closed_caption'],
-                what_you_will_learn='\n'.join([str(item) for item in curso['what_you_will_learn']['list']]),
-                language = '\n'.join([str(item) for item in curso['caption_languages']]),
-                name = '\n'.join([str(item) for item in curso['instructors']]),
-                requirements = '\n'.join([str(item) for item in curso['requirements']['list']]),
-                locale_description = curso['locale']['locale'],
-                category = '\n'.join([str(item) for item in curso['categories']]),
-                primary_category=curso['primary_category']['title'])
-
-            c.save()
-            print(curso['id'])
-            print(type(curso['id']))
-            print(curso['title'])
-            print(type(curso['title']))
-            print(cleanhtml(curso['description']))
-            print(type(cleanhtml(curso['description'])))
-            print(curso['url'])
-            print(type(curso['url']))
-            print(curso['estimated_content_length'])
-            print(type(curso['estimated_content_length']))
-            print('\n'.join([str(item) for item in curso['categories']]))
-            print(type('\n'.join([str(item) for item in curso['categories']])))
-            print('\n'.join([str(item) for item in curso['instructors']]))
-            print(type('\n'.join([str(item) for item in curso['instructors']])))
-            print('\n'.join([str(item) for item in curso['requirements']['list']]))
-            print(type('\n'.join([str(item) for item in curso['requirements']['list']])))
-            print('\n'.join([str(item) for item in curso['what_you_will_learn']['list']]))
-            print(type('\n'.join([str(item) for item in curso['what_you_will_learn']['list']])))
-            print(curso['locale']['locale'])
-            print(type(curso['locale']['locale']))
-            print(curso['primary_category']['title'])
-            print(type(curso['primary_category']['title']))
-            print(curso['has_closed_caption'])
-            print(type(curso['has_closed_caption']))
-            print('\n'.join([str(item) for item in curso['caption_languages']]))
-            print(type('\n'.join([str(item) for item in curso['caption_languages']])))
+    while url:
+        response = requests.get(url, auth=(CLIENT_ID, SECRET_ID))
+        data = response.json()
+        try:
             
-        else:
-            continue
-    """
-                courses = pd.DataFrame(columns=[
-                    'id', 
-                    'title', 
-                    'description', 
-                    'url', 
-                    'estimated_content_length', 
-                    'categories', 
-                    'instructors', 
-                    'requirements', 
-                    'what_you_will_learn', 
-                    'locale', 
-                    'primary_category', 
-                    'has_closed_caption', 
-                    'caption_languages', 
-                    'last_update_date'
-                ])
-                try:
-                  for course in data['results']:
-                    if 'es' in course['locale']['locale'] or 'en' in course['locale']['locale']:
-                      courses = courses.append({
-                                'id': course['id'],
-                                'title': course['title'], 
-                                'description': cleanhtml(course['description']), 
-                                'url': course['url'], 
-                                'estimated_content_length': course['estimated_content_length'], 
-                                #'categories': course['categories'], 
-                                'categories': ' '.join([str(item) for item in course['categories']]),
-                                #'instructors': course['instructors'],
-                                'instructors': ' \n-'.join([str(item) for item in course['instructors']]), 
-                                #'requirements': course['requirements']['list'], 
-                                'requirements': ' \n-'.join([str(item) for item in course['requirements']['list']]), 
-                                #'what_you_will_learn': course['what_you_will_learn']['list'], 
-                                'what_you_will_learn': ' \n-'.join([str(item) for item in course['what_you_will_learn']['list']]),
-                                'locale': course['locale']['locale'],
-                                'primary_category': course['primary_category']['title'],
-                                'has_closed_caption': course['has_closed_caption'], 
-                                #'caption_languages': course['caption_languages'], 
-                                'caption_languages': ' \n-'.join([str(item) for item in course['caption_languages']]), 
-                                'last_update_date': course['last_update_date']
-                            }, ignore_index=True)
-                except:
-                  pass
-                print(len(courses))"""
+            for indx, curso in enumerate(data['results']):
+                if 'es' in curso['locale']['locale'] or 'en' in curso['locale']['locale'] or 'fr' in curso['locale']['locale'] or 'pt' in curso['locale']['locale']:
+                    c = CourseModel(
+                        id_course = curso['id'],
+                        title=curso['title'],
+                        description=cleanhtml(curso['description']),
+                        url=curso['url'],
+                        estimated_content_length=curso['estimated_content_length'],
+                        has_closed_caption=curso['has_closed_caption'],
+                        what_you_will_learn='\n'.join([str(item) for item in curso['what_you_will_learn']['list']]),
+                        language = '\n'.join([str(item) for item in curso['caption_languages']]),
+                        name = '\n'.join([str(item) for item in curso['instructors']]),
+                        requirements = '\n'.join([str(item) for item in curso['requirements']['list']]),
+                        locale_description = curso['locale']['locale'],
+                        category = '\n'.join([str(item) for item in curso['categories']]),
+                        primary_category=curso['primary_category']['title'])
+
+                    c.save()
+                    print("guardado: "+indx)
+                    
+                else:
+                    continue
+        except:
+            pass
+       
+        url = data['next']
+       
 
 
     return render (request, 'Cursos/prueba.html')
