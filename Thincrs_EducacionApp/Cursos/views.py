@@ -75,8 +75,8 @@ def CursosView(request):
 def ListaCursosView(request):
     todos_m=CourseModel.objects.all()
 
-    for i in todos_m:
-        print(i.id_course)
+    """for i in todos_m:
+                        print(i.id_course)"""
 
 
     return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m})
