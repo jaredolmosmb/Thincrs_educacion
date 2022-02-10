@@ -52,7 +52,7 @@ class CourseModel(models.Model):
 	num_videos=models.IntegerField(null=True, blank=True)
 	name = models.CharField(max_length=2000,null=True, blank=True)
 	requirements = models.CharField(max_length=2000,null=True, blank=True)
-	what_you_will_learn=models.CharField(max_length=10000,null=True, blank=True)	
+	what_you_will_learn=models.CharField(max_length=2000,null=True, blank=True)	
 	locale_description = models.CharField(max_length=2000,null=True, blank=True)
 	is_practice_test_course = models.CharField(max_length=2000,null=True, blank=True)
 	primary_category=models.CharField(max_length=2000,null=True, blank=True)
