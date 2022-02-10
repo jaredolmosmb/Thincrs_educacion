@@ -45,7 +45,7 @@
             </tr>
         </tbody>
     </table>
-    <table id="example" class=" table table-striped w-auto datatable" style="width:100%">
+    <table id="example" class=" table table-striped w-auto datatable" style="width:100%; display: hidden">
         <thead>
             <tr>
                 <td>ID</td>
@@ -56,8 +56,9 @@
                 <td>CATEGORIAS</td>
                 <td>NUM. LECTURAS</td>
                 <td>NUM. VIDEOS</td>
-                <td>INSTRUCTORES</td>
                 <td>REQUERIMIENTOS</td>
+                <td>INSTRUCTORES</td>
+                
                 <td>QUE APRENDERAS </td>
                 <td>IDIOMA</td>
                 <td>ES CURSO DE PRACTICA</td>
@@ -85,8 +86,9 @@
                 <td>{{ m.category }}</td>
                 <td>{{ m.num_lectures }}</td>
                 <td>{{ m.num_videos }}</td>
-                <td>{{ m.name }}</td>
                 <td class= "scrollableCell">{{ m.requirements }}</td>
+                <td>{{ m.name }}</td>
+                
                 <td class= "scrollableCell">{{ m.what_you_will_learn }}</td>
                 <td>{{ m.locale_description }}</td>
                 <td>{{ m.is_practice_test_course }}</td>
@@ -183,6 +185,7 @@ $(document).ready(function() {
             ,
         ],
     });
+    $('#example').show();
 
     // Apply the filter
     $("#example thead input").on( 'keyup change', function () {
