@@ -19,6 +19,10 @@ td.scrollableCell{
     display:  block;
 }
 
+td.adjutsted{
+    max-height:100px !important;
+    width: 500px !important;
+}
 div.dt-buttons {
 position: relative;
 float: left;

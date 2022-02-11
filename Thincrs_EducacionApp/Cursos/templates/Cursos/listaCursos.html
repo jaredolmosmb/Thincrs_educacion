@@ -77,30 +77,30 @@
         <tbody>
             {% for m in todos_m %}
             <tr>
-                <td>{{ m.id_course }}</td>
-                <td>{{ m.title }}</td>
+                <td class= "adjutsted">{{ m.id_course }}</td>
+                <td class= "adjutsted">{{ m.title }}</td>
                 <td class= "scrollableCell">{{ m.description }}</td>
-                <td>{{ m.url }}</td>
-                <td>{{ m.estimated_content_length }}</td>
+                <td class= "adjutsted">{{ m.url }}</td>
+                <td class= "adjutsted">{{ m.estimated_content_length }}</td>
                 <td class= "scrollableCell">{{ m.category }}</td>
-                <td>{{ m.num_lectures }}</td>
-                <td>{{ m.num_videos }}</td>
+                <td class= "adjutsted">{{ m.num_lectures }}</td>
+                <td class= "adjutsted">{{ m.num_videos }}</td>
                 <td class= "scrollableCell">{{ m.requirements }}</td>
-                <td>{{ m.name }}</td>                
+                <td class= "adjutsted">{{ m.name }}</td>                
                 <td class= "scrollableCell">{{ m.what_you_will_learn }}</td>
-                <td>{{ m.locale_description }}</td>
-                <td>{{ m.is_practice_test_course }}</td>
-                <td>{{ m.primary_category }}</td>
-                <td>{{ m.primary_subcategory }}</td>
-                <td>{{ m.num_quizzes }}</td>
-                <td>{{ m.num_practice_tests }}</td>
-                <td>{{ m.has_closed_caption }}</td>
-                <td>{{ m.caption_languages }}</td>
-                <td>{{ m.estimated_content_length_video }}</td>
-                <td>{{ m.required_education }}</td>             
-                <td>{{ m.keyword }}</td>
-                <td>{{ m.empresa }}</td>
-                <td>
+                <td class= "adjutsted">{{ m.locale_description }}</td>
+                <td class= "adjutsted">{{ m.is_practice_test_course }}</td>
+                <td class= "adjutsted">{{ m.primary_category }}</td>
+                <td class= "adjutsted">{{ m.primary_subcategory }}</td>
+                <td class= "adjutsted">{{ m.num_quizzes }}</td>
+                <td class= "adjutsted">{{ m.num_practice_tests }}</td>
+                <td class= "adjutsted">{{ m.has_closed_caption }}</td>
+                <td class= "scrollableCell">{{ m.caption_languages }}</td>
+                <td class= "adjutsted">{{ m.estimated_content_length_video }}</td>
+                <td class= "adjutsted">{{ m.required_education }}</td>             
+                <td class= "adjutsted">{{ m.keyword }}</td>
+                <td class= "adjutsted">{{ m.empresa }}</td>
+                <td class= "adjutsted">
                     <div class="text-center">
                         <a href="#" id='{{m.id}}'>
                             <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:actualizar' m.id %}')" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
