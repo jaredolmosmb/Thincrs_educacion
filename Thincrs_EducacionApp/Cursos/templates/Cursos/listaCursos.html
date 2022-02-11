@@ -82,7 +82,7 @@
                 <td class= "scrollableCell">{{ m.description }}</td>
                 <td>{{ m.url }}</td>
                 <td>{{ m.estimated_content_length }}</td>
-                <td>{{ m.category }}</td>
+                <td class= "scrollableCell">{{ m.category }}</td>
                 <td>{{ m.num_lectures }}</td>
                 <td>{{ m.num_videos }}</td>
                 <td class= "scrollableCell">{{ m.requirements }}</td>
@@ -253,7 +253,7 @@ function filterColumn ( i ) {
 $(document).ready(function() {
     $('#example').DataTable();
  
-    $('input.global_filter').on( 'keyup click', function () {
+    $('input.global_filter').on( ' click', function () {
         filterGlobal();
     } );
  
