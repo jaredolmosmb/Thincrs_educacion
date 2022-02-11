@@ -15,6 +15,7 @@ import requests
 import json
 from datetime import date
 import re
+from django.db.models import Q
 
 CLEANR = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
 ACCOUNT_NAME= 'thincrs-one'
@@ -73,13 +74,59 @@ def CursosView(request):
 
 #@authenticated_user
 def ListaCursosView(request):
-    todos_m=CourseModel.objects.all()
+    busqueda = request.GET.get("buscar")
+    and_string = "&&"
+    para_buscar=""
+    if busqueda:        
+        if and_string in busqueda:
+            myArray = busqueda.split(" && ")
+            for i in myArray:
+                para_buscar= para_buscar+"(?=.*"+i+")"
+            todos_c = CourseModel.objects.all()
+            todos_m = todos_c.filter(
+                Q(title__iregex=para_buscar) |
+                Q(description__iregex=para_buscar) |
+                Q(url__iregex=para_buscar) |
+                Q(category__iregex=para_buscar) |
+                Q(name__iregex=para_buscar) |
+                Q(requirements__iregex=para_buscar) |
+                Q(what_you_will_learn__iregex=para_buscar) |
+                Q(locale_description__iregex=para_buscar) |
+                Q(primary_category__iregex=para_buscar) |
+                Q(primary_subcategory__iregex=para_buscar)|
+                Q(caption_languages__iregex=para_buscar) |
+                Q(required_education__iregex=para_buscar) |
+                Q(keyword__iregex=para_buscar) |
+                Q(empresa__iregex=para_buscar)
+            ).distinct()
+        else:
+            todos_c = CourseModel.objects.all()
+            todos_m = todos_c.filter(
+                Q(title__iregex=busqueda) |
+                Q(description__iregex=busqueda) |
+                Q(url__iregex=busqueda) |
+                Q(category__iregex=busqueda) |
+                Q(name__iregex=busqueda) |
+                Q(requirements__iregex=busqueda) |
+                Q(what_you_will_learn__iregex=busqueda) |
+                Q(locale_description__iregex=busqueda) |
+                Q(primary_category__iregex=busqueda) |
+                Q(primary_subcategory__iregex=busqueda)|
+                Q(caption_languages__iregex=busqueda) |
+                Q(required_education__iregex=busqueda) |
+                Q(keyword__iregex=busqueda) |
+                Q(empresa__iregex=busqueda)
+                ).distinct()
+        
+    else:
+        todos_m=CourseModel.objects.all()
+    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m})
 
     """for i in todos_m:
                         print(i.id_course)"""
 
 
-    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m})
+    
 # Create your views here.
 
 class ActualizarCursos(UpdateView):

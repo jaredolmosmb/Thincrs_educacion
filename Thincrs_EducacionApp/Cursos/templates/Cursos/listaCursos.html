@@ -34,14 +34,19 @@
     <div class="col">
         <div class="card">
             <div class="card-body">
-<table cellpadding="3" cellspacing="0" border="0" style="width: 100%; height: 50px; margin: 0 auto 2em auto;">
+<table cellpadding="3" cellspacing="0" border="0" style="width: 100%; height: 50px; margin: 0 auto 0em auto;">
      
         <tbody>
             <tr id="filter_global">
-                <td align="center" style="font-size:20px">Search</td>
-                <td><input type="text" class="global_filter" id="global_filter" style="width: 100%; height:30px"></td>
-                <td><input type="checkbox" class="global_filter" id="global_regex" checked="checked" style="opacity:0; position:absolute; left:9999px;"></td>
-                <td><input type="checkbox" class="global_filter" id="global_smart" style="opacity:0; position:absolute; left:9999px;"></td>
+                <td>
+                    <form class="form-inline my-2 my-lg-0" method="get">
+                            <input class="form-control mr-sm-2" type="search" aria-label="Search" id="buscar-operadores" placeholder="Buscar " name="buscar" style="width: 90%; height:30px;" value="{{request.GET.buscar}}" autofocus>
+                                    <button style="width: 8%;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id="boton-buscar">Buscar</button>
+                    </form>     
+                </td>
+                
+                <!--<td><input type="checkbox" class="global_filter" id="global_regex" checked="checked" style="opacity:0; position:absolute; left:9999px;"></td>
+                <td><input type="checkbox" class="global_filter" id="global_smart" style="opacity:0; position:absolute; left:9999px;"></td>-->
             </tr>
         </tbody>
     </table>
@@ -253,9 +258,21 @@ function filterColumn ( i ) {
 $(document).ready(function() {
     $('#example').DataTable();
  
-    $('input.global_filter').on( ' click', function () {
+    /*$('input.global_filter').on( 'keyup click', function () {
         filterGlobal();
-    } );
+    } );*/
+    $('input.global_filter').on('keypress', function (e) {
+         if(e.which === 13){
+
+            //Disable textbox to prevent multiple submit
+            $(this).attr("disabled", "disabled");
+
+            filterGlobal();
+
+            //Enable the textbox again if needed.
+            $(this).removeAttr("disabled");
+         }
+   });
  
     $('input.column_filter').on( 'keyup click', function () {
         filterColumn( $(this).parents('tr').attr('data-column') );
