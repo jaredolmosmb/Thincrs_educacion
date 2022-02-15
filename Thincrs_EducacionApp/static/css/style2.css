@@ -1,0 +1,361 @@
+.btn-master{
+ background: rgb(33,213, 38)!important;
+    color: white!important;
+}
+
+/*.dt-button-collection{
+    padding-top: 30px;
+    display: inline-block;
+    height: 100% !important;
+    overflow-y: scroll;
+    
+    font-size: 12px;
+}*/
+
+td.scrollableCell{
+    width: 500px !important;
+    overflow-y: scroll !important;
+    height:100px !important;
+    display:  block;
+}
+
+td.adjutsted{
+    max-height:100px !important;
+    width: 500px !important;
+}
+div.dt-buttons {
+position: relative;
+float: left;
+font: 0.9em Arial;
+padding-bottom: 0.25em;
+}
+
+div.dt-buttons .dt-button {
+margin: 0.25em 0.333em 0.25em 0;
+}
+
+div.dt-button-collection {
+font: 0.9em Arial;
+position: absolute;
+margin-top: 3px;
+padding: 4px;
+border: 1px solid #ccc;
+background-color: #fff;
+overflow: hidden;
+height: auto !important;
+overflow-y: scroll !important;
+z-index: 2002;
+width: auto !important;
+}
+
+div.dt-button-collection .dt-button {
+text-align: center;
+position: relative;
+display: inline;
+margin-right: 0;
+width: 10em;
+}
+
+div.dt-button-background {
+zoom: 1;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: #000;
+filter: alpha(opacity=35);
+opacity: .35;
+z-index: 2001;
+}
+
+dt-button.buttons-select-cells,
+dt-button.buttons-select-rows,
+dt-button.buttons-select-columns {
+position: relative;
+width: 175px;
+text-align: left;
+}
+
+dt-button.buttons-columnVisibility.ui-button-text-only {
+padding-left: 30px;
+}
+
+
+
+dt-button.buttons-columnVisibility.ui-state-active,
+dt-button.buttons-columnVisibility {
+position: relative;
+width: auto;
+*width: 230px;
+text-align: left;
+background-color: red!important;
+*zoom: expression(this.runtimeStyle.zoom="1", 
+this.insertBefore(document.createElement("div"), 
+this.childNodes[0]).className="before", 
+this.appendChild(document.createElement("div")).className="after");
+}
+
+dt-button.buttons-columnVisibility:before,
+dt-button.buttons-columnVisibility.ui-state-active:after {
+display: block;
+position: absolute;
+top: 1em;
+margin-top: -8px;
+margin-left: -6px;
+width: 16px;
+height: 16px;
+box-sizing: border-box;
+background-color: red!important;
+}
+
+dt-button.buttons-columnVisibility:before {
+content: ' ';
+border: 2px solid black;
+border-radius: 3px;
+}
+
+dt-button.buttons-columnVisibility.ui-state-active:after {
+font: 0.9em Arial;
+content: '\2714';
+text-align: center;
+background-color: red!important;
+}
+
+*dt-button.buttons-columnVisibility .before,
+*dt-button.buttons-columnVisibility.ui-state-active .after,
+*dt-button.buttons-columnVisibility.ui-state-active:hover .after {
+position: absolute;
+margin: 6px 0px 0px -6px;
+width: 16px;
+height: 16px;
+background-position: 0px 0px;
+}
+
+*dt-button.buttons-columnVisibility .before {
+background-position: 0px 0px;
+
+}
+
+*dt-button.buttons-columnVisibility.ui-state-active .before {
+background-position: 0px 16px;
+}
+
+*.dt-button.buttons-columnVisibility.ui-state-active:hover .before {
+
+background-position: 16px 0px;
+}
+
+.btn-excel{
+    background: rgb(13,109, 58)!important;
+    color: white!important;
+}
+.botonera{
+    padding-top: 10px;
+    padding-right: 25px;
+    padding-bottom: 20px;
+}
+
+/* dashboard*/
+body{background:#f9f9f9;
+overflow-x:hidden !important;}
+.navbar-brand .img-fluid{
+    max-width: 40px;
+}
+#wrapper{padding:90px 15px;}
+.navbar-expand-lg .navbar-nav.side-nav{flex-direction: column;}
+
+.card{margin-bottom: 15px; border-radius:0; box-shadow: 0 3px 5px rgba(0,0,0,.1); }
+.header-top{box-shadow: 0 3px 5px rgba(0,0,0,.1)}
+.leftmenutrigger{display: none}
+
+/* barra de navegación cuando resolucion mayor en width de 992px */
+@media(min-width:992px) {
+.leftmenutrigger{display: block;margin: 7px 20px 4px 0;cursor: pointer;}
+#wrapper{padding: 90px 15px 15px 15px; }
+.navbar-nav.side-nav.open {left:0;}
+.navbar-nav.side-nav{
+    background: rgb(52,58,64);
+    box-shadow: 2px 1px 2px rgba(0,0,0,.1);
+    position:fixed;top:55px;
+    flex-direction: column!important;
+    left:-420px;
+    width:380px;
+    overflow-y:auto;
+    bottom:0;
+    overflow-x:hidden;
+    padding-bottom:40px;
+    font-size: 18px;
+
+}
+}*/
+.animate{-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;-ms-transition:all .3s ease-in-out;transition:all .3s ease-in-out}
+.nav-link img {
+    width: 20px;
+    margin-right: 5px;
+    margin-left: 3px;
+}
+.TextoEmp{
+    color: white; 
+    font-family: Helvetica; 
+    opacity: 0.5;
+}
+.session-item{
+    display: none;
+    padding-left: 10%;
+}
+
+.cursos-item{
+    display: none;
+    padding-left: 10%;
+}
+.cursos-item{
+    display: none;
+    padding-left: 10%;
+}
+.calidad-item{
+    display: none;
+    padding-left: 10%;
+}
+.produccion-item{
+    display: none;
+    padding-left: 10%;
+}
+.manufactura-item{
+    display: none;
+    padding-left: 10%;
+}
+.fa-chevron-down{
+    position: absolute; right: 20px;
+}
+.open-session .fa-chevron-down{
+        display: none;
+}
+.open-cursos .fa-chevron-down{
+        display: none;
+}
+.open-calidad .fa-chevron-down{
+        display: none;
+}
+.open-produccion .fa-chevron-down{
+        display: none;
+}
+.open-manufactura .fa-chevron-down{
+        display: none;
+}
+.fa-chevron-up{
+    position: absolute; right: 20px; 
+}
+
+.fa-chevron-up{
+        display: none;
+}
+.open-session .fa-chevron-up{
+        display: inline-block;
+}
+.open-cursos .fa-chevron-up{
+        display: inline-block;
+}
+.open-calidad .fa-chevron-up{
+        display: inline-block;
+}
+.open-produccion .fa-chevron-up{
+        display: inline-block;
+}
+.open-manufactura .fa-chevron-up{
+        display: inline-block;
+}
+
+
+
+ /* ccs del formulario de registro */
+  .card-form{
+        padding-left: 30%;
+        padding-right: 30%;
+    }
+    #img-profile{
+        max-height: 200px;
+        margin-bottom: 45px;
+    }
+  .fotos-tarjetas-individual{
+      max-height: 200px;
+      max-width: 200px;
+      min-height: 200px ;
+  }
+  
+  .fotos-tarjetas-individualClientes{
+      height: 200px;
+      width: 200px;
+  }
+
+  .fotos-credencial-individual{
+      padding-top: 30px;
+      max-height: 15%;
+      max-width: 15%;
+  }
+
+  .card-lista-fotos{
+      padding-top: 30px;
+  }
+  .tarjeta-activa{
+      width: 45px;
+      height: 45px;
+      position: absolute;
+      right: 15%;
+      top: 45%;
+  }
+  .tarjeta-activaU{
+      width: 45px;
+      height: 45px;
+      position: absolute;
+      right: 5%;
+      top: 75%;
+  }
+  .tarjeta-inactivaU{
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      right: 5%;
+      top: 75%;
+  }
+
+  .card-lista-fotos .text-primary{
+     color: rgb(53,84,182)!important;
+
+
+  }
+  .card-lista-fotos .card-footer{
+       background: rgb(68,81,86);
+  }
+  .dropdown-menu .dropdown-toggle:after{
+        border-top: .3em solid transparent;
+        border-right: 0;
+        border-bottom: .3em solid transparent;
+        border-left: .3em solid;
+    }
+    .dropdown-menu .dropdown-menu{
+        margin-left:0; margin-right: 0;
+    }
+    .dropdown-menu li{
+        position: relative;
+    }
+    .nav-item .submenu{ 
+        display: none;
+        position: absolute;
+        left:100%; top:-7px;
+    }
+    .nav-item .submenu-left{ 
+        right:100%; left:auto;
+    }
+    .dropdown-menu > li:hover{ background-color: #f1f1f1 }
+    .dropdown-menu > li:hover > .submenu{
+        display: block;
+    }
+
+    .nombre-card{
+      min-height: 40px;
+    }
+
+.dt-button.active{
+    background-color: #A9A9A9 !important;
+}
