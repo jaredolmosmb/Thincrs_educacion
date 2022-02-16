@@ -1,6 +1,6 @@
 CREATE TEMP TABLE _csv_import (id integer, id_course integer, title text, description text, url text, estimated_content_length integer, category text, num_lectures integer, num_videos integer, name text, requirements text, what_you_will_learn text, locale_description text, is_practice_test_course text, primary_category text, primary_subcategory text, num_quizzes integer, num_practice_tests integer, has_closed_caption text, caption_languages text, estimated_content_length_video integer);
 .separator ","
-.import cursos_filtradodos20220211.csv _csv_import
+.import cursos_filtrados20220210.csv _csv_import
 
 INSERT INTO Cursos_coursemodel (id, id_course, title, description, url, estimated_content_length, category, num_lectures, num_videos, name, requirements, what_you_will_learn, locale_description, is_practice_test_course, primary_category, primary_subcategory, num_quizzes, num_practice_tests, has_closed_caption, caption_languages, estimated_content_length_video) SELECT id, id_course, title, description, url, estimated_content_length, category, num_lectures, num_videos, name, requirements, what_you_will_learn, locale_description, is_practice_test_course, primary_category, primary_subcategory, num_quizzes, num_practice_tests, has_closed_caption, caption_languages, estimated_content_length_video
     FROM _csv_import WHERE 1;
