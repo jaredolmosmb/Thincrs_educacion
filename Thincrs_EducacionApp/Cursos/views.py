@@ -119,7 +119,7 @@ def ListaCursosView(request):
                 ).distinct()
         
     else:
-        todos_m=CourseModel.objects.all()
+        todos_m=CourseModel.objects.all()[:100]
     return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m})
 
     """for i in todos_m:
