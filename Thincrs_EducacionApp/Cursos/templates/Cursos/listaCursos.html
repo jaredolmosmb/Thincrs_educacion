@@ -50,7 +50,7 @@
             </tr>
         </tbody>
     </table>
-    <table id="example" class=" table table-striped w-auto datatable" style="width:100%">
+    <table id="example" class=" table table-striped datatable" style="width:100%">
         <thead>
             <tr>
                 <td>ID</td>
@@ -137,7 +137,7 @@
 $(document).ready(function() {
   
     var table = $('#example').DataTable({
-        dom: 'Brtilp',
+        dom: 'B<"top"i>rtlp',
         scrollX: "true",
         responsive: "true",
         select: {
@@ -256,7 +256,7 @@ function filterColumn ( i ) {
 }
  
 $(document).ready(function() {
-    $('#example').DataTable();
+    
  
     /*$('input.global_filter').on( 'keyup click', function () {
         filterGlobal();

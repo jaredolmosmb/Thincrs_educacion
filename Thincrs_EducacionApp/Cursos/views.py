@@ -69,6 +69,11 @@ def PruebaView(request):
     return render (request, 'Cursos/prueba.html')
 
 @authenticated_user
+def ListaUsuariosView(request):
+    todos_u=CustomUser.objects.all()
+    return render(request, 'Cursos/ListaUsuarios.html', {'todos_u': todos_u})
+    
+@authenticated_user
 def CursosView(request):
     return render (request, 'Cursos/cursos.html')
 

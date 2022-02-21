@@ -1,0 +1,110 @@
+{% extends 'Cursos/index2.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+      .table{
+        background: #27CF7E; color: #fff; border: #DADADA 1px solid; font-size: 14px;
+      }
+      tbody{
+        font-size: 12px; background: #DADADA; color: #000; border: #DADADA 1px;
+      }
+
+
+</style>
+<!--breadcumb-->
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Usuarios</a></li>
+          <li class="breadcrumb-item" aria-current="page"><a href="#">Hijo1</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Lista</a></li>
+        </ol>
+</nav>
+<h1 class="text-center">Lista de Usuarios</h1>
+<div class="row  text-right">
+    <div class="col botonera">
+        <a href="{% url 'cursos:cargar_usuario' %}">
+            <button class="btn btn-master" > <i class="fas fa-plus-circle" ></i> &nbsp;Agregar Usuario</button>
+        </a>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+    <table id="example" class=" table table-striped datatable" style="width:100%">
+        <thead>
+            <tr>
+                <td>EMAIL</td>
+                <td>NOMBRE</td>              
+                <td>ACCIONES</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in todos_u %}
+            <tr>
+                <td class= "adjutsted">{{ m.email }}</td>
+                <td class= "adjutsted">{{ m.name }}</td>
+                
+                <td class= "adjutsted">
+                    <div class="text-center">
+                        <a href="#" id='{{m.id}}'>
+                            <button class="btn" onclick = "" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
+                        </a>
+                        <a href="#" id='{{m.id_course}}'>
+                            <button class="btn" onclick = "" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            
+        </tfoot>
+    </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edicion" role="dialog">
+    
+</div>
+<div class="modal fade" id="creacion" role="dialog">
+    
+</div>
+
+
+<script type="text/javascript">
+    function abrir_modal_edicion(url){
+        $('#edicion').load(url, function (){
+            $(this).modal('show');
+        });
+    };
+    function abrir_modal_creacion(url){
+        $('#creacion').load(url, function (){
+            $(this).modal('show');
+        });
+    }
+
+
+ 
+
+ 
+$(document).ready(function() {
+    $('#example').DataTable({dom: '<"top"if>rtlp'});
+ 
+    /*$('input.global_filter').on( 'keyup click', function () {
+        filterGlobal();
+    } );*/
+    
+} );
+    
+
+</script>
+
+{% endblock %}
