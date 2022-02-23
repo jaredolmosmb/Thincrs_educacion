@@ -143,7 +143,22 @@ $(document).ready(function() {
         select: {
             style: 'multi'
         },
-        buttons: [{
+        buttons: [
+        {
+                extend: 'selectAll',
+                text: '<i class="fas fa-check-double"></i> ',
+                titleAttr: 'Seleccionar todas',
+                className: 'btn btn-success',
+                
+        },
+        {
+                extend: 'selectNone',
+                text: '<i class="fas fa-check"></i> ',
+                titleAttr: 'Deseleccionar',
+                className: 'btn btn-success',
+                
+        },
+        {
                 extend: 'excelHtml5',
                 text: '<i class="fas fa-file-excel"></i> ',
                 titleAttr: 'Exportar a Excel',
