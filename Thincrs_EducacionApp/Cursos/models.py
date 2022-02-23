@@ -65,7 +65,7 @@ class CourseModel(models.Model):
 	required_education=models.CharField(max_length=2000, null=True, blank=True)
 	keyword= models.CharField(max_length=2000, null=True, blank=True)
 	empresa = models.CharField(max_length=200, null=True, blank=True)
-	user_id=models.IntegerField(null=True, blank=True)
+	user=models.CharField(max_length=200, null=True, blank=True)
 	#last_update_date=models.DateTimeField(auto_now=True)
 	#cliente=models.ForeignKey(ClienteModel, on_delete=models.SET_NULL, null=True)
 

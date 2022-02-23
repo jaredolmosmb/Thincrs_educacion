@@ -16,6 +16,7 @@ import json
 from datetime import date
 import re
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 CLEANR = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
 ACCOUNT_NAME= 'thincrs-one'
@@ -134,11 +135,16 @@ def ListaCursosView(request):
     
 # Create your views here.
 
-class ActualizarCursos(UpdateView):
+class ActualizarCursos(LoginRequiredMixin, UpdateView):
     model = CourseModel
     form_class = CourseForm
     template_name = 'Cursos/modM.html'
     success_url = reverse_lazy('cursos:lista')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user.email
+        form.instance.save()
+        return super().form_valid(form)
 
 class CrearCursos(CreateView):
     model = CourseModel
