@@ -135,6 +135,18 @@ def ListaCursosView(request):
     
 # Create your views here.
 
+class ActualizarUsuarios(UpdateView):
+    model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = 'Cursos/modU.html'
+    success_url = reverse_lazy('cursos:listaU')
+
+class EliminarUsuarios(DeleteView):
+    model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = 'Cursos/u_confirm_delete.html'
+    success_url = reverse_lazy('cursos:listaU')
+
 class ActualizarCursos(LoginRequiredMixin, UpdateView):
     model = CourseModel
     form_class = CourseForm

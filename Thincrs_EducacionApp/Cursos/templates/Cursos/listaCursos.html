@@ -16,7 +16,6 @@
 <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Cursos</a></li>
-          <li class="breadcrumb-item" aria-current="page"><a href="#">Hijo1</a></li>
           <li class="breadcrumb-item active" aria-current="page">Lista</a></li>
         </ol>
 </nav>
@@ -112,8 +111,8 @@
                         <a href="#" id='{{m.id}}'>
                             <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:actualizar' m.id %}')" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
                         </a>
-                        <a href="#" id='{{m.id_course}}'>
-                            <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:eliminar' m.id_course %}')" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
+                        <a href="#" id='{{m.id}}'>
+                            <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:eliminar' m.id %}')" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
                         </a>
                     </div>
                 </td>

@@ -20,5 +20,8 @@ urlpatterns = [
 	path('actualizar/<int:pk>/', views.ActualizarCursos.as_view(), name='actualizar'),
 	path('crear/', views.CrearCursos.as_view(), name='crear'),
 	path('eliminar/<int:pk>/', views.EliminarCursos.as_view(), name='eliminar'),
+	path('actualizarU/<int:pk>/', views.ActualizarUsuarios.as_view(), name='actualizarU'),
+	path('eliminarU/<int:pk>/', views.EliminarUsuarios.as_view(), name='eliminarU'),
+	
 
 	]

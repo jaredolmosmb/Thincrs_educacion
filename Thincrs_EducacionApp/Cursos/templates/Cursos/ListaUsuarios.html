@@ -16,7 +16,6 @@
 <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Usuarios</a></li>
-          <li class="breadcrumb-item" aria-current="page"><a href="#">Hijo1</a></li>
           <li class="breadcrumb-item active" aria-current="page">Lista</a></li>
         </ol>
 </nav>
@@ -38,6 +37,7 @@
     <table id="example" class=" table table-striped datatable" style="width:100%">
         <thead>
             <tr>
+                <td>ID</td>
                 <td>EMAIL</td>
                 <td>NOMBRE</td>              
                 <td>ACCIONES</td>
@@ -46,16 +46,17 @@
         <tbody>
             {% for m in todos_u %}
             <tr>
+                <td class= "adjutsted">{{ m.id }}</td>
                 <td class= "adjutsted">{{ m.email }}</td>
                 <td class= "adjutsted">{{ m.name }}</td>
                 
                 <td class= "adjutsted">
                     <div class="text-center">
                         <a href="#" id='{{m.id}}'>
-                            <button class="btn" onclick = "" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:actualizarU' m.id %}')" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
                         </a>
-                        <a href="#" id='{{m.id_course}}'>
-                            <button class="btn" onclick = "" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
+                        <a href="#" id='{{m.id}}'>
+                            <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:eliminarU' m.id %}')" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
                         </a>
                     </div>
                 </td>
