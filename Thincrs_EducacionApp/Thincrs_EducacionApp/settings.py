@@ -128,8 +128,8 @@ STATIC_ROOT = 'static'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'jared@thincrs.com'
-EMAIL_HOST_PASSWORD = 'jaretas21'
+EMAIL_HOST_USER = 'no-reply-educacion@thincrs.com'
+EMAIL_HOST_PASSWORD = 'ThincrsPassword22'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Default primary key field type
