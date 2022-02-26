@@ -26,6 +26,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Cursos.urls')),
+    path('password/', auth_views.PasswordResetView.as_view(template_name="Cursos/password_reset.html"), name='password'),
     path('reset/reset_password/', auth_views.PasswordResetView.as_view(template_name="Cursos/password_reset.html"), name='reset_password'),
     path('reset/reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="Cursos/password_reset_sent.html"), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="Cursos/password_reset_form.html"), name='password_reset_confirm'),
