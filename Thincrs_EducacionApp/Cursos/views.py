@@ -11,10 +11,11 @@ from .decorators import authenticated_user
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 import requests
-#import pandas as pd
+import pandas
 import json
 from datetime import date
 import re
+import csv
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -70,6 +71,31 @@ def PruebaView(request):
     return render (request, 'Cursos/prueba.html')
 
 @authenticated_user
+def UpdateProcessView(request):
+    if request.method == 'POST':
+        archivo = request.POST.get('actualizacion-nombre', False)
+        print(archivo)
+        file = pandas.read_csv(archivo, encoding='utf-8')
+        print(file)
+        print("type(file)", type(file))
+        lista = file.values.tolist()
+        print(lista[0][0])
+        cursos_a_buscar = []
+
+        for i in lista:
+            if 'ES' in str(i[2]) or 'EN' in str(i[2]):
+                cursos_a_buscar.append(i[0])
+
+        for i in cursos_a_buscar:
+            url = f'https://{ACCOUNT_NAME}.udemy.com/api-2.0/organizations/{ACCOUNT_ID}/courses/list/{i}'
+            response = requests.get(url, auth=(CLIENT_ID, SECRET_ID))
+            print("response", response)
+            print("type(response)",type(response))
+        print("len(cursos_a_buscar)", len(cursos_a_buscar))
+
+    return render(request, 'Cursos/actualizacion.html')
+
+@authenticated_user
 def ListaUsuariosView(request):
     todos_u=CustomUser.objects.all()
     return render(request, 'Cursos/ListaUsuarios.html', {'todos_u': todos_u})
@@ -80,6 +106,7 @@ def CursosView(request):
 
 @authenticated_user
 def ListaCursosView(request):
+
     busqueda = request.GET.get("buscar")
     and_string = "&&"
     para_buscar=""

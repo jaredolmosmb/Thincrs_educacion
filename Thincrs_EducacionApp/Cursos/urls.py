@@ -22,6 +22,8 @@ urlpatterns = [
 	path('eliminar/<int:pk>/', views.EliminarCursos.as_view(), name='eliminar'),
 	path('actualizarU/<int:pk>/', views.ActualizarUsuarios.as_view(), name='actualizarU'),
 	path('eliminarU/<int:pk>/', views.EliminarUsuarios.as_view(), name='eliminarU'),
+	path('actualizacion/', views.UpdateProcessView, name='actualizacion'),
+	
 	
 
 	]

@@ -1,0 +1,196 @@
+{% extends 'cursos/index2.html' %}
+{% block title %}
+Actualización
+{% endblock %}
+{% block content %}
+
+<head>
+    <style>
+        .centrado{
+            
+            position: absolute;
+            height: 600px;
+            width: 400px;
+            left: 50%;
+            top: 50%;
+            margin-top: -300px;
+            margin-left: -200px;
+        }
+      
+        .margen{
+            margin-top: 10%;
+        }
+        .input-group-addon{
+            border: none;
+            color: transparent;
+            background-color: transparent;
+            padding: 0px;
+        }
+        .boton.verde {
+            background-color: #00d973; /* Código de un color Verde */
+            color: white!important;
+        }
+        ul
+        {
+            list-style-type: none;
+            object-position: right;
+        }
+        li {
+            list-style: none;
+            display: inline;
+           
+        }
+        #containment-wrapper { width: 95%; height:95%; border:2px solid #ccc; padding: 10px; }
+          .columna {
+            float:left;
+            padding: 5px;
+            height:100%;
+            
+          }
+        .derecha {
+            width: 70%;
+          } 
+          .izquierda {
+            width: 30%;
+          } 
+    </style>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#nombre').addClass('form-control');
+        $('#id_esta_activo').addClass('form-check-input');
+        $('#apellidos').addClass('form-control');
+        $('#email2').addClass('form-control');
+        $('#telefono').addClass('form-control');
+        $('#password2').addClass('form-control');
+
+    });
+
+    function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+
+    function registrarse() {
+        var nombre = $('#nombre').val();
+        var apellidos = $('#apellidos').val();
+        var email = $('#email2').val();
+        var celular = $('#telefono').val();
+        var password = $('#password2').val();
+        var grupo = $('#grupo').val();
+        if (nombre === '') {
+            $('#respuestaRegistro').html('Por favor ingresa un nombre');
+            return;
+        }
+        if (apellidos === '') {
+            $('#respuestaRegistro').html('Por favor ingresa tus apellidos');
+            return;
+        }
+        if (email === '') {
+            $('#respuestaRegistro').html('Por favor ingresa un email');
+            return;
+        }
+        if (!isEmail(email)) {
+            $('#respuestaRegistro').html('Por favor ingresa un email válido');
+            return;
+        }
+        if (celular === '') {
+            $('#respuestaRegistro').html('Por favor ingresa un número de celular');
+            return;
+        }
+        if (password === '') {
+            $('#respuestaRegistro').html('Por favor ingresa una contraseña');
+            return;
+        }
+        if (grupo === '') {
+            $('#respuestaRegistro').html('Por favor ingresa un grupo');
+            return;
+        } else {
+            $('#respuestaRegistro').html(grupo);
+        }
+        $.ajax({
+            url: "{% url 'cursos:agregarRegistro2' %}",
+            type: 'post',
+            dataType: 'json',
+            cache: false,
+            data: $("#registroForm").serialize(),
+            beforeSend: function() {
+                $('#respuestaRegistro').html("Procesando, espere por favor...");
+            },
+            success: function(response) {
+                if (response.success == 1) {
+                    $('#respuestaRegistro').html('Usuario Creado').css({ 'color': 'green' }).fadeIn('slow').delay(3000).hide(1);
+                    $('#registroForm').trigger("reset");
+                } else {
+                    $('#respuestaRegistro').html('Tuvimos un problema en tu registro, por favor vuelve a intentarlo más tarde. ').css({ 'color': 'red' }).fadeIn('slow').delay(5000).hide(1);
+                }
+            },
+            error: function() {
+                $('#respuestaRegistro').html('Hubo un error, por favor inténtalo más tarde').css({ 'color': 'red' }).fadeIn('slow').delay(5000).hide(1);
+            }
+        })
+    }
+    </script>
+</head>
+<!--breadcumb-->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="#">Cursos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Actualizar</li>
+</nav>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body card-form">
+                <form method='POST' enctype="" >
+                    {% csrf_token %}
+                    <div class="row">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                       Archivo:
+                                    </th>
+                                    <td>
+                                        <input type="file"
+       id="actualizacion" name="actualizacion-nombre"
+       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="text-right">
+                                        <button type="submit" class="btn btn-master">Enviar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <div class="form-group">
+                    {% if registroForm.errors %}
+                    <p>Hay algún error en la información que ingresaste. Por favor corrige lo siguiente:</p>
+        <ul>
+            {% for field in registroForm %}
+            {% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+            {% endfor %}
+        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function mostrarContrasena(){
+      var tipo = document.getElementById("password");
+        if(tipo.type == "password"){
+        tipo.type = "text";
+        }else{
+        tipo.type = "password";
+        }
+    }
+
+</script>
+{% endblock %}
