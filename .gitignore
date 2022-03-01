@@ -1,6 +1,7 @@
 venv/
 # Byte-compiled / optimized / DLL files
-Thincrs_educationApp/Cursos/__pycache__
+Thincrs_EducationApp/Cursos/__pycache__
+Thincrs_EducationApp/Thincrs_EducationApp/__pycache__
 *.py[cod]
 *$py.class
 
