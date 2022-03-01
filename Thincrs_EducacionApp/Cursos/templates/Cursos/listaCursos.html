@@ -51,55 +51,29 @@
     </table>
     <table id="example" class=" table table-striped datatable" style="width:100%">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>TITLE</th>
-                <th>DESCRIPCION</th>
-                <th>URL</th>
-                <th>DURACION ESTIMADA</th>
-                <th>CATEGORIAS</th>
-                <th>NUM. LECTURAS</th>
-                <th>NUM. VIDEOS</th>
-                <th>REQUERIMIENTOS</th>
-                <th>INSTRUCTORES</th>                
-                <th>QUE APRENDERAS </th>
-                <th>IDIOMA</th>
-                <th>ES CURSO DE PRACTICA</th>
-                <th>CATEGORIA PRIMARIA</th>
-                <th>SUBCATEGORIA PRIMARIA</th>
-                <th>NUM. QUIZZES</th>
-                <th>NUM. PRACTICAS DE PRUEBA</th>
-                <th>TIENE CAPTIONS</th>                
-                <th>CAPTIONS</th>
-                <th>DURACION DE VIDEO ESTIMADA</th>              
-                <th>NIVEL DE EDUCACION</th>
-                <th>KEYWORD</th>
-                <th>EMPRESA</th>
-                <th>USUARIO QUE ACTUALIZÓ</th>
-                <th>ACCIONES</th>
-            </tr>
+            
             <tr>
                 <td>ID</td>
-                <td>TITLE</td>
-                <td>DESCRIPCION</td>
+                <td>TÍTULO</td>
+                <td>DESCRIPCIÓN</td>
                 <td>URL</td>
-                <td>DURACION ESTIMADA</td>
-                <td>CATEGORIAS</td>
+                <td>DURACIÓN ESTIMADA (MINUTOS)</td>
+                <td>CATEGORÍAS</td>
                 <td>NUM. LECTURAS</td>
                 <td>NUM. VIDEOS</td>
                 <td>REQUERIMIENTOS</td>
                 <td>INSTRUCTORES</td>                
-                <td>QUE APRENDERAS </td>
+                <td>QUE APRENDERÁS </td>
                 <td>IDIOMA</td>
                 <td>ES CURSO DE PRACTICA</td>
-                <td>CATEGORIA PRIMARIA</td>
-                <td>SUBCATEGORIA PRIMARIA</td>
+                <td>CATEGORÍA PRIMARIA</td>
+                <td>SUBCATEGORÍA PRIMARIA</td>
                 <td>NUM. QUIZZES</td>
-                <td>NUM. PRACTICAS DE PRUEBA</td>
+                <td>NUM. PRÁCTICAS DE PRUEBA</td>
                 <td>TIENE CAPTIONS</td>                
                 <td>CAPTIONS</td>
-                <td>DURACION DE VIDEO ESTIMADA</td>              
-                <td>NIVEL DE EDUCACION</td>
+                <td>DURACIÓN DE VIDEO ESTIMADA</td>              
+                <td>NIVEL DE EDUCACIÓN</td>
                 <td>KEYWORD</td>
                 <td>EMPRESA</td>
                 <td>USUARIO QUE ACTUALIZÓ</td>
@@ -165,13 +139,16 @@
 $(document).ready(function() {
     $('#example thead td').each( function () {
         var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        $(this).html( title+'<br> <input type="text" placeholder="Search " />' );
     } );
   
     var table = $('#example').DataTable({
         dom: 'B<"top"i>rtlp',
         scrollX: "true",
         responsive: "true",
+        colReorder: {
+            order: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13, 14, 15, 16, 17, 18, 19 ,20, 21 ,22 ,23, 24 ]
+        },
         select: {
             style: 'multi'
         },
@@ -192,6 +169,7 @@ $(document).ready(function() {
         "aoColumnDefs": [
           { "bSortable": false, "aTargets": [ "_all" ] } 
           ],
+          
         buttons: [
         {
                 extend: 'selectAll',
