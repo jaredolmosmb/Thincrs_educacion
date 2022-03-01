@@ -15,8 +15,8 @@
 <!--breadcumb-->
 <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Cursos</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Lista</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'cursos:index2' %}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cursos</li>
         </ol>
 </nav>
 <h1 class="text-center">Lista de Cursos</h1>
@@ -52,6 +52,33 @@
     <table id="example" class=" table table-striped datatable" style="width:100%">
         <thead>
             <tr>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>DESCRIPCION</th>
+                <th>URL</th>
+                <th>DURACION ESTIMADA</th>
+                <th>CATEGORIAS</th>
+                <th>NUM. LECTURAS</th>
+                <th>NUM. VIDEOS</th>
+                <th>REQUERIMIENTOS</th>
+                <th>INSTRUCTORES</th>                
+                <th>QUE APRENDERAS </th>
+                <th>IDIOMA</th>
+                <th>ES CURSO DE PRACTICA</th>
+                <th>CATEGORIA PRIMARIA</th>
+                <th>SUBCATEGORIA PRIMARIA</th>
+                <th>NUM. QUIZZES</th>
+                <th>NUM. PRACTICAS DE PRUEBA</th>
+                <th>TIENE CAPTIONS</th>                
+                <th>CAPTIONS</th>
+                <th>DURACION DE VIDEO ESTIMADA</th>              
+                <th>NIVEL DE EDUCACION</th>
+                <th>KEYWORD</th>
+                <th>EMPRESA</th>
+                <th>USUARIO QUE ACTUALIZÓ</th>
+                <th>ACCIONES</th>
+            </tr>
+            <tr>
                 <td>ID</td>
                 <td>TITLE</td>
                 <td>DESCRIPCION</td>
@@ -85,7 +112,7 @@
                 <td class= "adjutsted">{{ m.id_course }}</td>
                 <td class= "adjutsted">{{ m.title }}</td>
                 <td class= "scrollableCell">{{ m.description }}</td>
-                <td class= "adjutsted">{{ m.url }}</td>
+                <td class= "adjutsted"> <a href="{{ m.url }}">{{ m.url }}</a></td>
                 <td class= "adjutsted">{{ m.estimated_content_length }}</td>
                 <td class= "scrollableCell">{{ m.category }}</td>
                 <td class= "adjutsted">{{ m.num_lectures }}</td>
@@ -136,6 +163,10 @@
 </div>
 <script>
 $(document).ready(function() {
+    $('#example thead td').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
   
     var table = $('#example').DataTable({
         dom: 'B<"top"i>rtlp',
@@ -144,6 +175,23 @@ $(document).ready(function() {
         select: {
             style: 'multi'
         },
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.header() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        },
+        "aoColumnDefs": [
+          { "bSortable": false, "aTargets": [ "_all" ] } 
+          ],
         buttons: [
         {
                 extend: 'selectAll',
@@ -179,7 +227,11 @@ $(document).ready(function() {
                 columns: ':not(.noVis)',
                 className: 'btn btn-success',
                 columnText: function ( dt, idx, title ) {
-            return (idx+1)+': '+title;
+                    var mySubString = title.substring(
+                        title.indexOf("Search") + 7, 
+                        title.lastIndexOf(">") - 1
+                    );
+                    return (idx+1)+': '+mySubString;
         }
             },
             {
