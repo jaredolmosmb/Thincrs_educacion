@@ -81,6 +81,7 @@ def UpdateProcessView(request):
         lista = file.values.tolist()
         print(lista[0][0])
         cursos_a_buscar = []
+        cursos_guardados = []
 
         for i in lista:
             if 'ES' in str(i[2]) or 'EN' in str(i[2]):
@@ -89,10 +90,45 @@ def UpdateProcessView(request):
         for i in cursos_a_buscar:
             url = f'https://{ACCOUNT_NAME}.udemy.com/api-2.0/organizations/{ACCOUNT_ID}/courses/list/{i}'
             response = requests.get(url, auth=(CLIENT_ID, SECRET_ID))
-            print("response", response)
-            print("type(response)",type(response))
-        print("len(cursos_a_buscar)", len(cursos_a_buscar))
+            data = response.json()
+            print("data", data)
+            print("type(data)",type(data))
+            try:
+                if response.status_code == 200:
+                    obj, created = CourseModel.objects.update_or_create(
+                        id_course = data['id'],
+                        title=data['title'],
+                        description=cleanhtml(data['description']),
+                        url=data['url'],
+                        estimated_content_length=data['estimated_content_length'],
+                        category = '\n'.join([str(item) for item in data['categories']]),
+                        num_lectures = data['num_lectures'],
+                        num_videos = data['num_videos'],
+                        name = '\n'.join([str(item) for item in data['instructors']]),
+                        requirements = '\n'.join([str(item) for item in data['requirements']['list']]),
+                        what_you_will_learn='\n'.join([str(item) for item in data['what_you_will_learn']['list']]),
+                        locale_description = data['locale']['locale'],
+                        is_practice_test_course = data['is_practice_test_course'],
+                        primary_category=data['primary_category']['title'],
+                        primary_subcategory=data['primary_subcategory']['title'],
+                        num_quizzes = data['num_quizzes'],
+                        num_practice_tests = data['num_practice_tests'],
+                        has_closed_caption=data['has_closed_caption'],
+                        caption_languages = '\n'.join([str(item) for item in data['caption_languages']]),
+                        estimated_content_length_video = data['estimated_content_length_video'],
+                        defaults={'id_course': data['id']},
+                        )
+                
+                    print("created", created)
+                    if created:
+                        cursos_guardados.append(data['id'])
+                    
+            except:
+                pass
 
+
+        print("se guardaron :len(cursos_guardados)", len(cursos_guardados))
+        return render(request, 'Cursos/actualizacion.html', {'cursos_guardados': cursos_guardados})
     return render(request, 'Cursos/actualizacion.html')
 
 @authenticated_user
