@@ -138,6 +138,54 @@ def ListaUsuariosView(request):
     
 @authenticated_user
 def CursosView(request):
+    """busqueda = request.GET.get("buscar")
+                    #print("busqueda", busqueda)
+                    primer =request.GET.get("mytext[1]")
+                    #print("primer = ", primer)
+                    segundo =request.GET.get("mytext[2]")
+                    #print("segundo = ", segundo)
+                    tercer =request.GET.get("mytext[3]")
+                    #print("tercer = ", tercer)
+                    cuarto =request.GET.get("mytext[4]")
+                    #print("cuarto = ", cuarto)
+                    quinto =request.GET.get("mytext[5]")
+                    #print("quinto = ", quinto)
+                    sexto =request.GET.get("mytext[6]")
+                    #print("sexto = ", sexto)
+                    septimo =request.GET.get("mytext[7]")
+                    #print("septimo = ", septimo)
+                    octavo =request.GET.get("mytext[8]")
+                    #print("octavo = ", octavo)
+                    noveno =request.GET.get("mytext[9]")
+                    #print("noveno = ", noveno)
+                    decimo =request.GET.get("mytext[10]")"""
+    #print("decimo = ", decimo)
+
+    bool1 = request.GET.get("bool1")
+    print("bool1 = ", bool1)
+    bool2 = request.GET.get("bool2")
+    bool3 = request.GET.get("bool3")
+    bool4 = request.GET.get("bool4")
+    bool5 = request.GET.get("bool5")
+    bool6 = request.GET.get("bool6")
+    bool7 = request.GET.get("bool7")
+    bool8 = request.GET.get("bool8")
+    bool9 = request.GET.get("bool9")
+    conceptos = []
+
+    for i in range(10):
+
+        if i != 0:
+            concepto = request.GET.get("mytext["+str(i+1)+"]")
+            if concepto != None:
+                conceptos.append(request.GET.get("bool"+str(i)+""))
+                conceptos.append(concepto)
+                
+        else:
+            conceptos.append(request.GET.get("mytext["+str(i+1)+"]"))
+
+    print("conceptos", conceptos)
+
     return render (request, 'Cursos/cursos.html')
 
 @authenticated_user
