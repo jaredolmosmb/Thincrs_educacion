@@ -15,8 +15,8 @@
 <!--breadcumb-->
 <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Cursos</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Lista</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'cursos:index2' %}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cursos</li>
         </ol>
 </nav>
 <h1 class="text-center">Lista de Cursos</h1>
@@ -51,28 +51,29 @@
     </table>
     <table id="example" class=" table table-striped datatable" style="width:100%">
         <thead>
+            
             <tr>
                 <td>ID</td>
-                <td>TITLE</td>
-                <td>DESCRIPCION</td>
+                <td>TÍTULO</td>
+                <td>DESCRIPCIÓN</td>
                 <td>URL</td>
-                <td>DURACION ESTIMADA</td>
-                <td>CATEGORIAS</td>
+                <td>DURACIÓN ESTIMADA (MINUTOS)</td>
+                <td>CATEGORÍAS</td>
                 <td>NUM. LECTURAS</td>
                 <td>NUM. VIDEOS</td>
                 <td>REQUERIMIENTOS</td>
                 <td>INSTRUCTORES</td>                
-                <td>QUE APRENDERAS </td>
+                <td>QUE APRENDERÁS </td>
                 <td>IDIOMA</td>
                 <td>ES CURSO DE PRACTICA</td>
-                <td>CATEGORIA PRIMARIA</td>
-                <td>SUBCATEGORIA PRIMARIA</td>
+                <td>CATEGORÍA PRIMARIA</td>
+                <td>SUBCATEGORÍA PRIMARIA</td>
                 <td>NUM. QUIZZES</td>
-                <td>NUM. PRACTICAS DE PRUEBA</td>
+                <td>NUM. PRÁCTICAS DE PRUEBA</td>
                 <td>TIENE CAPTIONS</td>                
                 <td>CAPTIONS</td>
-                <td>DURACION DE VIDEO ESTIMADA</td>              
-                <td>NIVEL DE EDUCACION</td>
+                <td>DURACIÓN DE VIDEO ESTIMADA</td>              
+                <td>NIVEL DE EDUCACIÓN</td>
                 <td>KEYWORD</td>
                 <td>EMPRESA</td>
                 <td>USUARIO QUE ACTUALIZÓ</td>
@@ -85,7 +86,7 @@
                 <td class= "adjutsted">{{ m.id_course }}</td>
                 <td class= "adjutsted">{{ m.title }}</td>
                 <td class= "scrollableCell">{{ m.description }}</td>
-                <td class= "adjutsted">{{ m.url }}</td>
+                <td class= "adjutsted"> <a href="{{ m.url }}">{{ m.url }}</a></td>
                 <td class= "adjutsted">{{ m.estimated_content_length }}</td>
                 <td class= "scrollableCell">{{ m.category }}</td>
                 <td class= "adjutsted">{{ m.num_lectures }}</td>
@@ -136,14 +137,39 @@
 </div>
 <script>
 $(document).ready(function() {
+    $('#example thead td').each( function () {
+        var title = $(this).text();
+        $(this).html( title+'<br> <input type="text" placeholder="Search " />' );
+    } );
   
     var table = $('#example').DataTable({
         dom: 'B<"top"i>rtlp',
         scrollX: "true",
         responsive: "true",
+        colReorder: {
+            order: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13, 14, 15, 16, 17, 18, 19 ,20, 21 ,22 ,23, 24 ]
+        },
         select: {
             style: 'multi'
         },
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.header() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        },
+        "aoColumnDefs": [
+          { "bSortable": false, "aTargets": [ "_all" ] } 
+          ],
+          
         buttons: [
         {
                 extend: 'selectAll',
@@ -179,7 +205,11 @@ $(document).ready(function() {
                 columns: ':not(.noVis)',
                 className: 'btn btn-success',
                 columnText: function ( dt, idx, title ) {
-            return (idx+1)+': '+title;
+                    var mySubString = title.substring(
+                        title.indexOf("Search") + 7, 
+                        title.lastIndexOf(">") - 1
+                    );
+                    return (idx+1)+': '+mySubString;
         }
             },
             {
