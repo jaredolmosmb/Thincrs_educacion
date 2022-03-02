@@ -161,16 +161,6 @@ def CursosView(request):
                     decimo =request.GET.get("mytext[10]")"""
     #print("decimo = ", decimo)
 
-    bool1 = request.GET.get("bool1")
-    print("bool1 = ", bool1)
-    bool2 = request.GET.get("bool2")
-    bool3 = request.GET.get("bool3")
-    bool4 = request.GET.get("bool4")
-    bool5 = request.GET.get("bool5")
-    bool6 = request.GET.get("bool6")
-    bool7 = request.GET.get("bool7")
-    bool8 = request.GET.get("bool8")
-    bool9 = request.GET.get("bool9")
     conceptos = []
 
     for i in range(10):
@@ -179,10 +169,14 @@ def CursosView(request):
             concepto = request.GET.get("mytext["+str(i+1)+"]")
             if concepto != None:
                 conceptos.append(request.GET.get("bool"+str(i)+""))
+                conceptos.append(request.GET.get("not"+str(i)+""))
                 conceptos.append(concepto)
                 
         else:
+            conceptos.append(request.GET.get("not"+str(i)+""))
             conceptos.append(request.GET.get("mytext["+str(i+1)+"]"))
+
+        # exoresion regular para negación ^((?!hede).)*$
 
     print("conceptos", conceptos)
 

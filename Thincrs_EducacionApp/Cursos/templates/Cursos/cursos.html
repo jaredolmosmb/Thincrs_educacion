@@ -20,7 +20,7 @@
     <button class="add_form_field">Add New Field &nbsp; 
       <span style="font-size:16px; font-weight:bold;">+ </span>
     </button>
-    <div><input style=" " type="text" name="mytext[1]"></div>
+    <div><select name="not0" id="not-id0"><option value="normal">NORMAL</option><option value="not">NOT</option></select><input style=" " type="text" name="mytext[1]"></div>
 
 </div>
 <button style="width: 100%; display: block;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id="boton-buscar">Buscar</button>
@@ -115,7 +115,7 @@
         e.preventDefault();
         if (x < max_fields) {
             x++;
-            $(wrapper).append('<select name="bool'+(x-1)+'" id="bool-id'+(x-1)+'"><option value="and">AND</option><option value="or">OR</option><option value="not">NOT</option></select><div><input type="text" name="mytext['+x+']"/><a href="#" class="delete">Delete</a></div>'); //add input box
+            $(wrapper).append('<div><select name="bool'+(x-1)+'" id="bool-id'+(x-1)+'"><option value="and">AND</option><option value="or">OR</option></select> <select name="not'+(x-1)+'" id="not-id'+(x-1)+'"><option value="normal">NORMAL</option><option value="not">NOT</option></select> <input type="text" name="mytext['+x+']"/><a href="#" class="delete">Delete</a></div>'); //add input box
         } else {
             alert('You Reached the limits')
         }
