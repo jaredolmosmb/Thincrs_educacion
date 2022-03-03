@@ -162,6 +162,8 @@ def CursosView(request):
     #print("decimo = ", decimo)
 
     conceptos = []
+    conceptos_a_buscar = []
+    expresion = ""
 
     for i in range(10):
 
@@ -179,6 +181,16 @@ def CursosView(request):
         # exoresion regular para negación ^((?!hede).)*$
 
     print("conceptos", conceptos)
+    for index, elem in enumerate(conceptos):
+        if index%3 == 0:            
+            if elem == "not":
+                conceptos_a_buscar.append("^((?!"+conceptos[index+1]+").)*$") 
+            elif elem == "normal":
+                conceptos_a_buscar.append(conceptos[index+1]) 
+    print("conceptos a buscar", conceptos_a_buscar)
+
+
+
 
     return render (request, 'Cursos/cursos.html')
 
