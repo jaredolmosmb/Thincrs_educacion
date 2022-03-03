@@ -22,8 +22,8 @@
 <h1 class="text-center">Lista de Cursos</h1>
 <div class="row  text-right">
     <div class="col botonera">
-        <a href="#">
-            <button class="btn btn-master" onclick = "abrir_modal_creacion('{% url 'cursos:crear' %}')"> <i class="fas fa-plus-circle" ></i> &nbsp;Agregar Cursos</button>
+        <a href="{% url 'cursos:actualizacion' %}">
+            <button class="btn btn-master" onclick = ""> <i class="fas fa-plus-circle" ></i> &nbsp;Actuializar Cursos</button>
         </a>
     </div>
 </div>
@@ -53,31 +53,31 @@
         <thead>
             
             <tr>
-                <td>ID</td>
-                <td>TÍTULO</td>
-                <td>DESCRIPCIÓN</td>
+                <td>Id</td>
+                <td>Títutlo</td>
+                <td>Descripción</td>
                 <td>URL</td>
-                <td>DURACIÓN ESTIMADA (MINUTOS)</td>
-                <td>CATEGORÍAS</td>
-                <td>NUM. LECTURAS</td>
-                <td>NUM. VIDEOS</td>
-                <td>REQUERIMIENTOS</td>
-                <td>INSTRUCTORES</td>                
-                <td>QUE APRENDERÁS </td>
-                <td>IDIOMA</td>
-                <td>ES CURSO DE PRACTICA</td>
-                <td>CATEGORÍA PRIMARIA</td>
-                <td>SUBCATEGORÍA PRIMARIA</td>
-                <td>NUM. QUIZZES</td>
-                <td>NUM. PRÁCTICAS DE PRUEBA</td>
-                <td>TIENE CAPTIONS</td>                
-                <td>CAPTIONS</td>
-                <td>DURACIÓN DE VIDEO ESTIMADA</td>              
-                <td>NIVEL DE EDUCACIÓN</td>
-                <td>KEYWORD</td>
-                <td>EMPRESA</td>
-                <td>USUARIO QUE ACTUALIZÓ</td>
-                <td>ACCIONES</td>
+                <td>Duración Estimada (minutos)</td>
+                <td>Categorías</td>
+                <td>Núm. Lecturas</td>
+                <td>Núm. Videos</td>
+                <td>Requerimientos</td>
+                <td>Instructores</td>                
+                <td>Que aprenderás </td>
+                <td>Idioma</td>
+                <td>¿Es curso de práctica?</td>
+                <td>Categoría Primaria</td>
+                <td>Subcategoría Primaria</td>
+                <td>Núm. Quizzes</td>
+                <td>Núm. Practicas de Prueba</td>
+                <td>Tiene Captions</td>                
+                <td>Captions</td>
+                <td>Duración de video estimada</td>              
+                <td>Nivel de educación</td>
+                <td>Keyword</td>
+                <td>Empresa</td>
+                <td>Usuario que actualizó</td>
+                <td>Acciones</td>
             </tr>
         </thead>
         <tbody>
@@ -86,7 +86,7 @@
                 <td class= "adjutsted">{{ m.id_course }}</td>
                 <td class= "adjutsted">{{ m.title }}</td>
                 <td class= "scrollableCell">{{ m.description }}</td>
-                <td class= "adjutsted"> <a href="{{ m.url }}">{{ m.url }}</a></td>
+                <td class= "adjutsted"> <a href="{{ m.url }}" target="_blank">{{ m.url }}</a></td>
                 <td class= "adjutsted">{{ m.estimated_content_length }}</td>
                 <td class= "scrollableCell">{{ m.category }}</td>
                 <td class= "adjutsted">{{ m.num_lectures }}</td>

@@ -184,10 +184,41 @@ def CursosView(request):
     for index, elem in enumerate(conceptos):
         if index%3 == 0:            
             if elem == "not":
-                conceptos_a_buscar.append("^((?!"+conceptos[index+1]+").)*$") 
+                conceptos_a_buscar.append("^((?!"+conceptos[index+1]+").)*$")
+                if (index+2) < len(conceptos):
+                    conceptos_a_buscar.append(conceptos[index+2])
+                else:
+                    continue
             elif elem == "normal":
-                conceptos_a_buscar.append(conceptos[index+1]) 
+                conceptos_a_buscar.append(conceptos[index+1])
+                if (index+2) < len(conceptos):
+                    conceptos_a_buscar.append(conceptos[index+2])
+                else:
+                    continue
+    conceptos_listos = []
+    for index2, elem2 in enumerate(conceptos_a_buscar):
+        if elem2 == "or":
+            conceptos_a_buscar[index2] = "|"
+
+    for index2, elem2 in enumerate(conceptos_a_buscar):
+        if index2%2 != 0:
+            if elem2 == "and":
+                if "(?=.*"+conceptos_a_buscar[index2-1]+")" not in conceptos_listos:
+                    conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2-1]+")")
+                    conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2+1]+")")
+                else:
+                    conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2+1]+")")
+            if elem2 == "|":
+                if index2 == 1:
+                    conceptos_listos.append(conceptos_a_buscar[index2-1])
+                    conceptos_listos.append("|")
+                elif index2+2 == len(conceptos_a_buscar):
+                    conceptos_listos.append("|")
+                    conceptos_listos.append(conceptos_a_buscar[index2+1])
+                else:
+                    conceptos_listos.append("|")
     print("conceptos a buscar", conceptos_a_buscar)
+    print("conceptos_listos", conceptos_listos)
 
 
 
