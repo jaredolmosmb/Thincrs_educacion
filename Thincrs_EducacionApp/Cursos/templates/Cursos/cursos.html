@@ -16,11 +16,13 @@
                             <input class="form-control mr-sm-2" type="search" aria-label="Search" id="buscar-operadores" placeholder="Buscar " name="buscar" style="width: 90%; height:30px;" value="{{request.GET.buscar}}" autofocus>
                                     
                      
-<div style=" display: block;" class="container1">
-    <button class="add_form_field">Add New Field &nbsp; 
+<div class="container1">
+    <button class="add_form_field">Añadir otro concepto &nbsp; 
       <span style="font-size:16px; font-weight:bold;">+ </span>
     </button>
-    <div><select name="not0" id="not-id0"><option value="normal">NORMAL</option><option value="not">NOT</option></select><input style=" " type="text" name="mytext[1]"></div>
+    <div >
+        <select name="not0" style = "width: 25%;" id="not-id0"><option value="normal">NORMAL</option><option value="not">NOT</option></select><input style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext[1]">
+    </div>
 
 </div>
 <button style="width: 100%; display: block;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id="boton-buscar">Buscar</button>
@@ -115,7 +117,7 @@
         e.preventDefault();
         if (x < max_fields) {
             x++;
-            $(wrapper).append('<div><select name="bool'+(x-1)+'" id="bool-id'+(x-1)+'"><option value="and">AND</option><option value="or">OR</option></select> <select name="not'+(x-1)+'" id="not-id'+(x-1)+'"><option value="normal">NORMAL</option><option value="not">NOT</option></select> <input type="text" name="mytext['+x+']"/><a href="#" class="delete">Delete</a></div>'); //add input box
+            $(wrapper).append('<div><select style = "width: 15%" name="bool'+(x-1)+'" id="bool-id'+(x-1)+'"><option value="and">AND</option><option value="or">OR</option></select> <select style = "width: 10%" name="not'+(x-1)+'" id="not-id'+(x-1)+'"><option value="normal">NORMAL</option><option value="not">NOT</option></select> <input style="width: 60%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext['+x+']"><a href="#" class="delete">Delete</a></div>'); //add input box
         } else {
             alert('Alcanzaste el limite')
         }

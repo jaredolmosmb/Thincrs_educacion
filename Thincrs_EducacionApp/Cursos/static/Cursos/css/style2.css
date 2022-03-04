@@ -1,3 +1,9 @@
+.container1{
+    margin: auto;
+    width: 50%;
+    display: block;
+}
+
 .btn-master{
  background: rgb(33,213, 38)!important;
     color: white!important;

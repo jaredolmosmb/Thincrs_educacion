@@ -219,6 +219,10 @@ def CursosView(request):
                     conceptos_listos.append("|")
     print("conceptos a buscar", conceptos_a_buscar)
     print("conceptos_listos", conceptos_listos)
+    frase_a_buscar = ""
+    for i in conceptos_listos:
+        frase_a_buscar = frase_a_buscar + i 
+    print("frase_a_buscar", frase_a_buscar)
 
 
 
