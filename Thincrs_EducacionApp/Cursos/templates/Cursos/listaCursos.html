@@ -175,7 +175,7 @@ $(document).ready(function() {
     });
     $('#example thead td').each( function () {
         var title = $(this).text();
-        $(this).html( title+'<br> <input type="text" placeholder="Search " />' );
+        $(this).html( title+'<br> <input type="text" placeholder="Search '+title+' " />' );
     } );
   
     var table = $('#example').DataTable({
@@ -242,7 +242,7 @@ $(document).ready(function() {
                 className: 'btn btn-success',
                 columnText: function ( dt, idx, title ) {
                     var mySubString = title.substring(
-                        title.indexOf("Search") + 7, 
+                        title.indexOf("Search" + 7) , 
                         title.lastIndexOf(">") - 1
                     );
                     return (idx+1)+': '+mySubString;
