@@ -292,93 +292,96 @@ def ListaCursosView(request):
     
     
     elif inp:
-                        conceptos = []
-                        conceptos_a_buscar = []
-                        expresion = ""
-                
-                        for i in range(10):
-                
-                            if i != 0:
-                                concepto = request.GET.get("mytext["+str(i+1)+"]")
-                                if concepto != None:
-                                    conceptos.append(request.GET.get("bool"+str(i)+""))
-                                    conceptos.append(request.GET.get("not"+str(i)+""))
-                                    conceptos.append(concepto)
-                                    
+        conceptos = []
+        conceptos_a_buscar = []
+        expresion = ""
+
+        for i in range(10):
+
+            if i != 0:
+                concepto = request.GET.get("mytext["+str(i+1)+"]")
+                if concepto != None:
+                    conceptos.append(request.GET.get("bool"+str(i)+""))
+                    conceptos.append(request.GET.get("not"+str(i)+""))
+                    conceptos.append(concepto)
+                    
+            else:
+                conceptos.append(request.GET.get("not"+str(i)+""))
+                conceptos.append(request.GET.get("mytext["+str(i+1)+"]"))
+
+            # exoresion regular para negación ^((?!hede).)*$
+
+        print("conceptos", conceptos)
+        if conceptos[0] != None:
+            for index, elem in enumerate(conceptos):
+                if index%3 == 0:            
+                    if elem == "not":
+                        conceptos_a_buscar.append("^((?!"+conceptos[index+1]+").)*$")
+                        if (index+2) < len(conceptos):
+                            conceptos_a_buscar.append(conceptos[index+2])
+                        else:
+                            continue
+                    elif elem == "normal":
+                        conceptos_a_buscar.append(conceptos[index+1])
+                        if (index+2) < len(conceptos):
+                            conceptos_a_buscar.append(conceptos[index+2])
+                        else:
+                            continue
+            conceptos_listos = []
+            for index2, elem2 in enumerate(conceptos_a_buscar):
+                if elem2 == "or":
+                    conceptos_a_buscar[index2] = "|"
+            
+            if len(conceptos_a_buscar) == 1:
+                conceptos_listos.append(conceptos_a_buscar[0])
+            elif "and" not in conceptos_a_buscar:
+                conceptos_listos = copy.deepcopy(conceptos_a_buscar)
+
+            elif len(conceptos_a_buscar) > 1:
+                for index2, elem2 in enumerate(conceptos_a_buscar):
+                    if index2%2 != 0:
+                        if elem2 == "and":
+                            if "(?=.*"+conceptos_a_buscar[index2-1]+")" not in conceptos_listos:
+                                conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2-1]+")")
+                                conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2+1]+")")
                             else:
-                                conceptos.append(request.GET.get("not"+str(i)+""))
-                                conceptos.append(request.GET.get("mytext["+str(i+1)+"]"))
-                
-                            # exoresion regular para negación ^((?!hede).)*$
-                
-                        print("conceptos", conceptos)
-                        if conceptos[0] != None:
-                            for index, elem in enumerate(conceptos):
-                                if index%3 == 0:            
-                                    if elem == "not":
-                                        conceptos_a_buscar.append("^((?!"+conceptos[index+1]+").)*$")
-                                        if (index+2) < len(conceptos):
-                                            conceptos_a_buscar.append(conceptos[index+2])
-                                        else:
-                                            continue
-                                    elif elem == "normal":
-                                        conceptos_a_buscar.append(conceptos[index+1])
-                                        if (index+2) < len(conceptos):
-                                            conceptos_a_buscar.append(conceptos[index+2])
-                                        else:
-                                            continue
-                            conceptos_listos = []
-                            for index2, elem2 in enumerate(conceptos_a_buscar):
-                                if elem2 == "or":
-                                    conceptos_a_buscar[index2] = "|"
-                            
-                            if len(conceptos_a_buscar) == 1:
-                                conceptos_listos.append(conceptos_a_buscar[0])
-                            elif "and" not in conceptos_a_buscar:
-                                conceptos_listos = copy.deepcopy(conceptos_a_buscar)
-                
-                            elif len(conceptos_a_buscar) > 1:
-                                for index2, elem2 in enumerate(conceptos_a_buscar):
-                                    if index2%2 != 0:
-                                        if elem2 == "and":
-                                            if "(?=.*"+conceptos_a_buscar[index2-1]+")" not in conceptos_listos:
-                                                conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2-1]+")")
-                                                conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2+1]+")")
-                                            else:
-                                                conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2+1]+")")
-                                        if elem2 == "|":
-                                            if index2 == 1:
-                                                conceptos_listos.append(conceptos_a_buscar[index2-1])
-                                                conceptos_listos.append("|")
-                                            elif index2+2 == len(conceptos_a_buscar):
-                                                conceptos_listos.append("|")
-                                                conceptos_listos.append(conceptos_a_buscar[index2+1])
-                                            else:
-                                                conceptos_listos.append("|")
-                                print("conceptos a buscar", conceptos_a_buscar)
-                                print("conceptos_listos", conceptos_listos)
-                            frase_a_buscar = ""
-                            for i in conceptos_listos:
-                                frase_a_buscar = frase_a_buscar + i 
-                            print("frase_a_buscar", frase_a_buscar)
-                
-                            todos_c = CourseModel.objects.all()
-                            todos_m = todos_c.filter(
-                                Q(title__iregex=frase_a_buscar) |
-                                Q(description__iregex=frase_a_buscar) |
-                                Q(url__iregex=frase_a_buscar) |
-                                Q(category__iregex=frase_a_buscar) |
-                                Q(name__iregex=frase_a_buscar) |
-                                Q(requirements__iregex=frase_a_buscar) |
-                                Q(what_you_will_learn__iregex=frase_a_buscar) |
-                                Q(locale_description__iregex=frase_a_buscar) |
-                                Q(primary_category__iregex=frase_a_buscar) |
-                                Q(primary_subcategory__iregex=frase_a_buscar)|
-                                Q(caption_languages__iregex=frase_a_buscar) |
-                                Q(required_education__iregex=frase_a_buscar) |
-                                Q(keyword__iregex=frase_a_buscar) |
-                                Q(empresa__iregex=frase_a_buscar)
-                            ).distinct()
+                                conceptos_listos.append("(?=.*"+conceptos_a_buscar[index2+1]+")")
+                        if elem2 == "|":
+                            if index2 == 1:
+                                conceptos_listos.append(conceptos_a_buscar[index2-1])
+                                conceptos_listos.append("|")
+                            elif index2+2 == len(conceptos_a_buscar):
+                                conceptos_listos.append("|")
+                                conceptos_listos.append(conceptos_a_buscar[index2+1])
+                            else:
+                                conceptos_listos.append("|")
+                print("conceptos a buscar", conceptos_a_buscar)
+                print("conceptos_listos", conceptos_listos)
+            frase_a_buscar = ""
+            for i in conceptos_listos:
+                frase_a_buscar = frase_a_buscar + i 
+            print("frase_a_buscar", frase_a_buscar)
+
+            todos_c = CourseModel.objects.all()
+            todos_m = todos_c.filter(
+                Q(category__iregex=frase_a_buscar)                
+            ).distinct()
+            """todos_m = todos_c.filter(
+                                                                Q(title__iregex=frase_a_buscar) |
+                                                                Q(description__iregex=frase_a_buscar) |
+                                                                Q(url__iregex=frase_a_buscar) |
+                                                                Q(category__iregex=frase_a_buscar) |
+                                                                Q(name__iregex=frase_a_buscar) |
+                                                                Q(requirements__iregex=frase_a_buscar) |
+                                                                Q(what_you_will_learn__iregex=frase_a_buscar) |
+                                                                Q(locale_description__iregex=frase_a_buscar) |
+                                                                Q(primary_category__iregex=frase_a_buscar) |
+                                                                Q(primary_subcategory__iregex=frase_a_buscar)|
+                                                                Q(caption_languages__iregex=frase_a_buscar) |
+                                                                Q(required_education__iregex=frase_a_buscar) |
+                                                                Q(keyword__iregex=frase_a_buscar) |
+                                                                Q(empresa__iregex=frase_a_buscar)
+                                                            ).distinct()"""
     else:
         todos_m=CourseModel.objects.all()[:100]
 

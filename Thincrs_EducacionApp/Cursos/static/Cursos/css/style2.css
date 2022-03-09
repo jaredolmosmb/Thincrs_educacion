@@ -9,6 +9,12 @@
     color: white!important;
 }
 
+.btn-master2{
+ background: rgb(33,213, 38)!important;
+    color: white!important;
+    height: 20px!important;
+}
+
 /*.dt-button-collection{
     padding-top: 30px;
     display: inline-block;
