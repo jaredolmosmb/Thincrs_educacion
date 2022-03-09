@@ -1,6 +1,18 @@
+.container1{
+    margin: auto;
+    width: 50%;
+    display: block !important;
+}
+
 .btn-master{
  background: rgb(33,213, 38)!important;
     color: white!important;
+}
+
+.btn-master2{
+ background: rgb(33,213, 38)!important;
+    color: white!important;
+    height: 20px!important;
 }
 
 /*.dt-button-collection{
