@@ -69,6 +69,7 @@
         <thead>
             
             <tr>
+                <td>identifier</td>
                 <td>Id</td>
                 <td>Título</td>
                 <td>Descripción</td>
@@ -99,6 +100,7 @@
         <tbody>
             {% for m in todos_m %}
             <tr>
+                <td class= "adjutsted">{{ m.id }}</td>
                 <td class= "adjutsted">{{ m.id_course }}</td>
                 <td class= "adjutsted">{{ m.title }}</td>
                 <td class= "scrollableCell">{{ m.description }}</td>
@@ -153,6 +155,7 @@
 </div>
 <script>
 $(document).ready(function() {
+    var savedSelected;
     var max_fields = 4;
     var wrapper = $(".container1");
     var add_button = $(".add_form_field");
@@ -188,8 +191,22 @@ $(document).ready(function() {
         select: {
             style: 'multi'
         },
+        stateSave: true,
+        'stateSaveParams': function(settings, data) {
+          data.selected = this.api().rows({selected:true})[0];
+          console.log(data.selected);
+          console.log( this.api().rows({selected:true}).data());
+
+
+        },
+        'stateLoadParams': function(settings, data) {
+          savedSelected = data.selected;
+        },
+        
         initComplete: function () {
             // Apply the search
+            this.api().rows(savedSelected).select();
+            this.api().state.save();
             this.api().columns().every( function () {
                 var that = this;
  
@@ -271,6 +288,10 @@ $(document).ready(function() {
         ],
     });
 
+    table.on('select deselect', function() {
+    table.state.save();
+  });
+
     // Apply the filter
     $("#example thead input").on( 'keyup change', function () {
         table
@@ -305,61 +326,6 @@ $(document).ready(function() {
             $(this).modal('show');
         });
     }
-
-    function filterGlobal () {
-
-        var barra = $('#global_filter').val();
-        var or_string = " && ";
-        var para_buscar = "";
-        if(barra.indexOf(or_string) != -1){
-            let myArray = barra.split(" && ");
-            for (let i = 0; i < myArray.length; i++) {
-                para_buscar = para_buscar+"(?=.*"+myArray[i]+")";
-               // alert(para_buscar);
-            }
-            //alert("if "+para_buscar);
-            //(?=.*word1)(?=.*word2)(?=.*word3)
-        }else{
-            para_buscar = barra;
-        }
-    $('#example').DataTable().search(
-        para_buscar,
-        $('#global_regex').prop('checked'),
-        $('#global_smart').prop('checked')
-    ).draw();
-}
- 
-function filterColumn ( i ) {
-    $('#example').DataTable().column( i ).search(
-        $('#col'+i+'_filter').val(),
-        $('#col'+i+'_regex').prop('checked'),
-        $('#col'+i+'_smart').prop('checked')
-    ).draw();
-}
- 
-$(document).ready(function() {
-    
- 
-    /*$('input.global_filter').on( 'keyup click', function () {
-        filterGlobal();
-    } );*/
-    $('input.global_filter').on('keypress', function (e) {
-         if(e.which === 13){
-
-            //Disable textbox to prevent multiple submit
-            $(this).attr("disabled", "disabled");
-
-            filterGlobal();
-
-            //Enable the textbox again if needed.
-            $(this).removeAttr("disabled");
-         }
-   });
- 
-    $('input.column_filter').on( 'keyup click', function () {
-        filterColumn( $(this).parents('tr').attr('data-column') );
-    } );
-} );
     
 
 </script>
