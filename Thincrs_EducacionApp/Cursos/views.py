@@ -246,6 +246,11 @@ def CursosView(request):
 def ListaCursosView(request):
 
     busqueda = request.GET.get("buscar")
+    """objetos = CourseModel.objects.all()
+                    for i in objetos:
+                        if len(i.caption_languages) == 0:
+                            i.caption_languages = "N/A"
+                            i.save()"""
     inp = request.GET.get("mytext[1]")
     and_string = "&&"
     para_buscar=""
