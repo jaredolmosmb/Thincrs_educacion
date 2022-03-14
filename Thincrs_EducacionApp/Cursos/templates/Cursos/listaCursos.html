@@ -40,8 +40,8 @@
                 <td>
                     <form class="form-inline my-2 my-lg-0 " method="get">
                         <div id="events" name="este">
-                            <input id="el_texto" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="este" >
-                            Row selected count - new information added at the top
+                            <input id="el_texto" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="este" value = "{{array}}">
+                            
                         </div>
                             <!--<input class="form-control mr-sm-2" type="search" aria-label="Search" id="buscar-operadores" placeholder="Buscar " name="buscar" style="width: 90%; height:30px;" value="{{request.GET.buscar}}" autofocus>
                             <button style="width: 100%; display: block; padding:10px: margin-top: auto;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id="boton-buscar">Buscar</button>-->
@@ -103,43 +103,87 @@
         </thead>
         <tbody>
             {% for m in todos_m %}
-            <tr>
-                <td class= "adjutsted">{{ m.id }}</td>
-                <td class= "adjutsted">{{ m.id_course }}</td>
-                <td class= "adjutsted">{{ m.title }}</td>
-                <td class= "scrollableCell">{{ m.description }}</td>
-                <td class= "adjutsted"> <a href="{{ m.url }}" target="_blank">{{ m.url }}</a></td>
-                <td class= "adjutsted">{{ m.estimated_content_length }}</td>
-                <td class= "scrollableCell">{{ m.category }}</td>
-                <td class= "adjutsted">{{ m.num_lectures }}</td>
-                <td class= "adjutsted">{{ m.num_videos }}</td>
-                <td class= "scrollableCell">{{ m.requirements }}</td>
-                <td class= "adjutsted">{{ m.name }}</td>                
-                <td class= "scrollableCell">{{ m.what_you_will_learn }}</td>
-                <td class= "adjutsted">{{ m.locale_description }}</td>
-                <td class= "adjutsted">{{ m.is_practice_test_course }}</td>
-                <td class= "adjutsted">{{ m.primary_category }}</td>
-                <td class= "adjutsted">{{ m.primary_subcategory }}</td>
-                <td class= "adjutsted">{{ m.num_quizzes }}</td>
-                <td class= "adjutsted">{{ m.num_practice_tests }}</td>
-                <td class= "adjutsted">{{ m.has_closed_caption }}</td>
-                <td class= "scrollableCell">{{ m.caption_languages }}</td>
-                <td class= "adjutsted">{{ m.estimated_content_length_video }}</td>
-                <td class= "adjutsted">{{ m.required_education }}</td>             
-                <td class= "adjutsted">{{ m.keyword }}</td>
-                <td class= "adjutsted">{{ m.empresa }}</td>
-                <td class= "adjutsted">{{ m.user }}</td>
-                <td class= "adjutsted">
-                    <div class="text-center">
-                        <a href="#" id='{{m.id}}'>
-                            <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:actualizar' m.id %}')" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
-                        </a>
-                        <a href="#" id='{{m.id}}'>
-                            <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:eliminar' m.id %}')" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
-                        </a>
-                    </div>
-                </td>
-            </tr>
+                
+                    {% if m.id|stringformat:"i" in list_to_filter %}
+                        <tr class = "selected">
+                            <td class= "adjutsted">{{ m.id }}</td>
+                            <td class= "adjutsted">{{ m.id_course }}</td>
+                            <td class= "adjutsted">{{ m.title }}</td>
+                            <td class= "scrollableCell">{{ m.description }}</td>
+                            <td class= "adjutsted"> <a href="{{ m.url }}" target="_blank">{{ m.url }}</a></td>
+                            <td class= "adjutsted">{{ m.estimated_content_length }}</td>
+                            <td class= "scrollableCell">{{ m.category }}</td>
+                            <td class= "adjutsted">{{ m.num_lectures }}</td>
+                            <td class= "adjutsted">{{ m.num_videos }}</td>
+                            <td class= "scrollableCell">{{ m.requirements }}</td>
+                            <td class= "adjutsted">{{ m.name }}</td>                
+                            <td class= "scrollableCell">{{ m.what_you_will_learn }}</td>
+                            <td class= "adjutsted">{{ m.locale_description }}</td>
+                            <td class= "adjutsted">{{ m.is_practice_test_course }}</td>
+                            <td class= "adjutsted">{{ m.primary_category }}</td>
+                            <td class= "adjutsted">{{ m.primary_subcategory }}</td>
+                            <td class= "adjutsted">{{ m.num_quizzes }}</td>
+                            <td class= "adjutsted">{{ m.num_practice_tests }}</td>
+                            <td class= "adjutsted">{{ m.has_closed_caption }}</td>
+                            <td class= "scrollableCell">{{ m.caption_languages }}</td>
+                            <td class= "adjutsted">{{ m.estimated_content_length_video }}</td>
+                            <td class= "adjutsted">{{ m.required_education }}</td>             
+                            <td class= "adjutsted">{{ m.keyword }}</td>
+                            <td class= "adjutsted">{{ m.empresa }}</td>
+                            <td class= "adjutsted">{{ m.user }}</td>
+                            <td class= "adjutsted">
+                                <div class="text-center">
+                                    <a href="#" id='{{m.id}}'>
+                                        <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:actualizar' m.id %}')" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
+                                    </a>
+                                    <a href="#" id='{{m.id}}'>
+                                        <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:eliminar' m.id %}')" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                
+                        <tr>
+                            <td class= "adjutsted">{{ m.id }}</td>
+                            <td class= "adjutsted">{{ m.id_course }}</td>
+                            <td class= "adjutsted">{{ m.title }}</td>
+                            <td class= "scrollableCell">{{ m.description }}</td>
+                            <td class= "adjutsted"> <a href="{{ m.url }}" target="_blank">{{ m.url }}</a></td>
+                            <td class= "adjutsted">{{ m.estimated_content_length }}</td>
+                            <td class= "scrollableCell">{{ m.category }}</td>
+                            <td class= "adjutsted">{{ m.num_lectures }}</td>
+                            <td class= "adjutsted">{{ m.num_videos }}</td>
+                            <td class= "scrollableCell">{{ m.requirements }}</td>
+                            <td class= "adjutsted">{{ m.name }}</td>                
+                            <td class= "scrollableCell">{{ m.what_you_will_learn }}</td>
+                            <td class= "adjutsted">{{ m.locale_description }}</td>
+                            <td class= "adjutsted">{{ m.is_practice_test_course }}</td>
+                            <td class= "adjutsted">{{ m.primary_category }}</td>
+                            <td class= "adjutsted">{{ m.primary_subcategory }}</td>
+                            <td class= "adjutsted">{{ m.num_quizzes }}</td>
+                            <td class= "adjutsted">{{ m.num_practice_tests }}</td>
+                            <td class= "adjutsted">{{ m.has_closed_caption }}</td>
+                            <td class= "scrollableCell">{{ m.caption_languages }}</td>
+                            <td class= "adjutsted">{{ m.estimated_content_length_video }}</td>
+                            <td class= "adjutsted">{{ m.required_education }}</td>             
+                            <td class= "adjutsted">{{ m.keyword }}</td>
+                            <td class= "adjutsted">{{ m.empresa }}</td>
+                            <td class= "adjutsted">{{ m.user }}</td>
+                            <td class= "adjutsted">
+                                <div class="text-center">
+                                    <a href="#" id='{{m.id}}'>
+                                        <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:actualizar' m.id %}')" style="background: transparent; color: green; font-size: 20px;"><i class="fas fa-pencil-alt"></i></button>
+                                    </a>
+                                    <a href="#" id='{{m.id}}'>
+                                        <button class="btn" onclick = "abrir_modal_edicion('{% url 'cursos:eliminar' m.id %}')" style="background: transparent; color: red; font-size: 20px;"><i class="fas fa-trash"></i></button>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                    {% endif %}
+                
             {% endfor %}
         </tbody>
         <tfoot>

@@ -252,7 +252,15 @@ def ListaCursosView(request):
                             i.caption_languages = "N/A"
                             i.save()"""
     array = request.GET.get("este")
+    list_to_filter=[]
     print("array", array)
+    print("type(array)", type(array))
+    if array == None or array == "":
+        pass
+    else:
+        list_to_filter = array.split(",")
+        print("list_to_filter", list_to_filter)
+        print("type(list_to_filter", type(list_to_filter))
     inp = request.GET.get("mytext[1]")
     and_string = "&&"
     para_buscar=""
@@ -370,10 +378,14 @@ def ListaCursosView(request):
             print("frase_a_buscar", frase_a_buscar)
 
             todos_c = CourseModel.objects.all()
-            todos_m = todos_c.filter(
+            todos_m2 = todos_c.filter(
                 Q(category__iregex=frase_a_buscar)                
             ).distinct()
-            print("type todos_m", type(todos_m))
+            print("type todos_m2", type(todos_m2))
+
+            queryset = CourseModel.objects.filter(id__in=list_to_filter)
+            print("queryset", queryset)
+            todos_m = todos_m2.union(queryset)
             """todos_m = todos_c.filter(
                                                                 Q(title__iregex=frase_a_buscar) |
                                                                 Q(description__iregex=frase_a_buscar) |
@@ -391,11 +403,26 @@ def ListaCursosView(request):
                                                                 Q(empresa__iregex=frase_a_buscar)
                                                             ).distinct()"""
     else:
-        todos_m=CourseModel.objects.all()[:100]
+        if array != None:
+            todos_m2=CourseModel.objects.all()[:100]
+            if None in list_to_filter:
+                todos_m=CourseModel.objects.all()[:100]
+            elif len(list_to_filter) > 0 and list_to_filter[0] == 'None':
+                todos_m=CourseModel.objects.all()[:100]
+            else:
+                if len(list_to_filter) > 0:                    
+                    print("list_to_filter aqui ", list_to_filter)
+                    queryset = CourseModel.objects.filter(id__in=list_to_filter)
+                    print("queryset", queryset)
+                    todos_m = queryset
+                else:
+                    todos_m=CourseModel.objects.all()[:100]
+        else:
+            todos_m=CourseModel.objects.all()[:100]
 
         
     
-    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m})
+    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m, 'array':array, 'list_to_filter': list_to_filter})
 
     """for i in todos_m:
                         print(i.id_course)"""
