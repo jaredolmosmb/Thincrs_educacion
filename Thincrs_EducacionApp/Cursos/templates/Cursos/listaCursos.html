@@ -39,6 +39,10 @@
             <tr id="filter_global">
                 <td>
                     <form class="form-inline my-2 my-lg-0 " method="get">
+                        <div id="events" name="este">
+                            <input id="el_texto" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="este" >
+                            Row selected count - new information added at the top
+                        </div>
                             <!--<input class="form-control mr-sm-2" type="search" aria-label="Search" id="buscar-operadores" placeholder="Buscar " name="buscar" style="width: 90%; height:30px;" value="{{request.GET.buscar}}" autofocus>
                             <button style="width: 100%; display: block; padding:10px: margin-top: auto;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id="boton-buscar">Buscar</button>-->
             
@@ -194,13 +198,27 @@ $(document).ready(function() {
         stateSave: true,
         'stateSaveParams': function(settings, data) {
           data.selected = this.api().rows({selected:true})[0];
+          console.log(typeof(data.selected))
           console.log(data.selected);
-          console.log( this.api().rows({selected:true}).data());
-
-
+          var tblData = this.api().rows('.selected').data();
+          var tmpData;
+          var array_selected = [];
+          $.each(tblData, function(i, val) {
+            tmpData = tblData[i];
+            array_selected.push(parseInt(tmpData[0]));
+          });
+          console.log(array_selected);
+          data.selected = array_selected;
+          console.log(data.selected);
+         /* var rows = this.api().rows({selected:true}).indexes();
+          var selectedData = this.api().cell(rows, 0).data();
+          console.log(selectedData)
+          var sdata = this.api().rows({selected:true}).cell('.selected', 0).data();
+          console.log(sdata);*/
         },
         'stateLoadParams': function(settings, data) {
           savedSelected = data.selected;
+
         },
         
         initComplete: function () {
@@ -230,6 +248,22 @@ $(document).ready(function() {
                 titleAttr: 'Seleccionar todas',
                 className: 'btn btn-success',
                 
+        },
+        {
+                text: 'Get selected data',
+                action: function () {
+                    var count = table.rows( { selected: true } ).count();
+                    var tblData = table.rows('.selected').data();
+                      var tmpData;
+                      var array_selected = [];
+                      $.each(tblData, function(i, val) {
+                        tmpData = tblData[i];
+                        array_selected.push(parseInt(tmpData[0]));
+                      });
+                      document.getElementById("el_texto").value = array_selected;
+ 
+                    events-text.prepend(array_selected);
+                }
         },
         {
                 extend: 'selectNone',

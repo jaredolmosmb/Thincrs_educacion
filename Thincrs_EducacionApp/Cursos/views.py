@@ -251,6 +251,8 @@ def ListaCursosView(request):
                         if len(i.caption_languages) == 0:
                             i.caption_languages = "N/A"
                             i.save()"""
+    array = request.GET.get("este")
+    print("array", array)
     inp = request.GET.get("mytext[1]")
     and_string = "&&"
     para_buscar=""
@@ -371,6 +373,7 @@ def ListaCursosView(request):
             todos_m = todos_c.filter(
                 Q(category__iregex=frase_a_buscar)                
             ).distinct()
+            print("type todos_m", type(todos_m))
             """todos_m = todos_c.filter(
                                                                 Q(title__iregex=frase_a_buscar) |
                                                                 Q(description__iregex=frase_a_buscar) |
