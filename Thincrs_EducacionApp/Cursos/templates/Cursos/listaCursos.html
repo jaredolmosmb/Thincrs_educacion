@@ -269,6 +269,31 @@ $(document).ready(function() {
             // Apply the search
             //this.api().rows(savedSelected).select();
             //this.api().state.save();
+            //this.api().rows(':contains("0")').select();
+            var tblData = this.api().rows('.selected').data();
+            var tmpData;
+            var array_selected = [];
+            $.each(tblData, function(i, val, data) {
+                tmpData = tblData[i];
+                array_selected.push(parseInt(tmpData[0]));
+              });
+            console.log("aqui");
+            console.log(array_selected);
+            var id = '13'; // Hardcoded for a showing purposes
+
+            this.api().rows('.selected').iterator('row', function (context, index) {
+                        var data = this.row(index).data();
+                        console.log("por aca");
+                        console.log(data[0]);
+                        for (let value of array_selected) {
+                          if (data[0] === value.toString()) {
+                            console.log("entre");
+                            this.row(index).select();
+                        }
+                        }
+                        
+            });
+
             this.api().columns().every( function () {
                 var that = this;
  
