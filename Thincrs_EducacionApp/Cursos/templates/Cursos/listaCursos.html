@@ -267,8 +267,8 @@ $(document).ready(function() {
         
         initComplete: function () {
             // Apply the search
-            this.api().rows(savedSelected).select();
-            this.api().state.save();
+            //this.api().rows(savedSelected).select();
+            //this.api().state.save();
             this.api().columns().every( function () {
                 var that = this;
  
@@ -368,6 +368,17 @@ $(document).ready(function() {
 
     table.on('select deselect', function() {
     table.state.save();
+    var count = table.rows( { selected: true } ).count();
+    var tblData = table.rows('.selected').data();
+    var tmpData;
+    var array_selected = [];
+    $.each(tblData, function(i, val) {
+        tmpData = tblData[i];
+        array_selected.push(parseInt(tmpData[0]));
+        });
+    document.getElementById("el_texto").value = array_selected;
+
+    events-text.prepend(array_selected);
   });
 
     // Apply the filter
