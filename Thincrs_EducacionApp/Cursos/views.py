@@ -75,12 +75,12 @@ def PruebaView(request):
 def UpdateProcessView(request):
     if request.method == 'POST':
         archivo = request.POST.get('actualizacion-nombre', False)
-        print(archivo)
+        #print(archivo)
         file = pandas.read_csv(archivo, encoding='utf-8')
-        print(file)
-        print("type(file)", type(file))
+        #print(file)
+        #print("type(file)", type(file))
         lista = file.values.tolist()
-        print(lista[0][0])
+        #print(lista[0][0])
         cursos_a_buscar = []
         cursos_guardados = []
 
@@ -92,8 +92,8 @@ def UpdateProcessView(request):
             url = f'https://{ACCOUNT_NAME}.udemy.com/api-2.0/organizations/{ACCOUNT_ID}/courses/list/{i}'
             response = requests.get(url, auth=(CLIENT_ID, SECRET_ID))
             data = response.json()
-            print("data", data)
-            print("type(data)",type(data))
+            #print("data", data)
+            #print("type(data)",type(data))
             try:
                 if response.status_code == 200:
                     obj, created = CourseModel.objects.update_or_create(
@@ -120,7 +120,7 @@ def UpdateProcessView(request):
                         defaults={'id_course': data['id']},
                         )
                 
-                    print("created", created)
+                    #print("created", created)
                     if created:
                         cursos_guardados.append(data['id'])
                     
@@ -128,7 +128,7 @@ def UpdateProcessView(request):
                 pass
 
 
-        print("se guardaron :len(cursos_guardados)", len(cursos_guardados))
+        #print("se guardaron :len(cursos_guardados)", len(cursos_guardados))
         return render(request, 'Cursos/actualizacion.html', {'cursos_guardados': cursos_guardados})
     return render(request, 'Cursos/actualizacion.html')
 
@@ -181,7 +181,7 @@ def CursosView(request):
 
         # exoresion regular para negación ^((?!hede).)*$
 
-    print("conceptos", conceptos)
+    #print("conceptos", conceptos)
     for index, elem in enumerate(conceptos):
         if index%3 == 0:            
             if elem == "not":
@@ -208,7 +208,7 @@ def CursosView(request):
 
 
     elif len(conceptos_a_buscar) > 1:
-        print("conceptos a buscar antes", conceptos_a_buscar)
+        #print("conceptos a buscar antes", conceptos_a_buscar)
         while "and" in conceptos_a_buscar:
 
             for index2, elem2 in enumerate(conceptos_a_buscar[::-1]):
@@ -226,16 +226,16 @@ def CursosView(request):
                     conceptos_a_buscar.pop(index2-1)
                     conceptos_a_buscar.pop(index2-1)
                     conceptos_a_buscar.insert(index2-1, a)
-                    print("conceptos a buscar en if", conceptos_a_buscar)
+                    #print("conceptos a buscar en if", conceptos_a_buscar)
                     break
 
 
-    print("conceptos a buscar", conceptos_a_buscar)
-    print("conceptos_listos", conceptos_listos)
+    #print("conceptos a buscar", conceptos_a_buscar)
+    #print("conceptos_listos", conceptos_listos)
     frase_a_buscar = ""
     for i in conceptos_listos:
         frase_a_buscar = frase_a_buscar + i 
-    print("frase_a_buscar", frase_a_buscar)
+    #print("frase_a_buscar", frase_a_buscar)
 
 
 
@@ -253,14 +253,14 @@ def ListaCursosView(request):
                             i.save()"""
     array = request.GET.get("este")
     list_to_filter=[]
-    print("array", array)
-    print("type(array)", type(array))
+    #print("array", array)
+    #print("type(array)", type(array))
     if array == None or array == "":
         pass
     else:
         list_to_filter = array.split(",")
-        print("list_to_filter", list_to_filter)
-        print("type(list_to_filter", type(list_to_filter))
+        #print("list_to_filter", list_to_filter)
+        #print("type(list_to_filter", type(list_to_filter))
     inp = request.GET.get("mytext[1]")
     and_string = "&&"
     para_buscar=""
@@ -326,7 +326,7 @@ def ListaCursosView(request):
 
             # exoresion regular para negación ^((?!hede).)*$
 
-        print("conceptos", conceptos)
+        #print("conceptos", conceptos)
         if conceptos[0] != None:
             for index, elem in enumerate(conceptos):
                 if index%3 == 0:            
@@ -370,21 +370,21 @@ def ListaCursosView(request):
                                 conceptos_listos.append(conceptos_a_buscar[index2+1])
                             else:
                                 conceptos_listos.append("|")
-                print("conceptos a buscar", conceptos_a_buscar)
-                print("conceptos_listos", conceptos_listos)
+                #print("conceptos a buscar", conceptos_a_buscar)
+                #print("conceptos_listos", conceptos_listos)
             frase_a_buscar = ""
             for i in conceptos_listos:
                 frase_a_buscar = frase_a_buscar + i 
-            print("frase_a_buscar", frase_a_buscar)
+            #print("frase_a_buscar", frase_a_buscar)
 
             todos_c = CourseModel.objects.all()
             todos_m2 = todos_c.filter(
                 Q(category__iregex=frase_a_buscar)                
             ).distinct()
-            print("type todos_m2", type(todos_m2))
+            #print("type todos_m2", type(todos_m2))
 
             queryset = CourseModel.objects.filter(id__in=list_to_filter)
-            print("queryset", queryset)
+            #print("queryset", queryset)
             todos_m = todos_m2.union(queryset)
             """todos_m = todos_c.filter(
                                                                 Q(title__iregex=frase_a_buscar) |
@@ -411,9 +411,9 @@ def ListaCursosView(request):
                 todos_m=CourseModel.objects.all()[:100]
             else:
                 if len(list_to_filter) > 0:                    
-                    print("list_to_filter aqui ", list_to_filter)
+                    #print("list_to_filter aqui ", list_to_filter)
                     queryset = CourseModel.objects.filter(id__in=list_to_filter)
-                    print("queryset", queryset)
+                    #print("queryset", queryset)
                     todos_m = queryset
                 else:
                     todos_m=CourseModel.objects.all()[:100]
@@ -542,6 +542,6 @@ class AgregarRegistro2(View):
             json_stuff = JsonResponse({"success": 1}, safe=False)
             return HttpResponse(json_stuff, content_type='application/json')
         else:
-            print("entre en el else de agregarregistro")
+            #print("entre en el else de agregarregistro")
             json_stuff = JsonResponse({"success": 0}, safe=False)
         return HttpResponse(json_stuff, content_type='application/json')
