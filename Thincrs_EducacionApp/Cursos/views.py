@@ -382,10 +382,17 @@ def ListaCursosView(request):
                 Q(category__iregex=frase_a_buscar)                
             ).distinct()
             #print("type todos_m2", type(todos_m2))
-
-            queryset = CourseModel.objects.filter(id__in=list_to_filter)
-            #print("queryset", queryset)
-            todos_m = todos_m2.union(queryset)
+            if None in list_to_filter:
+                todos_m = todos_m2
+            else:
+                print("list_to_filter")
+                print(list_to_filter)
+                if len(list_to_filter) > 0 and list_to_filter[0] == 'None':
+                    todos_m = todos_m2
+                else:
+                    queryset = CourseModel.objects.filter(id__in=list_to_filter)
+                    #print("queryset", queryset)
+                    todos_m = todos_m2.union(queryset)
             """todos_m = todos_c.filter(
                                                                 Q(title__iregex=frase_a_buscar) |
                                                                 Q(description__iregex=frase_a_buscar) |

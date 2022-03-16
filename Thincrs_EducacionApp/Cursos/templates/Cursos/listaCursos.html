@@ -40,7 +40,7 @@
                 <td>
                     <form class="form-inline my-2 my-lg-0 " method="get">
                         <div id="events" name="este">
-                            <input id="el_texto" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="este" value = "{{array}}">
+                            <input id="el_texto" style="width: 70%; height:28px; margin: 5px;display: None" class="form-control " type="text" name="este" value = "{{array}}">
                             
                         </div>
                             <!--<input class="form-control mr-sm-2" type="search" aria-label="Search" id="buscar-operadores" placeholder="Buscar " name="buscar" style="width: 90%; height:30px;" value="{{request.GET.buscar}}" autofocus>
@@ -52,7 +52,7 @@
                                   <span style="font-size:16px; font-weight:bold;">+ </span>
                                 </button>
                                 <div >
-                                    <select name="not0" style = "width: 25%;" id="not-id0"><option value="normal">NORMAL</option><option value="not">NOT</option></select><input style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext[1]" >
+                                    <select name="not0" style = "width: 25%;" id="not-id0"><option value="normal">NORMAL</option><option value="not">NOT</option></select><input id = "id-mytext[1]" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext[1]" onkeypress="return enterKeyPressed(event)" >
                                 </div>
 
                             </div>
@@ -202,7 +202,15 @@
     
 </div>
 <script>
+function enterKeyPressed(event) {
+      if (event.keyCode == 13) {
+         console.log("Enter key is pressed");
+         event.preventDefault();
+         $("#boton-buscar").click();
+      } 
+   }
 $(document).ready(function() {
+
     var savedSelected;
     var max_fields = 4;
     var wrapper = $(".container1");
@@ -213,7 +221,7 @@ $(document).ready(function() {
         e.preventDefault();
         if (x < max_fields) {
             x++;
-            $(wrapper).append('<div><select style = "width: 15%" name="bool'+(x-1)+'" id="bool-id'+(x-1)+'"><option value="and">AND</option><option value="or">OR</option></select> <select style = "width: 10%" name="not'+(x-1)+'" id="not-id'+(x-1)+'"><option value="normal">NORMAL</option><option value="not">NOT</option></select> <input style="width: 60%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext['+x+']" required><a href="#" class="delete">Delete</a></div>'); //add input box
+            $(wrapper).append('<div><select style = "width: 15%" name="bool'+(x-1)+'" id="bool-id'+(x-1)+'"><option value="and">AND</option><option value="or">OR</option></select> <select style = "width: 10%" name="not'+(x-1)+'" id="not-id'+(x-1)+'"><option value="normal">NORMAL</option><option value="not">NOT</option></select> <input style="width: 60%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext['+x+']" required onkeypress="return enterKeyPressed(event)"><a href="#" class="delete">Delete</a></div>'); //add input box
         } else {
             alert('Alcanzaste el limite')
         }
@@ -242,8 +250,8 @@ $(document).ready(function() {
         stateSave: true,
         'stateSaveParams': function(settings, data) {
           data.selected = this.api().rows({selected:true})[0];
-          console.log(typeof(data.selected))
-          console.log(data.selected);
+          //console.log(typeof(data.selected))
+          //console.log(data.selected);
           var tblData = this.api().rows('.selected').data();
           var tmpData;
           var array_selected = [];
@@ -251,9 +259,9 @@ $(document).ready(function() {
             tmpData = tblData[i];
             array_selected.push(parseInt(tmpData[0]));
           });
-          console.log(array_selected);
+          //console.log(array_selected);
           data.selected = array_selected;
-          console.log(data.selected);
+          //console.log(data.selected);
          /* var rows = this.api().rows({selected:true}).indexes();
           var selectedData = this.api().cell(rows, 0).data();
           console.log(selectedData)
