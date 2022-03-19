@@ -11,6 +11,24 @@ from django.utils.translation import gettext_lazy  as _
 from .managers import CustomUserManager
 
 
+class CourseRetireModel(models.Model):
+	creado_en=models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	actualizado_en=models.DateTimeField(auto_now=True, null=True, blank=True)
+	id_course = models.IntegerField(unique = True)
+	scheduled_removal_date = mnodels.DateTimeField()
+	language = models.CharField(max_length=2000)
+	title=models.CharField(max_length=2000,null=True, blank=True)
+	course_category = models.CharField(max_length=2000)
+	course_subcategory = models.CharField(max_length=2000)
+	alternative_course_1 = models.IntegerField()
+	title_alternative_course_1 = models.IntegerField()
+	alternative_course_2 = models.IntegerField()
+	title_alternative_course_2 = models.IntegerField()
+	
+
+
+	def __str__(self):
+		return self.title
 
 class CustomUser(AbstractUser):
     username = None
