@@ -14,6 +14,7 @@ import requests
 import pandas
 import json
 from datetime import date
+import math
 import copy
 import re
 import csv
@@ -75,14 +76,90 @@ def PruebaView(request):
 def UpdateProcessView(request):
     if request.method == 'POST':
         archivo = request.POST.get('actualizacion-nombre', False)
-        #print(archivo)
+        archivo2 = request.POST.get('retirar-nombre', False)
+
+        cursos_guardados = []
+
+        if archivo2:
+            
+            file2 = pandas.read_excel(archivo2, 'To Be Retired')
+            lista_values = file2.values.tolist()
+        
+        for i in range(2,len(lista_values)):
+            #print(lista_values[i][0])
+            #print(type(lista_values[i][0]))
+
+            """id_course = models.IntegerField(unique = True)
+                scheduled_removal_date = models.DateTimeField()
+                language = models.CharField(max_length=2000)
+                title=models.CharField(max_length=2000,null=True, blank=True)
+                course_category = models.CharField(max_length=2000)
+                course_subcategory = models.CharField(max_length=2000)
+                alternative_course_1 = models.IntegerField()
+                title_alternative_course_1 = models.IntegerField()
+                alternative_course_2 = models.IntegerField()
+                title_alternative_course_2 = models.IntegerField()"""
+
+            if CourseModel.objects.filter(id_course = int(lista_values[i][0])).exists():
+
+                if math.isnan(lista_values[i][6]):
+                    obj, created = CourseRetireModel.objects.update_or_create(
+                                    id_course = int(lista_values[i][0]),
+                                    scheduled_removal_date = lista_values[i][1],
+                                    language = str(lista_values[i][2]),
+                                    title = str(lista_values[i][3]),
+                                    course_category = str(lista_values[i][4]),
+                                    course_subcategory = str(lista_values[i][5]),
+                                    alternative_course_1 = 0,
+                                    title_alternative_course_1 = "",
+                                    alternative_course_2 = 0,
+                                    title_alternative_course_2= ""
+                                    )
+                
+                if math.isnan(lista_values[i][8]):
+                    
+                    obj, created = CourseRetireModel.objects.update_or_create(
+                                    id_course = int(lista_values[i][0]),
+                                    scheduled_removal_date = lista_values[i][1],
+                                    language = str(lista_values[i][2]),
+                                    title = str(lista_values[i][3]),
+                                    course_category = str(lista_values[i][4]),
+                                    course_subcategory = str(lista_values[i][5]),
+                                    alternative_course_1 = int(lista_values[i][6]),
+                                    title_alternative_course_1 = str(lista_values[i][7]),
+                                    alternative_course_2 = 0,
+                                    title_alternative_course_2= ""
+                                    )
+                else:
+                    obj, created = CourseRetireModel.objects.update_or_create(
+                                    id_course = int(lista_values[i][0]),
+                                    scheduled_removal_date = lista_values[i][1],
+                                    language = str(lista_values[i][2]),
+                                    title = str(lista_values[i][3]),
+                                    course_category = str(lista_values[i][4]),
+                                    course_subcategory = str(lista_values[i][5]),
+                                    alternative_course_1 = int(lista_values[i][6]),
+                                    title_alternative_course_1 = str(lista_values[i][7]),
+                                    alternative_course_2 = int(lista_values[i][8]),
+                                    title_alternative_course_2= str(lista_values[i][9])
+                                    )
+            else:
+               print("curso no existe")
+        else:
+            print("no existe archivo2")
+
+
+
+
+
+        """
         file = pandas.read_csv(archivo, encoding='utf-8')
         #print(file)
         #print("type(file)", type(file))
         lista = file.values.tolist()
         #print(lista[0][0])
         cursos_a_buscar = []
-        cursos_guardados = []
+        
 
         for i in lista:
             if 'ES' in str(i[2]) or 'EN' in str(i[2]):
@@ -125,7 +202,7 @@ def UpdateProcessView(request):
                         cursos_guardados.append(data['id'])
                     
             except:
-                pass
+                pass"""
 
 
         #print("se guardaron :len(cursos_guardados)", len(cursos_guardados))
