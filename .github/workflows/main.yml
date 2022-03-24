@@ -19,4 +19,4 @@ jobs:
         python-version: 3.8 # Install the python version needed
 
     - name: Execute Python script # Run the app.py
-      run: python send_email.py
+      run: python ./Thincrs_EduacionApp/Cursos/send_email.py
