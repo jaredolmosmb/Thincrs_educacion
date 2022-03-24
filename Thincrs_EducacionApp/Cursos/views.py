@@ -99,45 +99,52 @@ def UpdateProcessView(request):
                 title_alternative_course_1 = models.IntegerField()
                 alternative_course_2 = models.IntegerField()
                 title_alternative_course_2 = models.IntegerField()"""
+            """el_curso = CourseModel.objects.filter(id_course = 2329814)
+                                                            print("el_curso")
+                                                            if el_curso:
+                                                                print(el_curso[0].id_course)
+                                                                print(el_curso[0].category)"""
 
             if CourseModel.objects.filter(id_course = int(lista_values[i][0])).exists():
 
                 if math.isnan(lista_values[i][6]):
-                    obj, created = CourseRetireModel.objects.update_or_create(
+                    if not CourseRetireModel.objects.filter(id_course = int(lista_values[i][0])).exists():
+                        obj, created = CourseRetireModel.objects.update_or_create(
                                     id_course = int(lista_values[i][0]),
                                     scheduled_removal_date = lista_values[i][1],
                                     language = str(lista_values[i][2]),
-                                    title = str(lista_values[i][3]),
-                                    course_category = str(lista_values[i][4]),
-                                    course_subcategory = str(lista_values[i][5]),
+                                    title = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).title),
+                                    course_category = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).category),
+                                    course_subcategory = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).primary_subcategory),
                                     alternative_course_1 = 0,
                                     title_alternative_course_1 = "",
                                     alternative_course_2 = 0,
                                     title_alternative_course_2= ""
                                     )
                 
-                if math.isnan(lista_values[i][8]):
-                    
-                    obj, created = CourseRetireModel.objects.update_or_create(
+                elif math.isnan(lista_values[i][8]) and not math.isnan(lista_values[i][6]):
+                    if not CourseRetireModel.objects.filter(id_course = int(lista_values[i][0])).exists():
+                        obj, created = CourseRetireModel.objects.update_or_create(
                                     id_course = int(lista_values[i][0]),
                                     scheduled_removal_date = lista_values[i][1],
                                     language = str(lista_values[i][2]),
-                                    title = str(lista_values[i][3]),
-                                    course_category = str(lista_values[i][4]),
-                                    course_subcategory = str(lista_values[i][5]),
+                                    title = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).title),
+                                    course_category = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).category),
+                                    course_subcategory = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).primary_subcategory),
                                     alternative_course_1 = int(lista_values[i][6]),
                                     title_alternative_course_1 = str(lista_values[i][7]),
                                     alternative_course_2 = 0,
                                     title_alternative_course_2= ""
                                     )
                 else:
-                    obj, created = CourseRetireModel.objects.update_or_create(
+                    if not CourseRetireModel.objects.filter(id_course = int(lista_values[i][0])).exists():
+                        obj, created = CourseRetireModel.objects.update_or_create(
                                     id_course = int(lista_values[i][0]),
                                     scheduled_removal_date = lista_values[i][1],
                                     language = str(lista_values[i][2]),
-                                    title = str(lista_values[i][3]),
-                                    course_category = str(lista_values[i][4]),
-                                    course_subcategory = str(lista_values[i][5]),
+                                    title = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).title),
+                                    course_category = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).category),
+                                    course_subcategory = str(CourseModel.objects.get(id_course = int(lista_values[i][0])).primary_subcategory),
                                     alternative_course_1 = int(lista_values[i][6]),
                                     title_alternative_course_1 = str(lista_values[i][7]),
                                     alternative_course_2 = int(lista_values[i][8]),
