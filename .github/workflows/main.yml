@@ -1,26 +1,15 @@
-name: Python Script Workflow
-
+name: Master
 on:
+  push:
+    branches:
+      - master
   schedule:
-  - cron: "5 * * * *"
-
+    - cron: '0 8 1 * *'
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository content
-        uses: actions/checkout@v2 # Checkout the repository content to github runner.
-
-      - name: Setup Python Version
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9.7 # Install the python version needed
-
-      - name: Install Python dependencies
-        uses: py-actions/py-dependency-install@v2
-        with:
-          path: "requirements.txt"
-
-      - name: Execute Python script # Run the app.py
-        run: python send_email.py
+    - uses: actions/checkout@v1
+    - name: Running
+      run: |
+        echo "Running!"
