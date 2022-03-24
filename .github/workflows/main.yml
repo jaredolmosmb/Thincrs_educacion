@@ -19,6 +19,6 @@ jobs:
         python-version: 3.8 # Install the python version needed
 
     - name: Execute Python script # Run the app.py
+      working-directory: ./Thincrs_EducacionApp/Cursos
       run: 
-        cd Thincrs_EducacionApp/Cursos
         python send_mail.py
