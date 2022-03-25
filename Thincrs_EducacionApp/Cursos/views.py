@@ -463,7 +463,7 @@ def ListaCursosView(request):
 
             todos_c = CourseModel.objects.all()
             todos_m2 = todos_c.filter(
-                Q(category__iregex=frase_a_buscar)                
+                Q(description__iregex=frase_a_buscar)                
             ).distinct()
             #print("type todos_m2", type(todos_m2))
             if None in list_to_filter:
