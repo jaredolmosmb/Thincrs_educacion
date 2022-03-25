@@ -56,6 +56,11 @@
                                 </div>
 
                             </div>
+                            <!--<div style="margin-top: auto; margin-right: auto;">
+                                <button class="add_form_field  " style="width: 100%; display: inline-block; padding:10px; margin: auto;"> Nuevo  
+                                  <span style="font-size:16px; font-weight:bold;">+ </span>
+                                </button>
+                            </div>-->
                             <div style="margin-top: auto; margin-right: auto;">
                                 <button style="width: 100%; display: block; padding:10px: margin-top: auto;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id="boton-buscar">Buscar</button>
                             </div>
@@ -73,6 +78,7 @@
         <thead>
             
             <tr>
+                <!--<td></td>-->
                 <td>identifier</td>
                 <td>Id</td>
                 <td>Título</td>
@@ -106,6 +112,7 @@
                 
                     {% if m.id|stringformat:"i" in list_to_filter %}
                         <tr class = "selected">
+                            <!--<td></td>-->
                             <td class= "adjutsted">{{ m.id }}</td>
                             <td class= "adjutsted">{{ m.id_course }}</td>
                             <td class= "adjutsted">{{ m.title }}</td>
@@ -145,6 +152,7 @@
                     {% else %}
                 
                         <tr>
+                            <!--<td></td>-->
                             <td class= "adjutsted">{{ m.id }}</td>
                             <td class= "adjutsted">{{ m.id_course }}</td>
                             <td class= "adjutsted">{{ m.title }}</td>
@@ -212,7 +220,7 @@ function enterKeyPressed(event) {
 $(document).ready(function() {
 
     var savedSelected;
-    var max_fields = 4;
+    var max_fields = 10;
     var wrapper = $(".container1");
     var add_button = $(".add_form_field");
 
@@ -245,7 +253,8 @@ $(document).ready(function() {
             order: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13, 14, 15, 16, 17, 18, 19 ,20, 21 ,22 ,23, 24 ]
         },
         select: {
-            style: 'multi'
+            style: 'multi',
+            //selector: 'td:first-child'
         },
         stateSave: true,
         'stateSaveParams': function(settings, data) {
@@ -315,7 +324,9 @@ $(document).ready(function() {
             } );
         },
         "aoColumnDefs": [
-          { "bSortable": false, "aTargets": [ "_all" ] } 
+          /*{ "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',
+            targets:   0 } */
+            { "bSortable": false, "aTargets": [ "_all" ] }
           ],
           
         buttons: [

@@ -330,11 +330,11 @@ def CursosView(request):
 def ListaCursosView(request):
 
     busqueda = request.GET.get("buscar")
-    """objetos = CourseModel.objects.all()
-                    for i in objetos:
-                        if len(i.caption_languages) == 0:
-                            i.caption_languages = "N/A"
-                            i.save()"""
+    objetos = CourseModel.objects.all()
+    """for i in objetos:
+                    if len(i.caption_languages) == 0:
+                        i.caption_languages = "N/A"
+                        i.save()"""
     array = request.GET.get("este")
     list_to_filter=[]
     #print("array", array)
@@ -463,7 +463,7 @@ def ListaCursosView(request):
 
             todos_c = CourseModel.objects.all()
             todos_m2 = todos_c.filter(
-                Q(category__iregex=frase_a_buscar)                
+                Q(description__iregex=frase_a_buscar)                
             ).distinct()
             #print("type todos_m2", type(todos_m2))
             if None in list_to_filter:
