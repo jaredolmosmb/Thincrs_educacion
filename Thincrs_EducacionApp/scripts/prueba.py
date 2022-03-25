@@ -7,16 +7,6 @@ from django.db import models
 from Cursos.models import *
 from django.apps import apps
 
-"""os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Thincrs_EducacionApp.settings")
-django.setup()
-
-
-ap=apps.get_model('Thincrs_EducacionApp','CourseRetireModel')
-q=ap.objects.get(id = 1)
-print(q)
-print("q")"""
-
-
 def run():
     EMAIL_USE_TLS = True
     EMAIL_HOST = 'smtp.gmail.com'
@@ -34,7 +24,9 @@ def run():
     message["From"] = sender_email
     message["To"] = receiver_email
 
-    curso = CourseRetireModel.objects.get(id = 1)
+    curso = CourseRetireModel.objects.get(id_course = 3986528)
+    print("curso")
+    print(curso)
 
 
     # Create the plain-text and HTML version of your message
@@ -48,7 +40,7 @@ def run():
       <body>
         <p>Hi,<br>
            How are you?<br>
-           {{q.title}}
+           {{curso.title}}
         </p>
       </body>
     </html>
@@ -70,22 +62,4 @@ def run():
         server.sendmail(
             sender_email, receiver_email, message.as_string()
         )
-    with open('films/pixar.csv') as file:
-        reader = csv.reader(file)
-        next(reader)  # Advance past the header
-
-        Film.objects.all().delete()
-        Genre.objects.all().delete()
-
-        for row in reader:
-            print(row)
-
-            genre, _ = Genre.objects.get_or_create(name=row[-1])
-
-            film = Film(title=row[0],
-                        year=row[2],
-                        genre=genre)
-            film.save()
-
-
-
+  

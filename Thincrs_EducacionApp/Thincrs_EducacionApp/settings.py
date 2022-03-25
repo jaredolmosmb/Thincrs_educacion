@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Cursos.apps.CursosConfig',
-    'gunicorn'
+    'gunicorn',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
