@@ -1,8 +1,8 @@
 name: Master
 on:
-  push:
-    branches:
-      - master
+  #push:
+   # branches:
+    #  - master
   schedule:
     - cron: '0 8 1 * *'
 jobs:
