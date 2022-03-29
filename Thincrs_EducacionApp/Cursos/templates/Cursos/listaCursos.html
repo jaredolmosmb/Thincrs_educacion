@@ -69,8 +69,8 @@
                     </form>     
                 </td>
                 
-                <!--<td><input type="checkbox" class="global_filter" id="global_regex" checked="checked" style="opacity:0; position:absolute; left:9999px;"></td>
-                <td><input type="checkbox" class="global_filter" id="global_smart" style="opacity:0; position:absolute; left:9999px;"></td>-->
+                <td><input type="checkbox" class="global_filter" id="global_regex" checked="checked" style="opacity:0; position:absolute; left:9999px;"></td>
+                <td><input type="checkbox" class="global_filter" id="global_smart" style="opacity:0; position:absolute; left:9999px;"></td>
             </tr>
         </tbody>
     </table>
@@ -78,7 +78,7 @@
         <thead>
             
             <tr>
-                <!--<td></td>-->
+                <td></td>
                 <td>identifier</td>
                 <td>Id</td>
                 <td>Título</td>
@@ -112,7 +112,7 @@
                 
                     {% if m.id|stringformat:"i" in list_to_filter %}
                         <tr class = "selected">
-                            <!--<td></td>-->
+                            <td></td>
                             <td class= "adjutsted">{{ m.id }}</td>
                             <td class= "adjutsted">{{ m.id_course }}</td>
                             <td class= "adjutsted">{{ m.title }}</td>
@@ -152,7 +152,7 @@
                     {% else %}
                 
                         <tr>
-                            <!--<td></td>-->
+                            <td></td>
                             <td class= "adjutsted">{{ m.id }}</td>
                             <td class= "adjutsted">{{ m.id_course }}</td>
                             <td class= "adjutsted">{{ m.title }}</td>
@@ -333,9 +333,9 @@ $(document).ready(function() {
             } );
         },
         "aoColumnDefs": [
-          /*{ "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',
-            targets:   0 } */
-            { "bSortable": false, "aTargets": [ "_all" ] }
+          { "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',
+            targets:   0 } 
+            /*{ "bSortable": false, "aTargets": [ "_all" ] }*/
           ],
           
         buttons: [
