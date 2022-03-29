@@ -289,6 +289,8 @@ $(document).ready(function() {
             //this.api().rows(savedSelected).select();
             //this.api().state.save();
             //this.api().rows(':contains("0")').select();
+            var body = $( this.api.table().body() );
+            body.highlight( this.api.search() );  
             this.api()
             .search( '' )
             .columns().search( '' )

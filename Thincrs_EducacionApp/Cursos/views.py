@@ -16,6 +16,7 @@ import json
 from datetime import date
 import math
 import copy
+import time
 import re
 import csv
 from django.db.models import Q
@@ -328,6 +329,7 @@ def CursosView(request):
 
 @authenticated_user
 def ListaCursosView(request):
+    start_time = time.time()
 
     busqueda = request.GET.get("buscar")
     objetos = CourseModel.objects.all()
@@ -411,6 +413,7 @@ def ListaCursosView(request):
             # exoresion regular para negación ^((?!hede).)*$
 
         #print("conceptos", conceptos)
+        print("--- %s seconds en sacar conceptos ---" % (time.time() - start_time))
         if conceptos[0] != None:
             for index, elem in enumerate(conceptos):
                 if index%3 == 0:            
@@ -454,29 +457,34 @@ def ListaCursosView(request):
                                 conceptos_listos.append(conceptos_a_buscar[index2+1])
                             else:
                                 conceptos_listos.append("|")
-                #print("conceptos a buscar", conceptos_a_buscar)
-                #print("conceptos_listos", conceptos_listos)
+                print("conceptos a buscar", conceptos_a_buscar)
+                print("conceptos_listos", conceptos_listos)
+                print("--- %s seconds en sacar conceptos a buscar y conceptos listos ---" % (time.time() - start_time))
             frase_a_buscar = ""
             for i in conceptos_listos:
                 frase_a_buscar = frase_a_buscar + i 
             #print("frase_a_buscar", frase_a_buscar)
 
-            todos_c = CourseModel.objects.all()
-            todos_m2 = todos_c.filter(
+            #todos_c = CourseModel.objects.all()
+            todos_m2 = CourseModel.objects.filter(
                 Q(category__iregex=frase_a_buscar)                
             ).distinct()
             #print("type todos_m2", type(todos_m2))
+            print("--- %s seconds en filtrar ---" % (time.time() - start_time))
             if None in list_to_filter:
                 todos_m = todos_m2
+                print("--- %s seconds en none ---" % (time.time() - start_time))
             else:
                 print("list_to_filter")
                 print(list_to_filter)
                 if len(list_to_filter) > 0 and list_to_filter[0] == 'None':
                     todos_m = todos_m2
+                    print("--- %s seconds en lis_to_filter ---" % (time.time() - start_time))
                 else:
                     queryset = CourseModel.objects.filter(id__in=list_to_filter)
                     #print("queryset", queryset)
                     todos_m = todos_m2.union(queryset)
+                    print("--- %s seconds en union ---" % (time.time() - start_time))
             """todos_m = todos_c.filter(
                                                                 Q(title__iregex=frase_a_buscar) |
                                                                 Q(description__iregex=frase_a_buscar) |
@@ -512,7 +520,7 @@ def ListaCursosView(request):
             todos_m=CourseModel.objects.all()[:100]
 
         
-    
+    print("--- %s seconds en final antes de render ---" % (time.time() - start_time))
     return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m, 'array':array, 'list_to_filter': list_to_filter})
 
     """for i in todos_m:
