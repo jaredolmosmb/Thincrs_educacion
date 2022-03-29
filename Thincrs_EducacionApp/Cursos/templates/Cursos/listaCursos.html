@@ -215,6 +215,8 @@ function enterKeyPressed(event) {
          console.log("Enter key is pressed");
          event.preventDefault();
          $("#boton-buscar").click();
+
+
       } 
    }
 $(document).ready(function() {
@@ -287,6 +289,10 @@ $(document).ready(function() {
             //this.api().rows(savedSelected).select();
             //this.api().state.save();
             //this.api().rows(':contains("0")').select();
+            this.api()
+            .search( '' )
+            .columns().search( '' )
+            .draw();
             var tblData = this.api().rows('.selected').data();
             var tmpData;
             var array_selected = [];
@@ -313,6 +319,7 @@ $(document).ready(function() {
 
             this.api().columns().every( function () {
                 var that = this;
+
  
                 $( 'input', this.header() ).on( 'keyup change clear', function () {
                     if ( that.search() !== this.value ) {
@@ -320,9 +327,7 @@ $(document).ready(function() {
                             .search( this.value )
                             .draw();
                     }
-
                 } );
-                this.value = "";
             } );
         },
         "aoColumnDefs": [
