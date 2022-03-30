@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/6.1.0/jquery.mark.min.js"></script>
 <style>
       .table{
         background: #27CF7E; color: #fff; border: #DADADA 1px solid; font-size: 14px;
@@ -348,6 +349,7 @@ $(document).ready(function() {
                         that
                             .search( this.value )
                             .draw();
+                        $(table.table().body()).mark(this.value);
                     }
                 } );
             } );
@@ -453,7 +455,9 @@ $(document).ready(function() {
 
     events-text.prepend(array_selected);
   });
-    table.on('draw', function() {
+
+    //para subrayar texto
+    /*table.on('draw', function() {
 
     // Get context
     var tableContent = $(table.table().body());
@@ -464,7 +468,7 @@ $(document).ready(function() {
     // Mark the new search keyword
     tableContent.mark(keyword);
 
-  });
+  });*/
 
     // Apply the filter
     $("#example thead input").on( 'keyup change', function () {
