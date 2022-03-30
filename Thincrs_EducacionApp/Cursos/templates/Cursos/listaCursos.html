@@ -272,6 +272,17 @@ $(document).ready(function() {
     var table = $('#example').on( 'draw.dt', function () {
         // Get context
         console.log("entre en primer draw");
+        //para subrayar texto
+        // Get context
+        var tableContent = $(table.table().body());
+        // Specify keyword
+        var keyword = ["Se"];
+        // Remove previous marks
+        tableContent.unmark();
+        // Mark the new search keyword
+        tableContent.mark(keyword);
+        console.log("tablecotent 2");
+        console.log(tableContent);
   } ).DataTable({
         dom: 'B<"top"i>rtlp',
         mark: 'true',
@@ -356,14 +367,6 @@ $(document).ready(function() {
                 } );
             } );
 
-            var tableContent = $(this.api().table().body());
-            // Specify keyword
-            console.log("tablecotent 1");
-            console.log(tableContent);
-            var keyword = ["Se","This", "software", "chief", "regional", "specialist"];
-            tableContent.unmark();
-            // Mark the new search keyword
-            tableContent.mark(keyword);
         },
         "aoColumnDefs": [
           { "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',targets: 0 },
@@ -467,21 +470,7 @@ $(document).ready(function() {
     events-text.prepend(array_selected);
   });
 
-    //para subrayar texto
-    table.on('draw', function() {
-
-    // Get context
-    var tableContent = $(table.table().body());
-    // Specify keyword
-    var keyword = ["Se"];
-    // Remove previous marks
-    tableContent.unmark();
-    // Mark the new search keyword
-    tableContent.mark(keyword);
-    console.log("tablecotent 2");
-    console.log(tableContent);
-
-  });
+    
    
     // Apply the filter
     $("#example thead input").on( 'keyup change', function () {
