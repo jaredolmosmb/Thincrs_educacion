@@ -262,7 +262,10 @@ $(document).ready(function() {
     });
     $('#example thead td').each( function () {
         var title = $(this).text();
-        $(this).html( title+'<br> <input type="text" placeholder="Search '+title+' " />' );
+        if (title != "") {
+            $(this).html( title+'<br> <input type="text" placeholder="Search '+title+' " />' );
+        }
+        
     } );
   
     var table = $('#example').DataTable({
