@@ -274,7 +274,7 @@ $(document).ready(function() {
         },
         select: {
             style: 'multi',
-            //selector: 'td:first-child'
+            selector: 'td:first-child'
         },
         stateSave: true,
         'stateSaveParams': function(settings, data) {
@@ -349,8 +349,8 @@ $(document).ready(function() {
             } );
         },
         "aoColumnDefs": [
-          { "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',
-            targets:   0 } 
+          { "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',targets: 0 },
+          { "bSortable": false, "aTargets": [ "_all" ],targets: "_all" },
             /*{ "bSortable": false, "aTargets": [ "_all" ] }*/
           ],
           
