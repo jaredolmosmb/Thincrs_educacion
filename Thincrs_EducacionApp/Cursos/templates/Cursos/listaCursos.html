@@ -9,6 +9,25 @@
       tbody{
         font-size: 12px; background: #DADADA; color: #000; border: #DADADA 1px;
       }
+      table.dataTable tbody td.select-checkbox:after {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        box-sizing: border-box;
+        }
+
+      table.dataTable tbody td.select-checkbox:before{
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        box-sizing: border-box;
+    }
 
 
 </style>
@@ -40,7 +59,7 @@
                 <td>
                     <form class="form-inline my-2 my-lg-0 " method="get">
                         <div id="events" name="este">
-                            <input id="el_texto" style="width: 70%; height:28px; margin: 5px;display: None" class="form-control " type="text" name="este" value = "{{array}}">
+                            <input id="el_texto" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="este" value = "{{array}}">
                             
                         </div>
                             <!--<input class="form-control mr-sm-2" type="search" aria-label="Search" id="buscar-operadores" placeholder="Buscar " name="buscar" style="width: 90%; height:30px;" value="{{request.GET.buscar}}" autofocus>
@@ -260,7 +279,7 @@ $(document).ready(function() {
         },
         stateSave: true,
         'stateSaveParams': function(settings, data) {
-          data.selected = this.api().rows({selected:true})[0];
+          data.selected = this.api().rows({selected:true})[1];
           //console.log(typeof(data.selected))
           //console.log(data.selected);
           var tblData = this.api().rows('.selected').data();
@@ -268,7 +287,7 @@ $(document).ready(function() {
           var array_selected = [];
           $.each(tblData, function(i, val) {
             tmpData = tblData[i];
-            array_selected.push(parseInt(tmpData[0]));
+            array_selected.push(parseInt(tmpData[1]));
           });
           //console.log(array_selected);
           data.selected = array_selected;
@@ -288,9 +307,7 @@ $(document).ready(function() {
             // Apply the search
             //this.api().rows(savedSelected).select();
             //this.api().state.save();
-            //this.api().rows(':contains("0")').select();
-            var body = $( this.api.table().body() );
-            body.highlight( this.api.search() );  
+            //this.api().rows(':contains("0")').select(); 
             this.api()
             .search( '' )
             .columns().search( '' )
@@ -300,7 +317,7 @@ $(document).ready(function() {
             var array_selected = [];
             $.each(tblData, function(i, val, data) {
                 tmpData = tblData[i];
-                array_selected.push(parseInt(tmpData[0]));
+                array_selected.push(parseInt(tmpData[1]));
               });
             console.log("aqui");
             console.log(array_selected);
@@ -309,9 +326,9 @@ $(document).ready(function() {
             this.api().rows('.selected').iterator('row', function (context, index) {
                         var data = this.row(index).data();
                         console.log("por aca");
-                        console.log(data[0]);
+                        console.log(data[1]);
                         for (let value of array_selected) {
-                          if (data[0] === value.toString()) {
+                          if (data[1] === value.toString()) {
                             console.log("entre");
                             this.row(index).select();
                         }
@@ -427,7 +444,7 @@ $(document).ready(function() {
     var array_selected = [];
     $.each(tblData, function(i, val) {
         tmpData = tblData[i];
-        array_selected.push(parseInt(tmpData[0]));
+        array_selected.push(parseInt(tmpData[1]));
         });
     document.getElementById("el_texto").value = array_selected;
 
