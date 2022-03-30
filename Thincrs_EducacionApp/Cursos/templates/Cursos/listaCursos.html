@@ -269,21 +269,7 @@ $(document).ready(function() {
         
     } );
   
-    var table = $('#example').on( 'draw.dt', function () {
-        // Get context
-        console.log("entre en primer draw");
-        //para subrayar texto
-        // Get context
-        var tableContent = $(table.table().body());
-        // Specify keyword
-        var keyword = ["Se"];
-        // Remove previous marks
-        tableContent.unmark();
-        // Mark the new search keyword
-        tableContent.mark(keyword);
-        console.log("tablecotent 2");
-        console.log(tableContent);
-  } ).DataTable({
+    var table = $('#example').DataTable({
         dom: 'B<"top"i>rtlp',
         mark: 'true',
         scrollX: "true",
@@ -362,7 +348,6 @@ $(document).ready(function() {
                         that
                             .search( this.value )
                             .draw();
-                        $(table.table().body()).mark(this.value);
                     }
                 } );
             } );
