@@ -467,7 +467,7 @@ def ListaCursosView(request):
 
             #todos_c = CourseModel.objects.all()
             todos_m2 = CourseModel.objects.filter(
-                Q(category__iregex=frase_a_buscar)                
+                Q(title__iregex=frase_a_buscar)                
             ).distinct()
             #print("type todos_m2", type(todos_m2))
             print("--- %s seconds en filtrar ---" % (time.time() - start_time))
