@@ -365,8 +365,6 @@ $(document).ready(function() {
                     }
                 } );
             } );
-
-
         },
         "aoColumnDefs": [
           { "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',targets: 0 },
@@ -471,6 +469,18 @@ $(document).ready(function() {
 
     events-text.prepend(array_selected);
   });
+
+    /*table.on("draw",function() {
+                    // get the search keyword
+                    var keyword = ["se", "trata"];
+
+                    // clear all the previous highlighting
+                    $('#example').unmark();
+
+                    // highlight the searched word
+                    $('#example').mark(keyword,{});
+                });*/
+
 
     
    
