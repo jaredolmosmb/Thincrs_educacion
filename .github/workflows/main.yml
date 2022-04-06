@@ -18,6 +18,11 @@ jobs:
       with:
         python-version: 3.8 # Install the python version needed
 
+    - name: install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip freeze
+
     - name: Execute Python script # Run the app.py
       working-directory: ./Thincrs_EducacionApp/Cursos
       run: 
