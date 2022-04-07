@@ -18,19 +18,7 @@ jobs:
       with:
         python-version: 3.8 # Install the python version needed
 
-    - name: install dependencies
-      working-directory: ./Thincrs_EducacionApp
-      run: |
-        pip install -r requirements.txt
-        pip freeze
-
-    - name: Run migrations
-      working-directory: ./Thincrs_EducacionApp
-      run: |
-        python manage.py migrate
-        python manage.py runserver
-
     - name: Execute Python script # Run the app.py
       working-directory: ./Thincrs_EducacionApp/Cursos
       run: 
-        python send_mail.py
+        python send_mail2.py

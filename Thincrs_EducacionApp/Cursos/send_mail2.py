@@ -21,7 +21,7 @@ def create_connection(db_file):
     return conn
 
 
-def select_all_tasks(conn):
+def send_mail(conn):
     """
     Query all rows in the tasks table
     :param conn: the Connection object
@@ -32,28 +32,16 @@ def select_all_tasks(conn):
 
     rows = cur.fetchall()
 
-    print(rows[1])
-
-
-
-def main():
-    EMAIL_USE_TLS = True
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
-    EMAIL_HOST_USER = 'no-reply-educacion@thincrs.com'
-    EMAIL_HOST_PASSWORD = 'ThincrsPassword22'
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    print(rows[1][3])
 
     sender_email = "no-reply-educacion@thincrs.com"
     receiver_email = "jaredarturolmos@gmail.com"
     password = "ThincrsPassword22"
-
+    # creacion de texto plano y html
     message = MIMEMultipart("alternative")
-    message["Subject"] = "multipart test"
+    message["Subject"] = "Cursos Retirados test"
     message["From"] = sender_email
     message["To"] = receiver_email
-
-    # creacion de texto plano y html
     text = """\
     Hi,
     How are you?
@@ -63,11 +51,11 @@ def main():
     <html>
       <body>
         <p>Hi,<br>
-           How are you?<br>
+           How are you?<br> {}
         </p>
       </body>
     </html>
-    """
+    """.format(rows[1][3])
 
     # convertir a mimetext
     part1 = MIMEText(text, "plain")
@@ -84,6 +72,22 @@ def main():
         server.sendmail(
             sender_email, receiver_email, message.as_string()
         )
+
+
+
+def main():
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = 'no-reply-educacion@thincrs.com'
+    EMAIL_HOST_PASSWORD = 'ThincrsPassword22'
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+    
+
+    
+
+    
     database = r"C:\Users\artur\prueba\Thincrs_educacion\Thincrs_EducacionApp\db.sqlite3"
 
 
@@ -91,8 +95,8 @@ def main():
     conn = create_connection(database)
     with conn:
 
-        print("2. Query all tasks")
-        select_all_tasks(conn)
+        print("Info de la Base de datos")
+        send_mail(conn)
 
 
 if __name__ == '__main__':
