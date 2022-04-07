@@ -24,6 +24,10 @@ jobs:
         pip install -r requirements.txt
         pip freeze
 
+    - name: Run migrations
+      working-directory: ./Thincrs_EducacionApp
+      run: python manage.py migrate
+
     - name: Execute Python script # Run the app.py
       working-directory: ./Thincrs_EducacionApp/Cursos
       run: 
