@@ -350,6 +350,7 @@ def ListaCursosView(request):
     inp = request.GET.get("mytext[1]")
     and_string = "&&"
     para_buscar=""
+    conceptos = []
     if busqueda:      
         if and_string in busqueda:
             myArray = busqueda.split(" && ")
@@ -393,7 +394,7 @@ def ListaCursosView(request):
     
     
     elif inp:
-        conceptos = []
+        
         conceptos_a_buscar = []
         expresion = ""
 
@@ -530,7 +531,7 @@ def ListaCursosView(request):
     print("--- %s seconds en final antes de render ---" % (time.time() - start_time))
     #print("frase_buscada", frase_buscada)
     frase_buscada = ""
-    if conceptos_a_buscar:
+    if conceptos:
         for i in conceptos:
             if i == 0:
                 frase_buscada = i
