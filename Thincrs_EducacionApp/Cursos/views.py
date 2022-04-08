@@ -429,10 +429,21 @@ def ListaCursosView(request):
                             conceptos_a_buscar.append(conceptos[index+2])
                         else:
                             continue
+            print("conceptos a buscar", conceptos_a_buscar)
             conceptos_listos = []
             for index2, elem2 in enumerate(conceptos_a_buscar):
                 if elem2 == "or":
                     conceptos_a_buscar[index2] = "|"
+
+            frase_buscada = ""
+            if conceptos_a_buscar:
+                for i in conceptos_a_buscar:
+                    if i == 0:
+                        frase_buscada = i
+                    else:
+                        frase_buscada = frase_buscada +" "+ i
+            else:
+                frase_buscada = " "
             
             if len(conceptos_a_buscar) == 1:
                 conceptos_listos.append(conceptos_a_buscar[0])
@@ -502,6 +513,7 @@ def ListaCursosView(request):
                                                                 Q(empresa__iregex=frase_a_buscar)
                                                             ).distinct()"""
     else:
+        frase_buscada = ""
         if array != None:
             todos_m2=CourseModel.objects.all()[:100]
             if None in list_to_filter:
@@ -521,7 +533,8 @@ def ListaCursosView(request):
 
         
     print("--- %s seconds en final antes de render ---" % (time.time() - start_time))
-    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m, 'array':array, 'list_to_filter': list_to_filter})
+    #print("frase_buscada", frase_buscada)
+    return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m, 'array':array, 'list_to_filter': list_to_filter, 'buscado': frase_buscada})
 
     """for i in todos_m:
                         print(i.id_course)"""

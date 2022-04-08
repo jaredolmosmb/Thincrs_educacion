@@ -2,10 +2,10 @@ import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-import django
+"""import django
 from django.db import models
-from Cursos.models import *
-from django.apps import apps
+from Cursos.models import *"""
+"""from django.apps import apps"""
 
 """os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Thincrs_EducacionApp.settings")
 django.setup()
@@ -69,22 +69,6 @@ def run():
         server.sendmail(
             sender_email, receiver_email, message.as_string()
         )
-    with open('films/pixar.csv') as file:
-        reader = csv.reader(file)
-        next(reader)  # Advance past the header
-
-        Film.objects.all().delete()
-        Genre.objects.all().delete()
-
-        for row in reader:
-            print(row)
-
-            genre, _ = Genre.objects.get_or_create(name=row[-1])
-
-            film = Film(title=row[0],
-                        year=row[2],
-                        genre=genre)
-            film.save()
 
 
 

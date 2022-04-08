@@ -71,8 +71,9 @@
                                 
                                 <div >
                                     <select name="not0" style = "width: 25%;" id="not-id0"><option value="normal">NORMAL</option><option value="not">NOT</option></select>
-                                    <input id = "id-mytext[1]" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext[1]" onkeypress="return enterKeyPressed(event)" >
+                                    <input id = "id-mytext[1]" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext[1]" value = "{{buscado}}" onkeypress="return enterKeyPressed(event)" >
                                 </div>
+
 
                             </div>
                             <div style="margin-top: auto; margin-right: auto;">
@@ -289,6 +290,10 @@ $(document).ready(function() {
         colReorder: {
             order: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,12, 13, 14, 15, 16, 17, 18, 19 ,20, 21 ,22 ,23, 24 ]
         },
+        fixedColumns:   {
+            left: 1
+        },
+        scrollCollapse: true,
         select: {
             style: 'multi',
             selector: 'td:first-child'
