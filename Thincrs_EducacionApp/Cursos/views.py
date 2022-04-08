@@ -435,13 +435,7 @@ def ListaCursosView(request):
                 if elem2 == "or":
                     conceptos_a_buscar[index2] = "|"
 
-            frase_buscada = ""
-            if conceptos_a_buscar:
-                for i in conceptos_a_buscar:
-                    if i == 0:
-                        frase_buscada = i
-                    else:
-                        frase_buscada = frase_buscada +" "+ i
+            
             else:
                 frase_buscada = " "
             
@@ -512,6 +506,7 @@ def ListaCursosView(request):
                                                                 Q(keyword__iregex=frase_a_buscar) |
                                                                 Q(empresa__iregex=frase_a_buscar)
                                                             ).distinct()"""
+
     else:
         frase_buscada = ""
         if array != None:
@@ -534,6 +529,14 @@ def ListaCursosView(request):
         
     print("--- %s seconds en final antes de render ---" % (time.time() - start_time))
     #print("frase_buscada", frase_buscada)
+    frase_buscada = ""
+    if conceptos_a_buscar:
+        for i in conceptos:
+            if i == 0:
+                frase_buscada = i
+            else:
+                frase_buscada = frase_buscada +" "+ i
+    print("frase_buscada: ", frase_buscada)
     return render(request, 'Cursos/listaCursos.html', {'todos_m': todos_m, 'array':array, 'list_to_filter': list_to_filter, 'buscado': frase_buscada})
 
     """for i in todos_m:

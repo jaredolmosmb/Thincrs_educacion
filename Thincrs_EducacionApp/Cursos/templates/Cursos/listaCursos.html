@@ -3,6 +3,7 @@
 {% block content %}
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/6.1.0/jquery.mark.min.js"></script>
+
 <style>
       .table{
         background: #27CF7E; color: #fff; border: #DADADA 1px solid; font-size: 14px;
@@ -71,7 +72,7 @@
                                 
                                 <div >
                                     <select name="not0" style = "width: 25%;" id="not-id0"><option value="normal">NORMAL</option><option value="not">NOT</option></select>
-                                    <input id = "id-mytext[1]" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext[1]" value = "{{buscado}}" onkeypress="return enterKeyPressed(event)" >
+                                    <input id = "id-mytext[1]" style="width: 70%; height:28px; margin: 5px;" class="form-control " type="text" name="mytext[1]" onkeypress="return enterKeyPressed(event)" >
                                 </div>
 
 
@@ -107,7 +108,7 @@
                 <td>Título</td>
                 <td>Descripción</td>
                 <td>URL</td>
-                <td>Duración Estimada (minutos)</td>
+                <td>Duración Estimada (min)</td>
                 <td>Categorías</td>
                 <td>Núm. Lecturas</td>
                 <td>Núm. Videos</td>
@@ -122,7 +123,7 @@
                 <td>Núm. Practicas de Prueba</td>
                 <td>Tiene Captions</td>                
                 <td>Captions</td>
-                <td>Duración de video estimada</td>              
+                <td>Duración de video</td>              
                 <td>Nivel de educación</td>
                 <td>Keyword</td>
                 <td>Empresa</td>
@@ -371,6 +372,9 @@ $(document).ready(function() {
                 } );
             } );
         },
+        "oLanguage": {
+               "sInfo" : "Showing _START_ to _END_ of _TOTAL_ entries. Texto buscado: {{buscado}}",// text you want show for info section
+            },
         "aoColumnDefs": [
           { "bSortable": false, "aTargets": [ "_all" ], className: 'select-checkbox',targets: 0 },
           { "bSortable": false, "aTargets": [ "_all" ],targets: "_all" },
