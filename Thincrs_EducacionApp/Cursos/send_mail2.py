@@ -89,7 +89,7 @@ def main():
 
     
     #database = r"C:\Users\artur\prueba\Thincrs_educacion\Thincrs_EducacionApp\db.sqlite3" #en local
-    database = r"..\db.sqlite3"
+    database = r"../db.sqlite3"
 
     # create a database connection
     conn = create_connection(database)
