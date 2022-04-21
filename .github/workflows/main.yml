@@ -22,5 +22,7 @@ jobs:
 
     - name: Execute Python script # Run the app.py
       working-directory: ./Thincrs_EducacionApp/Cursos
-      run: 
+      run: |
+        pip install pymysql
+        pip install paramiko
         python send_mail.py
