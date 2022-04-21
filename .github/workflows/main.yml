@@ -24,5 +24,6 @@ jobs:
       working-directory: ./Thincrs_EducacionApp/Cursos
       run: |
         pip install pymysql
+        pip install pandas
         pip install paramiko
         python send_mail.py
