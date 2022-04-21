@@ -25,5 +25,6 @@ jobs:
       run: |
         pip install pymysql
         pip install pandas
+        pip install sshtunnel
         pip install paramiko
         python send_mail.py
