@@ -23,4 +23,4 @@ jobs:
     - name: Execute Python script # Run the app.py
       working-directory: ./Thincrs_EducacionApp/Cursos
       run: 
-        python send_mail2.py
+        python send_mail.py
