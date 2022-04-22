@@ -66,7 +66,9 @@ def main():
         print("data2", data2.iloc[0])
 
         for indx2, curso2 in data2.iterrows():
-            print("curso2.url", curso2.url)
+            if indx2 == 0:
+                print("type(curso2.url) ", type(curso2.url))
+                print("curso2.url ", curso2.url) #url de los cursos de resource table 
 
         database = r"../db.sqlite3"
 
@@ -78,9 +80,22 @@ def main():
 
 
         rows = cur.fetchall()
+        for indx2, curso2 in data2.iterrows():
+            if indx2 == 0:
+                print("type(curso2.url) ", type(curso2.url))
+                print("curso2.url ", curso2.url) #url de los cursos de resource table 
+                print("curso2.url[30:]", curso2.url[30:])
+                print("curso2.url[30:]", curso2.url[30:36])
+                if (curso2.url[30:36] == "course"):
+                    la_url = curso2.url[:29] + curso2.url[36:]
+                    indice_primer_slash = la_url[30:].find("/")
+                    print("la_url", la_url)
+                    print("indice_primer_slash", indice_primer_slash)
 
-        """for el in rows:
-                                            print("el[6]", el[6])#obtener el url"""
+        for indx3, el in enumerate(rows):
+            if indx3 == 0:
+                print("el[6]", el[6])#obtener el url
+                print("type(el[6]) ",type(el[6]))
 
         print(rows[1][6])
         conn.close()
