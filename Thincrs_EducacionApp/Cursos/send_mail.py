@@ -89,8 +89,10 @@ def main():
                 if (curso2.url[30:36] == "course"):
                     la_url = curso2.url[:29] + curso2.url[36:]
                     indice_primer_slash = la_url[30:].find("/")
+                    sub_la_url = la_url[30:30+indice_primer_slash]#pedazo de string para buscar en  Cursos_coursemodel
                     print("la_url", la_url)
                     print("indice_primer_slash", indice_primer_slash)
+                    print("sub_la_url", sub_la_url)
 
         for indx3, el in enumerate(rows):
             if indx3 == 0:
