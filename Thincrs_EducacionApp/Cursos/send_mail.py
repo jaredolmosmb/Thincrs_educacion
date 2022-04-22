@@ -8,6 +8,8 @@ import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
+import sqlite3
+from sqlite3 import Error
 
 #home = expanduser('~')
 mypkey = paramiko.RSAKey.from_private_key_file("clave.pem")
@@ -22,6 +24,20 @@ ssh_host = '18.222.146.90'
 ssh_user = 'ubuntu'
 ssh_port = 22
 sql_ip = '1.1.1.1.1'
+
+def create_connection(db_file):
+    """ create a database connection to the SQLite database
+        specified by the db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+    except Error as e:
+        print(e)
+
+    return conn
 
 def main():
     EMAIL_USE_TLS = True
@@ -38,76 +54,36 @@ def main():
         conn = pymysql.connect(host='127.0.0.1', user=sql_username,
                 passwd=sql_password, db=sql_main_database,
                 port=tunnel.local_bind_port)
-        query = '''select * from udemy_course;'''
+        query = '''select * from Cursos_courseretiremodel;'''
         data = pd.read_sql_query(query, conn)
-        print("data", data.iloc[0])
+        print("data", data)
+        print("type(data)", type(data))
+        """for indx, curso in data.iterrows():
+                                            print("curso.id_course", curso.id_course) #id de los cursos"""
+
+        query2 = '''select * from resource;'''
+        data2 = pd.read_sql_query(query2, conn)
+        print("data2", data2.iloc[0])
+
+        for indx2, curso2 in data2.iterrows():
+            print("curso2.url", curso2.url)
+
+        database = r"../db.sqlite3"
+
+        # create a database connection
+        conn2 = create_connection(database)
+        cur = conn2.cursor()
+        cur.execute("SELECT * FROM Cursos_coursemodel")
+
+
+
+        rows = cur.fetchall()
+
+        """for el in rows:
+                                            print("el[6]", el[6])#obtener el url"""
+
+        print(rows[1][6])
         conn.close()
-        sender_email = "no-reply-educacion@thincrs.com"
-        receiver_email = "jaredarturolmos@gmail.com"
-        password = "ThincrsPassword22"
-        # creacion de texto plano y html
-        message = MIMEMultipart("alternative")
-        message["Subject"] = "Cursos Retirados test"
-        message["From"] = sender_email
-        message["To"] = receiver_email
-        text = """\
-        Hi,
-        How are you?
-        Real Python has many great tutorials:
-        www.realpython.com"""
-        html = """\
-        <html>
-          <body>
-            <p>Hi,<br>
-               How are you?<br> {}
-            </p>
-          </body>
-        </html>
-        """.format(data.iloc[0][1])
-
-        # convertir a mimetext
-        part1 = MIMEText(text, "plain")
-        part2 = MIMEText(html, "html")
-
-        # añadir texto y html 
-        message.attach(part1)
-        message.attach(part2)
-
-        # crear coneccion y enviar el email
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-            server.login(sender_email, password)
-            server.sendmail(
-                sender_email, receiver_email, message.as_string()
-            )
 
 if __name__ == '__main__':
     main()
-"""import mysql.connector
-import sshtunnel
-
-sshtunnel.SSH_TIMEOUT = 5.0
-sshtunnel.TUNNEL_TIMEOUT = 5.0
-
-def main():
-    print("en mail")
-    with sshtunnel.SSHTunnelForwarder(
-    ('18.222.146.90'),
-    ssh_username='ubuntu', ssh_pkey="clave.pem",
-    remote_bind_address=('develop-instance.cici1guul97n.us-east-2.rds.amazonaws.com', 3306)
-    ) as tunnel:
-        connection = mysql.connector.connect(
-            user='develop_thincrs', password='Thincrs_password2021',
-            host='127.0.0.1', port=tunnel.local_bind_port,
-            database='Develop_thincrs',
-        )
-    # Do stuff
-        print("conexion")
-        connection.close()
-    
-
-
-
-
-if __name__ == '__main__':
-    main()"""
