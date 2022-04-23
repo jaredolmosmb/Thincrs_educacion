@@ -56,14 +56,10 @@ def main():
                 port=tunnel.local_bind_port)
         query = '''select * from Cursos_courseretiremodel;'''
         data = pd.read_sql_query(query, conn)
-        print("data", data)
-        print("type(data)", type(data))
-        """for indx, curso in data.iterrows():
-                                            print("curso.id_course", curso.id_course) #id de los cursos"""
 
         query2 = '''select * from resource;'''
         data2 = pd.read_sql_query(query2, conn)
-        print("data2", data2.iloc[0])
+
 
         for indx2, curso2 in data2.iterrows():
             if indx2 == 0:
@@ -80,27 +76,95 @@ def main():
 
 
         rows = cur.fetchall()
+        array_cursos=[]
+        cont = 0
         for indx2, curso2 in data2.iterrows():
-            if indx2 == 0:
-                print("type(curso2.url) ", type(curso2.url))
-                print("curso2.url ", curso2.url) #url de los cursos de resource table 
-                print("curso2.url[30:]", curso2.url[30:])
-                print("curso2.url[30:]", curso2.url[30:36])
-                if (curso2.url[30:36] == "course"):
-                    la_url = curso2.url[:29] + curso2.url[36:]
-                    indice_primer_slash = la_url[30:].find("/")
-                    sub_la_url = la_url[30:30+indice_primer_slash]#pedazo de string para buscar en  Cursos_coursemodel
-                    print("la_url", la_url)
-                    print("indice_primer_slash", indice_primer_slash)
-                    print("sub_la_url", sub_la_url)
+            cont = cont + 1
+            if (curso2.url[30:36] == "course"):
+                la_url = curso2.url[:29] + curso2.url[36:]
+                indice_primer_slash = la_url[30:].find("/")
+                sub_la_url = la_url[30:30+indice_primer_slash]#pedazo de string para buscar en  Cursos_coursemodel
+                #print("sub_la_url en course", sub_la_url)
+                if sub_la_url not in array_cursos:
+                    array_cursos.append(sub_la_url)
+            else:
+                indice_primer_slash = la_url[30:].find("/")
+                sub_la_url = la_url[30:30+indice_primer_slash]#pedazo de string para buscar en  Cursos_coursemodel
+                #print("sub_la_url sin course", sub_la_url)
+                if sub_la_url not in array_cursos:
+                    array_cursos.append(sub_la_url)
 
-        for indx3, el in enumerate(rows):
-            if indx3 == 0:
-                print("el[6]", el[6])#obtener el url
-                print("type(el[6]) ",type(el[6]))
+        #en array_cursos estan todas las partes de la url que identifican a cada curso en resource
+        array_cursoid = []
+        for element in array_cursos:
+            for indx3, el in enumerate(rows):
+                if element+"/" in el[6]:
+                    if el[3] not in array_cursoid:
+                        array_cursoid.append(el[3])
 
-        print(rows[1][6])
+        match_retirar_thincrs = []
+
+        for indx, curso in data.iterrows():
+            for item in array_cursoid:
+                if item == int(curso.id_course):
+                    match_retirar_thincrs.append([curso.id_course, curso.title, curso.scheduled_removal_date, curso.alternative_course_1, curso.title_alternative_course_1, curso.alternative_course_2, curso.title_alternative_course_2])
+
+        print("len(match_retirar_thincrs): ", len(match_retirar_thincrs))
+        print("match_retirar_thincrs: ", match_retirar_thincrs)
+
+
+                #if indx3 == 0:
+                 #   print("el[6]", el[6])#obtener el url
+                  #  print("type(el[6]) ",type(el[6]))s
+
+        """print("array_cursoid: ", array_cursoid)
+                                        print("len(array_cursoid: ", len(array_cursoid))"""
+
+
+        """for indx3, el in enumerate(rows):
+                                            if indx3 == 0:
+                                                print("el[6]", el[6])#obtener el url
+                                                print("type(el[6]) ",type(el[6]))
+                                
+                                                print("el[3]", el[3])#obtener el id
+                                                print("type(el[3]) ",type(el[3]))"""
+
         conn.close()
+        sender_email = "no-reply-educacion@thincrs.com"
+        receiver_email = "jaredarturolmos@gmail.com"
+        password = "ThincrsPassword22"
+        # creacion de texto plano y html
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Cursos Retirados test"
+        message["From"] = sender_email
+        message["To"] = receiver_email
+        text = """\
+        Hola"""
+        html = """\
+        <html>
+          <body>
+            <p>Hi,<br>
+               How are you?<br> {}
+            </p>
+          </body>
+        </html>
+        """.format(match_retirar_thincrs)
+
+        # convertir a mimetext
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+
+        # añadir texto y html 
+        message.attach(part1)
+        message.attach(part2)
+
+        # crear coneccion y enviar el email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )
 
 if __name__ == '__main__':
     main()
