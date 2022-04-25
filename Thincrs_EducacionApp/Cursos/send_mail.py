@@ -63,8 +63,8 @@ def main():
 
         for indx2, curso2 in data2.iterrows():
             if indx2 == 0:
-                print("type(curso2.url) ", type(curso2.url))
-                print("curso2.url ", curso2.url) #url de los cursos de resource table 
+                #print("type(curso2.url) ", type(curso2.url))
+                #print("curso2.url ", curso2.url) #url de los cursos de resource table 
 
         database = r"../db.sqlite3"
 
@@ -104,13 +104,13 @@ def main():
 
         match_retirar_thincrs = []
 
-        for indx, curso in data.iterrows():
+        for indx, curso in data.iterrows(): #de la tbala course retiremodel
             for item in array_cursoid:
                 if item == int(curso.id_course):
                     match_retirar_thincrs.append([curso.id_course, curso.title, curso.scheduled_removal_date, curso.alternative_course_1, curso.title_alternative_course_1, curso.alternative_course_2, curso.title_alternative_course_2])
 
-        print("len(match_retirar_thincrs): ", len(match_retirar_thincrs))
-        print("match_retirar_thincrs: ", match_retirar_thincrs)
+        #print("len(match_retirar_thincrs): ", len(match_retirar_thincrs))
+        #print("match_retirar_thincrs: ", match_retirar_thincrs)
 
 
                 #if indx3 == 0:
@@ -140,15 +140,22 @@ def main():
         message["To"] = receiver_email
         text = """\
         Hola"""
+
+        match_dataframe = pd.DataFrame(match_retirar_thincrs)
+        pd.set_option('colheader_justify', 'center')
+        match_dataframe.columns =['id_course', 'Titulo', 'Fecha de Retiro', 'Curso alternativo 1', 'Titulo curso alternativo 1', 'Curso alternativo 2', 'Titulo curso alternativo 2']
+        
+        print("match_dataframe: ", match_dataframe)
+        print("type(match_dataframe): ", type(match_dataframe))  
         html = """\
         <html>
           <body>
-            <p>Hi,<br>
-               How are you?<br> {}
+            <p>Los cursos por ser retirados asociados a trayectorias de clientes son los siguientes<br>
+               {}
             </p>
           </body>
         </html>
-        """.format(match_retirar_thincrs)
+        """.format(match_dataframe.to_html())
 
         # convertir a mimetext
         part1 = MIMEText(text, "plain")
