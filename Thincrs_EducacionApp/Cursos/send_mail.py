@@ -61,11 +61,10 @@ def main():
         data2 = pd.read_sql_query(query2, conn)
 
 
-        for indx2, curso2 in data2.iterrows():
-            if indx2 == 0:
+        #for indx2, curso2 in data2.iterrows():
+            #if indx2 == 0:
                 #print("type(curso2.url) ", type(curso2.url))
                 #print("curso2.url ", curso2.url) #url de los cursos de resource table 
-
         database = r"../db.sqlite3"
 
         # create a database connection
