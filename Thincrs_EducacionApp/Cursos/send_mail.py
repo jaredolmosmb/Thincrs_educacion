@@ -130,8 +130,9 @@ def main():
 
         conn.close()
         sender_email = "no-reply-educacion@thincrs.com"
-        receiver_email = "alan@gmail.com"
-        receiver_email2 = "jared@thincrs.com"
+        receiver_email = "alan@thincrs.com"
+        receiver_email2 = "simon@thincrs.com"
+        receiver_email3 = "miguel@thincrs.com"
         password = "ThincrsPassword22"
         # creacion de texto plano y html
         message = MIMEMultipart("alternative")
@@ -174,6 +175,9 @@ def main():
             )
             server.sendmail(
                 sender_email, receiver_email2, message.as_string()
+            )
+            server.sendmail(
+                sender_email, receiver_email3, message.as_string()
             )
 
 if __name__ == '__main__':
