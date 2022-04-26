@@ -130,7 +130,8 @@ def main():
 
         conn.close()
         sender_email = "no-reply-educacion@thincrs.com"
-        receiver_email = "jaredarturolmos@gmail.com"
+        receiver_email = "alan@gmail.com"
+        receiver_email2 = "jared@thincrs.com"
         password = "ThincrsPassword22"
         # creacion de texto plano y html
         message = MIMEMultipart("alternative")
@@ -144,8 +145,8 @@ def main():
         pd.set_option('colheader_justify', 'center')
         match_dataframe.columns =['id_course', 'Titulo', 'Fecha de Retiro', 'Curso alternativo 1', 'Titulo curso alternativo 1', 'Curso alternativo 2', 'Titulo curso alternativo 2']
         
-        print("match_dataframe: ", match_dataframe)
-        print("type(match_dataframe): ", type(match_dataframe))  
+        #print("match_dataframe: ", match_dataframe)
+        #print("type(match_dataframe): ", type(match_dataframe))  
         html = """\
         <html>
           <body>
@@ -170,6 +171,9 @@ def main():
             server.login(sender_email, password)
             server.sendmail(
                 sender_email, receiver_email, message.as_string()
+            )
+            server.sendmail(
+                sender_email, receiver_email2, message.as_string()
             )
 
 if __name__ == '__main__':
