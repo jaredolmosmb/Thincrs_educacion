@@ -133,6 +133,8 @@ def main():
         receiver_email = "alan@thincrs.com"
         receiver_email2 = "simon@thincrs.com"
         receiver_email3 = "miguel@thincrs.com"
+        receiver_email4 = "jared@thincrs.com"
+        receiver_email5 = "edgar@thincrs.com"
         password = "ThincrsPassword22"
         # creacion de texto plano y html
         message = MIMEMultipart("alternative")
