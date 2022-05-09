@@ -30,6 +30,7 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(CourseModel)
 admin.site.register(CourseRetireModel)
+admin.site.register(Reader)
 
 #admin.site.register(Course2Model)
 """admin.site.register(WhatYouWillLearnModel)

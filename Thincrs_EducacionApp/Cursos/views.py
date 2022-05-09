@@ -11,7 +11,7 @@ from .decorators import authenticated_user
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 import requests
-import pandas
+import pandas as pd
 import json
 from datetime import date
 import math
@@ -22,6 +22,15 @@ import csv
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from difflib import SequenceMatcher
+
+import pymysql
+import paramiko
+import pandas as pd
+from paramiko import SSHClient
+from sshtunnel import SSHTunnelForwarder
+import os
+
 CLEANR = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
 ACCOUNT_NAME= 'thincrs-one'
 CLIENT_ID= 'cFLdzohBmNbxdjAiqCZlq2h1TBjEUw0foqYaFicf'
@@ -29,6 +38,9 @@ SECRET_ID= 'OkcFvpaNuAiao8FoC2S3UjJrj1gbJhU6ZFw3h2DPo4vIHy1g8uqOos1OyUApQgW1sFhp
 ACCOUNT_ID= '79612'
 
 url = f'https://{ACCOUNT_NAME}.udemy.com/api-2.0/organizations/{ACCOUNT_ID}/courses/list/?page_size=12'
+
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 def cleanhtml(raw_html):
   cleantext = re.sub(CLEANR, '', raw_html)
@@ -83,7 +95,7 @@ def UpdateProcessView(request):
 
         if archivo2:
             
-            file2 = pandas.read_excel(archivo2, 'To Be Retired')
+            file2 = pd.read_excel(archivo2, 'To Be Retired')
             lista_values = file2.values.tolist()
         
         for i in range(2,len(lista_values)):
@@ -221,6 +233,86 @@ def UpdateProcessView(request):
 def ListaUsuariosView(request):
     todos_u=CustomUser.objects.all()
     return render(request, 'Cursos/ListaUsuarios.html', {'todos_u': todos_u})
+
+
+mypkey = paramiko.RSAKey.from_private_key_file("cursos/clave.pem")
+# if you want to use ssh password use - ssh_password='your ssh password', bellow
+
+sql_hostname = 'develop-instance.cici1guul97n.us-east-2.rds.amazonaws.com'
+sql_username = 'develop_thincrs'
+sql_password = 'Thincrs_password2021'
+sql_main_database = 'Develop_thincrs'
+sql_port = 3306
+ssh_host = '18.222.146.90'
+ssh_user = 'ubuntu'
+ssh_port = 22
+sql_ip = '1.1.1.1.1'
+
+@authenticated_user
+def CargaTrayectoriaView(request):
+    if request.method == 'POST':
+        form = ReaderForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            
+
+            #--------------preguntas del archivo nuevo a cargar
+            file = form.cleaned_data.get('file')
+            obj = form.save(commit=False)
+            print("type(file): ", type(file))
+            obj.file = file
+            obj.save()
+
+            f = obj.file.open('r')
+            reader_file = csv.reader(open(obj.file.path,'r'))
+            df = pd.read_csv(open(obj.file.path,'r'))
+            print("df: ", df)
+            print("reader_file ", reader_file)
+            #-------obtener la descripcion de cada pregunta
+            for indx, row in enumerate(reader_file):
+                print("row[0]")
+                print(row[0])
+
+               
+            #print(f.read())
+
+            #comparacion consigo mismo (archivo de excel)
+            valido = True
+            for index, element in df.iterrows():#recorro lista para comparacion de elemento con los otros de la lista
+              for index2, element2 in df.iterrows():#recorro lista para 
+                if index<index2:
+                    print("element[0]: ", element[0])
+                    print("element2[0]: ", element2[0])
+                    if element[0] == element2[0]:# verifico que compara solo preguntas con el mismo ID
+                        probabilidad_similitud = similar(element[12], element2[12]) # sace nivel de similitudo de descripciones
+                        print("probabilidad_similitud: ", probabilidad_similitud)
+                        if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
+                            valido = False
+                            print("La descripcion " +str(index)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2)+ " podria tratarse de la misma pregunta. Favor de revisar DE LA PREGUNTA " +element[0])# se indica los renglones a revisar
+            if valido:
+              print("El excel mismo esta correcto pasar a evaluación de BD completa")
+            else:
+              print("checar archivo de excel hay posible repeticion en el archivo")
+
+            #-------------Conexion a la BD de thincrs para sacar el total de preguntas
+            with SSHTunnelForwarder(
+                (ssh_host, ssh_port),
+                ssh_username=ssh_user,
+                ssh_pkey=mypkey,
+                remote_bind_address=(sql_hostname, sql_port)) as tunnel:
+                conn = pymysql.connect(host='127.0.0.1', user=sql_username,
+                        passwd=sql_password, db=sql_main_database,
+                        port=tunnel.local_bind_port)
+                query2 = '''select * from resource;'''
+                data2 = pd.read_sql_query(query2, conn)
+
+            print("data2", data2)
+    else:
+        form = ReaderForm()
+    
+
+
+    return render(request, 'Cursos/carga_trayectoria.html',{'form': form})
+
     
 @authenticated_user
 def CursosView(request):

@@ -23,6 +23,8 @@ urlpatterns = [
 	path('actualizarU/<int:pk>/', views.ActualizarUsuarios.as_view(), name='actualizarU'),
 	path('eliminarU/<int:pk>/', views.EliminarUsuarios.as_view(), name='eliminarU'),
 	path('actualizacion/', views.UpdateProcessView, name='actualizacion'),
+
+	path('carga_trayectoria/', views.CargaTrayectoriaView, name='carga-trayectoria'),
 	
 	
 
