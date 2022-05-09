@@ -268,9 +268,9 @@ def CargaTrayectoriaView(request):
             print("df: ", df)
             print("reader_file ", reader_file)
             #-------obtener la descripcion de cada pregunta
-            for indx, row in enumerate(reader_file):
-                print("row[0]")
-                print(row[0])
+          """  for indx, row in enumerate(reader_file):
+                                              print("row[0]")
+                                              print(row[0])"""
 
                
             #print(f.read())
