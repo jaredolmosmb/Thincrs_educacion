@@ -181,6 +181,12 @@ def main():
             server.sendmail(
                 sender_email, receiver_email3, message.as_string()
             )
+            server.sendmail(
+                sender_email, receiver_email4, message.as_string()
+            )
+            server.sendmail(
+                sender_email, receiver_email5, message.as_string()
+            )
 
 if __name__ == '__main__':
     main()
