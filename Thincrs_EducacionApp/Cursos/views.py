@@ -250,6 +250,7 @@ sql_ip = '1.1.1.1.1'
 
 @authenticated_user
 def CargaTrayectoriaView(request):
+    lista_verificacion = []
     if request.method == 'POST':
         form = ReaderForm(request.POST or None, request.FILES or None)
         if form.is_valid():
@@ -258,17 +259,17 @@ def CargaTrayectoriaView(request):
             #--------------preguntas del archivo nuevo a cargar
             file = form.cleaned_data.get('file')
             obj = form.save(commit=False)
-            print("type(file): ", type(file))
+            #print("type(file): ", type(file))
             obj.file = file
             obj.save()
 
             f = obj.file.open('r')
             reader_file = csv.reader(open(obj.file.path,'r'))
             df = pd.read_csv(open(obj.file.path,'r'))
-            print("df: ", df)
-            print("reader_file ", reader_file)
+            #print("df: ", df)
+            #print("reader_file ", reader_file)
             #-------obtener la descripcion de cada pregunta
-          """  for indx, row in enumerate(reader_file):
+            """  for indx, row in enumerate(reader_file):
                                               print("row[0]")
                                               print(row[0])"""
 
@@ -277,21 +278,23 @@ def CargaTrayectoriaView(request):
 
             #comparacion consigo mismo (archivo de excel)
             valido = True
+            
             for index, element in df.iterrows():#recorro lista para comparacion de elemento con los otros de la lista
               for index2, element2 in df.iterrows():#recorro lista para 
                 if index<index2:
-                    print("element[0]: ", element[0])
-                    print("element2[0]: ", element2[0])
                     if element[0] == element2[0]:# verifico que compara solo preguntas con el mismo ID
                         probabilidad_similitud = similar(element[12], element2[12]) # sace nivel de similitudo de descripciones
-                        print("probabilidad_similitud: ", probabilidad_similitud)
+                        #print("probabilidad_similitud: ", probabilidad_similitud)
                         if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
                             valido = False
+                            lista_verificacion.append([element[0], index, index2])
                             print("La descripcion " +str(index)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2)+ " podria tratarse de la misma pregunta. Favor de revisar DE LA PREGUNTA " +element[0])# se indica los renglones a revisar
             if valido:
               print("El excel mismo esta correcto pasar a evaluación de BD completa")
             else:
               print("checar archivo de excel hay posible repeticion en el archivo")
+              for pregunta in lista_verificacion:
+                print("En la pregunta "+ str(pregunta[0]) + " en la linea "+str(pregunta[1])+ " y la linea "+str(pregunta[2]))
 
             #-------------Conexion a la BD de thincrs para sacar el total de preguntas
             with SSHTunnelForwarder(
@@ -305,13 +308,13 @@ def CargaTrayectoriaView(request):
                 query2 = '''select * from resource;'''
                 data2 = pd.read_sql_query(query2, conn)
 
-            print("data2", data2)
+            print("type(data2)", type(data2))
     else:
         form = ReaderForm()
     
 
 
-    return render(request, 'Cursos/carga_trayectoria.html',{'form': form})
+    return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'lista_verificacion' : lista_verificacion})
 
     
 @authenticated_user

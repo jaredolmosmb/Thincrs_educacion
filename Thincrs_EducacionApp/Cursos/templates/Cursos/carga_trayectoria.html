@@ -74,10 +74,18 @@ Actualización
                        {{ form.as_p }}
                        <button type="submit" class="btn btn-master">Enviar</button>
                     </div>
+                    {% if valido %}
+                    {% if lista_verificacion %}
+                        {% for pregunta in lista_verificacion %}
+                            <p>Verificar la pregunta {{ pregunta.0 }} en linea {{ pregunta.1 }} con {{pregunta.2}}</p>
+                        {% endfor %}
+                    {% else %}
+                    <p>Archivo correcto</p>
+                    {% endif %}
+                    {% endif %}
 
                 </form>
                
-                
             </div>
         </div>
     </div>
