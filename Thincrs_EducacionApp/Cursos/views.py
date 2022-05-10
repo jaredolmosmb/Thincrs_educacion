@@ -21,6 +21,7 @@ import re
 import csv
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
+import markdownify
 
 from difflib import SequenceMatcher
 
@@ -287,7 +288,7 @@ def CargaTrayectoriaView(request):
                         #print("probabilidad_similitud: ", probabilidad_similitud)
                         if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
                             valido = False
-                            lista_verificacion.append([element[0], index, index2])
+                            lista_verificacion.append([element[0], index+2, index2+2])
                             print("La descripcion " +str(index)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2)+ " podria tratarse de la misma pregunta. Favor de revisar DE LA PREGUNTA " +element[0])# se indica los renglones a revisar
             if valido:
               print("El excel mismo esta correcto pasar a evaluación de BD completa")
@@ -305,10 +306,29 @@ def CargaTrayectoriaView(request):
                 conn = pymysql.connect(host='127.0.0.1', user=sql_username,
                         passwd=sql_password, db=sql_main_database,
                         port=tunnel.local_bind_port)
-                query2 = '''select * from resource;'''
-                data2 = pd.read_sql_query(query2, conn)
+                query2 = '''select * from question;'''
+                df2 = pd.read_sql_query(query2, conn)
 
-            print("type(data2)", type(data2))
+            """for ind, fila in data2.iterrows():
+                                                    if ind == 0:
+                                                        print(markdownify.markdownify(fila[5]).replace("\n", "").replace("  "," "))"""
+
+
+
+            valido2 = True
+            #comparacion de archivo nuevo de trayectorias con todas las preguntas precargadas
+            for index, element in df.iterrows():#recorro lista para comparacion de elemento con los otros de la lista
+              for index2, element2 in df2.iterrows():#recorro lista de conjunto total de preguntas
+                if index<index2: # asegurar que no se compara de manera reciproca
+                  if element[0] == element2[4]:# verifico que compara solo preguntas con el mismo ID:
+                    probabilidad_similitud = similar(element[12], markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ")) # saque nivel de similitud de descripciones
+                    if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
+                      valido2 = False
+                      print("La descripcion " +str(index)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2)+ "podria tratarse de la misma pregunta. Favor de revisar  " +element[0])# se indica los renglones a revisar
+            if valido:
+              print("La nueva trayectoria es correcta cargar a BD")
+            else:
+              print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
     else:
         form = ReaderForm()
     
