@@ -1,0 +1,109 @@
+{% extends 'Cursos/index2.html' %}
+{% block title %}
+Actualización
+{% endblock %}
+{% block content %}
+
+<head>
+    <style>
+        .centrado{
+            
+            position: absolute;
+            height: 600px;
+            width: 400px;
+            left: 50%;
+            top: 50%;
+            margin-top: -300px;
+            margin-left: -200px;
+        }
+      
+        .margen{
+            margin-top: 10%;
+        }
+        .input-group-addon{
+            border: none;
+            color: transparent;
+            background-color: transparent;
+            padding: 0px;
+        }
+        .boton.verde {
+            background-color: #00d973; /* Código de un color Verde */
+            color: white!important;
+        }
+        ul
+        {
+            list-style-type: none;
+            object-position: right;
+        }
+        li {
+            list-style: none;
+            display: inline;
+           
+        }
+        #containment-wrapper { width: 95%; height:95%; border:2px solid #ccc; padding: 10px; }
+          .columna {
+            float:left;
+            padding: 5px;
+            height:100%;
+            
+          }
+        .derecha {
+            width: 70%;
+          } 
+          .izquierda {
+            width: 30%;
+          } 
+    </style>
+</head>
+<!--breadcumb-->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'cursos:index2' %}">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'cursos:lista' %}">Cursos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Prueba de carga de trayectorias</li>
+</nav>
+
+<h1 class="text-center">Prueba carga de trayectorias</h1>
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body card-form">
+                <form method='POST' enctype="multipart/form-data" onsubmit="ShowLoading()">
+                    {% csrf_token %}
+                    <div class="row">
+                       {{ form.as_p }}
+                       <button type="submit" class="btn btn-master">Enviar</button>
+                    </div>
+
+                </form>
+               
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function mostrarContrasena(){
+      var tipo = document.getElementById("password");
+        if(tipo.type == "password"){
+        tipo.type = "text";
+        }else{
+        tipo.type = "password";
+        }
+    }
+
+    function ShowLoading(e) {
+        var div = document.createElement('div');
+        var img = document.createElement('img');
+        div.innerHTML = "Cargando...<br />";
+        div.style.cssText = 'position: fixed; top: 40%; left: 50%; z-index: 5000; width: 10%; text-align: center; background: rgba(76, 175, 80, 0.01); border: 0px solid #000';
+        div.appendChild(img);
+        document.body.appendChild(div);
+        return true;
+        // These 2 lines cancel form submission, so only use if needed.
+        //window.event.cancelBubble = true;
+        //e.stopPropagation();
+    }
+
+</script>
+{% endblock %}

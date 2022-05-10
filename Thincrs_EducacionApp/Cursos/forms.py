@@ -11,6 +11,13 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 
 
+from django import forms
+
+class ReaderForm(forms.ModelForm):
+    class Meta:
+        model = Reader
+        fields = ['file']
+
 class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
