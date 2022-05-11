@@ -330,7 +330,7 @@ def CargaTrayectoriaView(request):
                         print(element[12])
                         print("descripcion "+str(index2+2)+" en out: ")
                         print(markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," "))
-                        lista_verificacion_BD.append([element[0], index+2, index2+2])
+                        lista_verificacion_BD.append([element[0], index+2, index2+2, markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ")])
                         valido2 = False
                         print("La descripcion " +str(index+2)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2+2)+ " podria tratarse de la misma pregunta. Favor de revisar  " +element[0])# se indica los renglones a revisar
             if valido2:
