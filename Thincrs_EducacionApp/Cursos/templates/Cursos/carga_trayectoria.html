@@ -76,8 +76,18 @@ Actualización
                     </div>
                     
                     {% if lista_verificacion %}
+                    <h4>Comparación con preguntas en el mismo archivo csv</h4>
                         {% for pregunta in lista_verificacion %}
-                            <p>Verificar la pregunta {{ pregunta.0 }} en renglon {{ pregunta.1 }} con {{pregunta.2}}</p>
+                        
+                            <p>Verificar la pregunta {{ pregunta.0 }} en renglón {{ pregunta.1 }} con renglón {{pregunta.2}}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if lista_verificacion_BD %}
+                    <h4>Comparación con preguntas en la BD</h4>
+                        {% for preguntaBD in lista_verificacion_BD %}
+                            
+                            <p>Verificar la pregunta {{ preguntaBD.0 }} en renglón {{ preguntaBD.1 }} con renglón {{preguntaBD.2}}</p>
                         {% endfor %}
                     {% endif %}
 
