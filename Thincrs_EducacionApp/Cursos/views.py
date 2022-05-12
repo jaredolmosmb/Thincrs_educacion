@@ -253,6 +253,8 @@ sql_ip = '1.1.1.1.1'
 def CargaTrayectoriaView(request):
     lista_verificacion = []
     lista_verificacion_BD = []
+    valido = True 
+    valido2 = True
     if request.method == 'POST':
         form = ReaderForm(request.POST or None, request.FILES or None)
         if form.is_valid():
@@ -337,12 +339,11 @@ def CargaTrayectoriaView(request):
               print("La nueva trayectoria es correcta cargar a BD")
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
+            return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'valido': valido, 'valido2': valido2, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
     else:
         form = ReaderForm()
+        return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
     
-
-
-    return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'valido': valido, 'valido2': valido2, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
 
     
 @authenticated_user
