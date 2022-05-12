@@ -253,6 +253,8 @@ sql_ip = '1.1.1.1.1'
 def CargaTrayectoriaView(request):
     lista_verificacion = []
     lista_verificacion_BD = []
+    valido = True 
+    valido2 = True
     if request.method == 'POST':
         form = ReaderForm(request.POST or None, request.FILES or None)
         if form.is_valid():
@@ -323,13 +325,20 @@ def CargaTrayectoriaView(request):
                 #if index == 16 and index2 == 522:
                 #if index<index2: # asegurar que no se compara de manera reciproca
                   if element[0] == element2[4]:# verifico que compara solo preguntas con el mismo ID:
-                    probabilidad_similitud = similar(element[12], markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ")) # saque nivel de similitud de descripciones
+                    probabilidad_similitud = similar(element[12].replace("\n", "").replace("  "," "), markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]")) # saque nivel de similitud de descripciones
 
                     if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
+<<<<<<< HEAD
                         #print("descripcion "+str(index+2)+" en preguntas2: ")
                         #print(element[12])
                         #print("descripcion "+str(index2+2)+" en out: ")
                         #print(markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," "))
+=======
+                        print("descripcion "+str(index+2)+" en preguntas2: ")
+                        print(element[12].replace("\n", "").replace("  "," "))
+                        print("descripcion "+str(index2+2)+" en out: ")
+                        print(markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]"))
+>>>>>>> 28ae0a46c8358c31a6e27927a063ffdec9ae18b5
                         lista_verificacion_BD.append([element[0], index+2, index2+2, markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ")])
                         valido2 = False
                         print("La descripcion " +str(index+2)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2+2)+ " podria tratarse de la misma pregunta. Favor de revisar  " +element[0])# se indica los renglones a revisar
@@ -337,14 +346,16 @@ def CargaTrayectoriaView(request):
               print("La nueva trayectoria es correcta cargar a BD")
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
+<<<<<<< HEAD
         open(obj.file.path,'r').close()
         os.remove(obj.file.path)
+=======
+            return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'valido': valido, 'valido2': valido2, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
+>>>>>>> 28ae0a46c8358c31a6e27927a063ffdec9ae18b5
     else:
         form = ReaderForm()
+        return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
     
-
-
-    return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
 
     
 @authenticated_user
