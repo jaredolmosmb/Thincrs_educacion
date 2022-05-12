@@ -74,7 +74,13 @@ Actualización
                        {{ form.as_p }}
                        <button type="submit" class="btn btn-master">Enviar</button>
                     </div>
-                    
+                    {% if valido %}
+                    <h4>El archivo esta correcto en la comparación consigo misma.</h4>
+                    {% endif %}
+                    {% if valido2 %}
+                    <h4>El archivo esta correcto en la comparación con todo el catálogo de preguntas de la BD.</h4>
+                    {% endif %}
+
                     {% if lista_verificacion %}
                     <h4>Comparación con preguntas en el mismo archivo csv</h4>
                         {% for pregunta in lista_verificacion %}
