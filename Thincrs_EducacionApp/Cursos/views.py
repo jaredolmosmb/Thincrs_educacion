@@ -265,8 +265,8 @@ def CargaTrayectoriaView(request):
             obj.file = file
             obj.save()
 
-            f = obj.file.open('r')
-            reader_file = csv.reader(open(obj.file.path,'r'))
+            #f = obj.file.open('r')
+            #reader_file = csv.reader(open(obj.file.path,'r'))
             df = pd.read_csv(open(obj.file.path,'r'))
             #print("df: ", df)
             #print("reader_file ", reader_file)
@@ -326,10 +326,10 @@ def CargaTrayectoriaView(request):
                     probabilidad_similitud = similar(element[12], markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ")) # saque nivel de similitud de descripciones
 
                     if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
-                        print("descripcion "+str(index+2)+" en preguntas2: ")
-                        print(element[12])
-                        print("descripcion "+str(index2+2)+" en out: ")
-                        print(markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," "))
+                        #print("descripcion "+str(index+2)+" en preguntas2: ")
+                        #print(element[12])
+                        #print("descripcion "+str(index2+2)+" en out: ")
+                        #print(markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," "))
                         lista_verificacion_BD.append([element[0], index+2, index2+2, markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ")])
                         valido2 = False
                         print("La descripcion " +str(index+2)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2+2)+ " podria tratarse de la misma pregunta. Favor de revisar  " +element[0])# se indica los renglones a revisar
@@ -337,6 +337,8 @@ def CargaTrayectoriaView(request):
               print("La nueva trayectoria es correcta cargar a BD")
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
+        open(obj.file.path,'r').close()
+        os.remove(obj.file.path)
     else:
         form = ReaderForm()
     
