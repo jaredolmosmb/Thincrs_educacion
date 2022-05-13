@@ -343,9 +343,10 @@ def CargaTrayectoriaView(request):
               print("La nueva trayectoria es correcta cargar a BD")
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
+            open(obj.file.path,'r').close()
+            os.remove(obj.file.path)
             return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'valido': valido, 'valido2': valido2, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
-        open(obj.file.path,'r').close()
-        os.remove(obj.file.path)
+            
     else:
         form = ReaderForm()
         return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
