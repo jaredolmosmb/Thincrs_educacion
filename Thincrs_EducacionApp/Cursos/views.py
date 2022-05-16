@@ -335,7 +335,37 @@ def CargaTrayectoriaView(request):
             df2 = pd.read_sql_query(query2, conn)
 
             #--------------Conexion a la BD replica en local-------------
-
+            """SELECT `course`.`id`,
+                                                `course`.`admin_id`,
+                                                `course`.`image`,
+                                                `course`.`name`,
+                                                `course`.`short_name`,
+                                                `course`.`oss_project`,
+                                                `course`.`created_at`,
+                                                `course`.`updated_at`,
+                                                `course`.`version`,
+                                                `course`.`description`,
+                                                `course`.`summary`,
+                                                `course`.`visible`,
+                                                `course`.`course_type_id`,
+                                                `course`.`category_id`,
+                                                `course`.`duration_minutes`,
+                                                `course`.`start_date`,
+                                                `course`.`end_date`,
+                                                `course`.`problematic`,
+                                                `course`.`challenge_number`,
+                                                `course`.`delivery_type`,
+                                                `course`.`enterprise_id`,
+                                                `course`.`status`,
+                                                `course`.`avatar_id`,
+                                                `course`.`relevance_level`,
+                                                `course`.`verified_competences`"""
+            query_insert = '''INSERT INTO `course` VALUES (42,1,'art - digital.svg','prueba insert django','CERPARCIUADMTES','','2021-08-27 23:53:54','2021-08-27 23:53:54',1,NULL,NULL,1,4,32,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,21)'''
+            cur = conn.cursor()
+            
+            cur.execute(query_insert)
+            conn.commit()
+            print("se hizo la insercion checar en BD")
 
             valido2 = True
             #comparacion de archivo nuevo de trayectorias con todas las preguntas precargadas
