@@ -235,7 +235,7 @@ def ListaUsuariosView(request):
     todos_u=CustomUser.objects.all()
     return render(request, 'Cursos/ListaUsuarios.html', {'todos_u': todos_u})
 
-
+"""#---configuraciones para BD thincrs en servidor de AWS
 mypkey = paramiko.RSAKey.from_private_key_file("cursos/clave.pem")
 # if you want to use ssh password use - ssh_password='your ssh password', bellow
 
@@ -248,6 +248,17 @@ ssh_host = '18.222.146.90'
 ssh_user = 'ubuntu'
 ssh_port = 22
 sql_ip = '1.1.1.1.1'
+#----------Termina configuraciones en servidor de AWS"""
+
+
+#---configuraciones para BD local
+# if you want to use ssh password use - ssh_password='your ssh password', bellow
+sql_hostname = '127.0.0.1'
+sql_username = 'root'
+sql_password = ''
+sql_main_database = 'develop_thincrs'
+sql_port = 3306
+#-------Termina las configuraciones en Bd local
 
 @authenticated_user
 def CargaTrayectoriaView(request):
@@ -300,22 +311,30 @@ def CargaTrayectoriaView(request):
               for pregunta in lista_verificacion:
                 print("En la pregunta "+ str(pregunta[0]) + " en la linea "+str(pregunta[1])+ " y la linea "+str(pregunta[2]))
 
-            #-------------Conexion a la BD de thincrs para sacar el total de preguntas
-            with SSHTunnelForwarder(
-                (ssh_host, ssh_port),
-                ssh_username=ssh_user,
-                ssh_pkey=mypkey,
-                remote_bind_address=(sql_hostname, sql_port)) as tunnel:
-                conn = pymysql.connect(host='127.0.0.1', user=sql_username,
-                        passwd=sql_password, db=sql_main_database,
-                        port=tunnel.local_bind_port)
-                query2 = '''select * from question;'''
-                df2 = pd.read_sql_query(query2, conn)
+            """#-------------Conexion a la BD de thincrs para sacar el total de preguntas
+                                                with SSHTunnelForwarder(
+                                                    (ssh_host, ssh_port),
+                                                    ssh_username=ssh_user,
+                                                    ssh_pkey=mypkey,
+                                                    remote_bind_address=(sql_hostname, sql_port)) as tunnel:
+                                                    conn = pymysql.connect(host='127.0.0.1', user=sql_username,
+                                                            passwd=sql_password, db=sql_main_database,
+                                                            port=tunnel.local_bind_port)
+                                                    query2 = '''select * from question;'''
+                                                    df2 = pd.read_sql_query(query2, conn)
+                                                #------Termina conexion de BD thincrs para sacer el totla de preguntas"""
 
             """for ind, fila in data2.iterrows():
                                                     if ind == 0:
                                                         print(markdownify.markdownify(fila[5]).replace("\n", "").replace("  "," "))"""
+            #-------------Conexion a la BD de thincrs en servidor de aws via ssh para sacar el total de preguntas
+            conn = pymysql.connect(host='127.0.0.1', user=sql_username,
+                    passwd=sql_password, db=sql_main_database,
+                    port=sql_port)
+            query2 = '''select * from question;'''
+            df2 = pd.read_sql_query(query2, conn)
 
+            #--------------Conexion a la BD replica en local-------------
 
 
             valido2 = True
