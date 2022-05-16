@@ -328,6 +328,10 @@ def CargaTrayectoriaView(request):
                     probabilidad_similitud = similar(element[12].replace("\n", "").replace("  "," "), markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]")) # saque nivel de similitud de descripciones
 
                     if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
+                        #print("descripcion "+str(index+2)+" en preguntas2: ")
+                        #print(element[12])
+                        #print("descripcion "+str(index2+2)+" en out: ")
+                        #print(markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," "))
                         print("descripcion "+str(index+2)+" en preguntas2: ")
                         print(element[12].replace("\n", "").replace("  "," "))
                         print("descripcion "+str(index2+2)+" en out: ")
@@ -339,7 +343,10 @@ def CargaTrayectoriaView(request):
               print("La nueva trayectoria es correcta cargar a BD")
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
+            open(obj.file.path,'r').close()
+            os.remove(obj.file.path)
             return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'valido': valido, 'valido2': valido2, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
+            
     else:
         form = ReaderForm()
         return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
