@@ -273,15 +273,18 @@ def CargaTrayectoriaView(request):
 
             #--------------preguntas del archivo nuevo a cargar
             file = form.cleaned_data.get('file')
+            file2 = form.cleaned_data.get('file2')
             obj = form.save(commit=False)
             #print("type(file): ", type(file))
             obj.file = file
+            obj.file2 = file2
             obj.save()
 
             #f = obj.file.open('r')
             #reader_file = csv.reader(open(obj.file.path,'r'))
             df = pd.read_csv(open(obj.file.path,'r'))
-            #print("df: ", df)
+            df2 = pd.read_csv(open(obj.file2.path,'r'))
+            print("df2: ", df2)
             #print("reader_file ", reader_file)
             #-------obtener la descripcion de cada pregunta
             """  for indx, row in enumerate(reader_file):
@@ -360,7 +363,7 @@ def CargaTrayectoriaView(request):
                                                 `course`.`avatar_id`,
                                                 `course`.`relevance_level`,
                                                 `course`.`verified_competences`"""
-            query_insert = '''INSERT INTO `course` VALUES (42,1,'art - digital.svg','prueba insert django','CERPARCIUADMTES','','2021-08-27 23:53:54','2021-08-27 23:53:54',1,NULL,NULL,1,4,32,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,21)'''
+            query_insert = '''INSERT INTO `course` VALUES (43,1,'art - digital.svg','prueba insert django','CERPARCIUADMTES','','2021-08-27 23:53:54','2021-08-27 23:53:54',1,NULL,NULL,1,4,32,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,21)'''
             cur = conn.cursor()
             
             cur.execute(query_insert)

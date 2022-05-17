@@ -14,6 +14,7 @@ from .managers import CustomUserManager
 
 class Reader(models.Model):
     file = models.FileField(blank=True, null=True)
+    file2 = models.FileField(blank=True, null=True)
     date_uploaded = models.DateTimeField(default=timezone.now)
 
     class Meta:

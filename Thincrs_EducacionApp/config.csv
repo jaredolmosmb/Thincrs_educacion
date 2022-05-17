@@ -1,0 +1,4 @@
+Nombre Diagnostico,Competence ID,Competence,Name Perfil,Description,Instructions,Min score,Default attempts,Weight,Evaluation rule,Method Rule,Evaluation type,Diagnostic points
+Diagnóstico de Habilidades Digitales,CX_HDBS,Habilidades Digitales Básicas,Certificación de Competencias Digitales para Ciudadanos UNESCO,"La evaluación de **Habilidades Digitales Básicas** identifica las destrezas básicas referente a las áreas de operaciones básicas con hardware y software, información, comunicación y colaboración, creación de contenido digital, y seguridad. 
+
+Los resultados de la evaluación te permitirán identificar tus fortalezas y áreas de mejora para tu formación. Posteriormente podrás realizar la **Certificación de Competencias Digitales para Ciudadanos UNESCO**. ","Para evaluar tus **habilidades digitales básicas**, deberás de contestar cada uno de los siguientes ejercicios.",0,1,225,pointsTotal,highestScore,pre-assesment,0

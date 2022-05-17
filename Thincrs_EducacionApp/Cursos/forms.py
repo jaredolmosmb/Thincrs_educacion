@@ -16,7 +16,7 @@ from django import forms
 class ReaderForm(forms.ModelForm):
     class Meta:
         model = Reader
-        fields = ['file']
+        fields = ['file', 'file2']
 
 class CustomUserCreationForm(UserCreationForm):
 
