@@ -386,7 +386,7 @@ def CargaTrayectoriaView(request):
                 course_created_at = datetime.now()
                 course_updated_at = datetime.now()
                 course_descripcion_html = markdown.markdown(dffile2.iloc[0]['Description'])
-                cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
+                #cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
                 conn.commit()
                 print("se hizo la insercion en tabla course checar en BD")
 
@@ -406,11 +406,18 @@ def CargaTrayectoriaView(request):
                
                 evaluation_type_id_sql = cur.execute('''SELECT id FROM `evaluation_type` WHERE `name` = "{}"; '''.format(evaluation_type))
                 evaluation_type_id = cur.fetchone()
-                cur.execute('''INSERT INTO `evaluation` VALUES ({},1,NULL,"{}",'',"{}",NULL,NULL,{},{},{},{},1,1,0,"{}","{}",1,{},0,8,'published',0,0,NULL,1,NULL)'''.format (evaluation_id, evaluation_name, evaluation_instructions, evaluation_limit_time, evaluation_min_score, evaluation_weight, evaluation_max_intents, evaluation_created_at, evaluation_updated_at, evaluation_type_id[0]))
+                #cur.execute('''INSERT INTO `evaluation` VALUES ({},1,NULL,"{}",'',"{}",NULL,NULL,{},{},{},{},1,1,0,"{}","{}",1,{},0,8,'published',0,0,NULL,1,NULL)'''.format (evaluation_id, evaluation_name, evaluation_instructions, evaluation_limit_time, evaluation_min_score, evaluation_weight, evaluation_max_intents, evaluation_created_at, evaluation_updated_at, evaluation_type_id[0]))
                 conn.commit()
                 print("se hizo la insercion en tabla evaluation checar en BD")
 
                 #------------------CARGA DE TABLA QUESTION DEL ARCHIVO DE PREGUNTAS-----------
+                question_id = cur.execute('''SELECT * FROM `question`; ''') + 1
+                print("question_id")
+                print(question_id)
+                
+                #cur.execute('''INSERT INTO `question` VALUES ({},1,1,NULL,'DC21_1','<p>&amp;space Navegar a través de documentos electrónicos utilizando diversas herramientas para encontrar información, datos o contenido digital.</p><br><p>&amp;space Analizar la credibilidad y la fiabilidad de las fuentes de datos, información y contenido digital.</p><br><p>&amp;space Organizar, almacenar y recuperar datos, información y contenidos digitales en un entorno estructurado.</p>',5,'2020-06-16 17:14:56','2020-06-16 22:14:56',2,'0','<p>Relaciona las siguientes columnas de acuerdo a la correspondencia del concepto con su significado.</p>','DXDC_0111')'''.format (question_id))
+                conn.commit()
+                print("se hizo la insercion en tabla question checar en BD")
 
             else:
                 print("no se hizo la inserción a la BD porque se debe de verificar el archivo")
