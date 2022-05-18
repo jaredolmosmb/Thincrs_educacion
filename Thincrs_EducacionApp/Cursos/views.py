@@ -22,6 +22,7 @@ import csv
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 import markdownify
+import markdown
 
 from difflib import SequenceMatcher
 
@@ -283,8 +284,8 @@ def CargaTrayectoriaView(request):
             #f = obj.file.open('r')
             #reader_file = csv.reader(open(obj.file.path,'r'))
             df = pd.read_csv(open(obj.file.path,'r'))
-            df2 = pd.read_csv(open(obj.file2.path,'r'))
-            print("df2: ", df2)
+            dffile2 = pd.read_csv(open(obj.file2.path,'r'))
+            print("dffile2: ", dffile2)
             #print("reader_file ", reader_file)
             #-------obtener la descripcion de cada pregunta
             """  for indx, row in enumerate(reader_file):
@@ -314,7 +315,7 @@ def CargaTrayectoriaView(request):
               for pregunta in lista_verificacion:
                 print("En la pregunta "+ str(pregunta[0]) + " en la linea "+str(pregunta[1])+ " y la linea "+str(pregunta[2]))
 
-            """#-------------Conexion a la BD de thincrs para sacar el total de preguntas
+            """#-------------Conexion a la BD de thincrs para sacar el total de preguntas de aws via ssh
                                                 with SSHTunnelForwarder(
                                                     (ssh_host, ssh_port),
                                                     ssh_username=ssh_user,
@@ -330,7 +331,7 @@ def CargaTrayectoriaView(request):
             """for ind, fila in data2.iterrows():
                                                     if ind == 0:
                                                         print(markdownify.markdownify(fila[5]).replace("\n", "").replace("  "," "))"""
-            #-------------Conexion a la BD de thincrs en servidor de aws via ssh para sacar el total de preguntas
+            #-------------Conexion a la BD de thincrs en local para sacar el total de preguntas
             conn = pymysql.connect(host='127.0.0.1', user=sql_username,
                     passwd=sql_password, db=sql_main_database,
                     port=sql_port)
@@ -338,37 +339,8 @@ def CargaTrayectoriaView(request):
             df2 = pd.read_sql_query(query2, conn)
 
             #--------------Conexion a la BD replica en local-------------
-            """SELECT `course`.`id`,
-                                                `course`.`admin_id`,
-                                                `course`.`image`,
-                                                `course`.`name`,
-                                                `course`.`short_name`,
-                                                `course`.`oss_project`,
-                                                `course`.`created_at`,
-                                                `course`.`updated_at`,
-                                                `course`.`version`,
-                                                `course`.`description`,
-                                                `course`.`summary`,
-                                                `course`.`visible`,
-                                                `course`.`course_type_id`,
-                                                `course`.`category_id`,
-                                                `course`.`duration_minutes`,
-                                                `course`.`start_date`,
-                                                `course`.`end_date`,
-                                                `course`.`problematic`,
-                                                `course`.`challenge_number`,
-                                                `course`.`delivery_type`,
-                                                `course`.`enterprise_id`,
-                                                `course`.`status`,
-                                                `course`.`avatar_id`,
-                                                `course`.`relevance_level`,
-                                                `course`.`verified_competences`"""
-            query_insert = '''INSERT INTO `course` VALUES (43,1,'art - digital.svg','prueba insert django','CERPARCIUADMTES','','2021-08-27 23:53:54','2021-08-27 23:53:54',1,NULL,NULL,1,4,32,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,21)'''
-            cur = conn.cursor()
             
-            cur.execute(query_insert)
-            conn.commit()
-            print("se hizo la insercion checar en BD")
+            
 
             valido2 = True
             #comparacion de archivo nuevo de trayectorias con todas las preguntas precargadas
@@ -395,8 +367,55 @@ def CargaTrayectoriaView(request):
               print("La nueva trayectoria es correcta cargar a BD")
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
+
+            if valido and valido2:
+                print("dffile2.iloc[0]['Name Perfil']: ")
+                print(dffile2.iloc[0]['Name Perfil'])
+                #cursor.execute('INSERT INTO table(device, number1, number2) VALUES ("{}",{},{})'.format (string_var,number1_var, number2_var))
+
+                #query_insert = '''INSERT INTO `course` VALUES (43,1,'art - digital.svg','prueba insert django','CERPARCIUADMTES','','2021-08-27 23:53:54','2021-08-27 23:53:54',1,NULL,NULL,1,4,32,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,21)'''
+                #cur = conn.cursor()
+                #cur.execute(query_insert)
+                #conn.commit()
+                #------------------CARGA DE TABLA COURSE-----------
+                cur = conn.cursor()
+                course_id = cur.execute('''SELECT * FROM `course`; ''') + 1
+                course_name = dffile2.iloc[0]['Name Perfil']
+                course_short_name_list = [ s[0]+s[1]+s[2] if len(s) >= 3 else s[0] for s in course_name.split() ]
+                course_short_name = ''.join(course_short_name_list).upper()
+                course_created_at = datetime.now()
+                course_updated_at = datetime.now()
+                course_descripcion_html = markdown.markdown(dffile2.iloc[0]['Description'])
+                #cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
+                
+                print("se hizo la insercion en tabla course checar en BD")
+
+                #------------------CARGA DE TABLA EVALUATION-----------
+                evaluation_id = cur.execute('''SELECT * FROM `evaluation`; ''') + 1
+                evaluation_name = dffile2.iloc[0]['Nombre Diagnostico']
+                evaluation_instructions = markdown.markdown(dffile2.iloc[0]['Instructions'])
+                evaluation_limit_time = 0
+                if dffile2.iloc[0]['Evaluation type'] == "pre-assesment" :
+                    evaluation_limit_time = 15
+                evaluation_min_score = dffile2.iloc[0]['Min score']
+                evaluation_weight = dffile2.iloc[0]['Weight']
+                evaluation_max_intents = dffile2.iloc[0]['Default attempts']
+                evaluation_created_at = datetime.now()
+                evaluation_updated_at = datetime.now()
+                evaluation_type = dffile2.iloc[0]['Evaluation type']
+               
+                evaluation_type_id_sql = cur.execute('''SELECT id FROM `evaluation_type` WHERE `name` = "{}"; '''.format(evaluation_type))
+                evaluation_type_id = cur.fetchone()
+                cur.execute('''INSERT INTO `evaluation` VALUES ({},1,NULL,"{}",'',"{}",NULL,NULL,{},{},{},{},1,1,0,"{}","{}",1,{},0,8,'published',0,0,NULL,1,NULL)'''.format (evaluation_id, evaluation_name, evaluation_instructions, evaluation_limit_time, evaluation_min_score, evaluation_weight, evaluation_max_intents, evaluation_created_at, evaluation_updated_at, evaluation_type_id[0]))
+                conn.commit()
+                print("se hizo la insercion en tabla evaluation checar en BD")
+            else:
+                print("no se hizo la inserción a la BD porque se debe de verificar el archivo")
+
             open(obj.file.path,'r').close()
+            open(obj.file2.path,'r').close()
             os.remove(obj.file.path)
+            os.remove(obj.file2.path)
             return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'valido': valido, 'valido2': valido2, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
             
     else:
