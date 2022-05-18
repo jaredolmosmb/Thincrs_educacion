@@ -377,7 +377,7 @@ def CargaTrayectoriaView(request):
                 #cur = conn.cursor()
                 #cur.execute(query_insert)
                 #conn.commit()
-                #------------------CARGA DE TABLA COURSE-----------
+                #------------------CARGA DE TABLA COURSE DEL ARCHIVO DE CONFIG-----------
                 cur = conn.cursor()
                 course_id = cur.execute('''SELECT * FROM `course`; ''') + 1
                 course_name = dffile2.iloc[0]['Name Perfil']
@@ -386,11 +386,11 @@ def CargaTrayectoriaView(request):
                 course_created_at = datetime.now()
                 course_updated_at = datetime.now()
                 course_descripcion_html = markdown.markdown(dffile2.iloc[0]['Description'])
-                #cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
-                
+                cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
+                conn.commit()
                 print("se hizo la insercion en tabla course checar en BD")
 
-                #------------------CARGA DE TABLA EVALUATION-----------
+                #------------------CARGA DE TABLA EVALUATION DEL ARCHIVO DE CONFIG-----------
                 evaluation_id = cur.execute('''SELECT * FROM `evaluation`; ''') + 1
                 evaluation_name = dffile2.iloc[0]['Nombre Diagnostico']
                 evaluation_instructions = markdown.markdown(dffile2.iloc[0]['Instructions'])
@@ -409,6 +409,9 @@ def CargaTrayectoriaView(request):
                 cur.execute('''INSERT INTO `evaluation` VALUES ({},1,NULL,"{}",'',"{}",NULL,NULL,{},{},{},{},1,1,0,"{}","{}",1,{},0,8,'published',0,0,NULL,1,NULL)'''.format (evaluation_id, evaluation_name, evaluation_instructions, evaluation_limit_time, evaluation_min_score, evaluation_weight, evaluation_max_intents, evaluation_created_at, evaluation_updated_at, evaluation_type_id[0]))
                 conn.commit()
                 print("se hizo la insercion en tabla evaluation checar en BD")
+
+                #------------------CARGA DE TABLA QUESTION DEL ARCHIVO DE PREGUNTAS-----------
+
             else:
                 print("no se hizo la inserción a la BD porque se debe de verificar el archivo")
 
