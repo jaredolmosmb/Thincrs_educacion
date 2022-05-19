@@ -412,10 +412,48 @@ def CargaTrayectoriaView(request):
 
                 #------------------CARGA DE TABLA QUESTION DEL ARCHIVO DE PREGUNTAS-----------
                 question_id = cur.execute('''SELECT * FROM `question`; ''') + 1
-                print("question_id")
-                print(question_id)
+
+                question_type = df.iloc[0]['Tipo de ejercicio']
+                question_type_id_sql = cur.execute('''SELECT id FROM `question_type` WHERE `name` = "{}"; '''.format(question_type))
+                question_question_type_id_fetch = cur.fetchone()
+                if question_question_type_id_fetch:
+                    question_question_type_id = question_question_type_id_fetch[0]
+                else:
+                    question_type_id = cur.execute('''SELECT * FROM `question_type`; ''') + 1
+                    question_type_created_at = datetime.now()
+                    question_type_updated_at = datetime.now()
+                    cur.execute('''INSERT INTO `question_type` VALUES ({},"{}","{}", NULL,"{}","{}"  )'''.format(question_type_id, question_type, question_type, question_type_created_at, question_type_updated_at)) 
+                    #print("es none y se a;adio: ", question_type)
+                    question_question_type_id = question_type_id       
+
+                question_shortname = df.iloc[0]['ID Pregunta']
+                question_question = markdown.markdown(df.iloc[0]['Descripción']) 
+                question_created_at = datetime.now()
+                question_updated_at = datetime.now()
+
+                question_category = df.iloc[0]['Concepto']
+                question_category_id_sql = cur.execute('''SELECT id FROM `question_category` WHERE `name` = "{}"; '''.format(question_category))
+                question_question_category_id_fetch = cur.fetchone()
+                if question_question_category_id_fetch:
+                    question_question_category_id = question_question_category_id_fetch[0]
+                else:
+                    question_category_id = cur.execute('''SELECT * FROM `question_category`; ''') + 1
+                    question_category_created_at = datetime.now()
+                    question_category_updated_at = datetime.now()
+                    cur.execute('''INSERT INTO `question_category VALUES ({},"{}","{}","{}"  )'''.format(question_category_id, question_category, question_category, question_category_created_at, question_category_updated_at)) 
+                    #print("es none y se a;adio: ", question_type)
+                    question_question_category_id = question_category_id 
+
+                question_level = df.iloc[0]['Nivel']
+                question_instructions = markdown.markdown(df.iloc[0]['Instrucción']) 
+                question_code = df.iloc[0]['Código']
+                print("question_code")
+                print(question_code)
+
                 
-                #cur.execute('''INSERT INTO `question` VALUES ({},1,1,NULL,'DC21_1','<p>&amp;space Navegar a través de documentos electrónicos utilizando diversas herramientas para encontrar información, datos o contenido digital.</p><br><p>&amp;space Analizar la credibilidad y la fiabilidad de las fuentes de datos, información y contenido digital.</p><br><p>&amp;space Organizar, almacenar y recuperar datos, información y contenidos digitales en un entorno estructurado.</p>',5,'2020-06-16 17:14:56','2020-06-16 22:14:56',2,'0','<p>Relaciona las siguientes columnas de acuerdo a la correspondencia del concepto con su significado.</p>','DXDC_0111')'''.format (question_id))
+
+                #question count nromal termina en 2497
+                cur.execute('''INSERT INTO `question` VALUES ({},{},1,NULL,"{}","{}",0,"{}","{}",{},{},"{}","{}")'''.format(question_id, question_question_type_id, question_shortname, question_question, question_created_at, question_updated_at, question_question_category_id, question_level, question_instructions, question_code))
                 conn.commit()
                 print("se hizo la insercion en tabla question checar en BD")
 
