@@ -603,9 +603,95 @@ def CargaTrayectoriaView(request):
 
                 cur.execute('''INSERT INTO `feedback` VALUES ({},NULL,"{}",1,NULL,"{}","{}",1)'''.format(feedback_id, feedback_description, feedback_created_at, feedback_updated_at))
                 conn.commit()
-                
 
+                
+                
                 #------------------TABLA FEEDBACK_RESOURCE------------------
+                max_feedback_resource_id_sql = cur.execute('''SELECT MAX(id) FROM feedback_resource; ''')
+                max_feedback_resource_id = cur.fetchone()
+                feedback_resource_id = max_feedback_resource_id[0] + 1
+
+                feedback_resource_feedback = df.iloc[0]['Feedback']
+                feedback_resource_feedback_id_sql = cur.execute('''SELECT id FROM `feedback` WHERE `description` = "{}"; '''.format(feedback_resource_feedback))
+                feedback_resource_feedback_id_fetch = cur.fetchone()
+                if feedback_resource_feedback_id_fetch:
+                    fedback_resource_feedback_id = feedback_resource_feedback_id_fetch[0]
+
+                feedback_resource_resource1 = df.iloc[0][22]
+                if "nan" not in feedback_resource_resource1 and len(feedback_resource_resource1) != 3:
+                    feedback_resource_resource1_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource1))
+                    feedback_resource_resource1_id_fetch = cur.fetchone()
+                    if feedback_resource_resource1_id_fetch:
+                        feedback_resource_resource1_id = feedback_resource_resource1_id_fetch[0]
+                    else:
+                        #------------------TABLA RESOURCE POR RESOURCE EN ARCHIVO DE PREGUNTAS 1/3-------------------
+                        max_resource1_id_sql = cur.execute('''SELECT MAX(id) FROM resource; ''')
+                        max_resource1_id = cur.fetchone()
+                        resource1_id = max_resource1_id[0] + 1
+
+                        resource1_name = df.iloc[0][22]
+                        resource1_url = df.iloc[0][23]
+                        resource1_language = df.iloc[0][24]
+                        resource1_created_at = datetime.now()
+                        resource1_updated_at = datetime.now()
+
+                        feedback_resource_resource1_id = resource1_id
+
+                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at)
+                        conn.commit()
+                    cur.execute('''INSERT INTO `feedback_resource` VALUES ({},{},{})''').format(feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource1_id)
+                    conn.commit()
+
+                feedback_resource_resource2 = df.iloc[0][25]
+                if "nan" not in feedback_resource_resource2 and len(feedback_resource_resource2) != 3:
+                    feedback_resource_resource2_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource2))
+                    feedback_resource_resource2_id_fetch = cur.fetchone()
+                    if feedback_resource_resource2_id_fetch:
+                        feedback_resource_resource2_id = feedback_resource_resource2_id_fetch[0]
+                    else:
+                        #------------------TABLA RESOURCE POR RESOURCE EN ARCHIVO DE PREGUNTAS 2/3-------------------
+                        max_resource2_id_sql = cur.execute('''SELECT MAX(id) FROM resource; ''')
+                        max_resource2_id = cur.fetchone()
+                        resource2_id = max_resource2_id[0] + 1
+
+                        resource2_name = df.iloc[0][25]
+                        resource2_url = df.iloc[0][26]
+                        resource2_language = df.iloc[0][27]
+                        resource2_created_at = datetime.now()
+                        resource2_updated_at = datetime.now()
+
+                        feedback_resource_resource2_id = resource2_id
+
+                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at)
+                        conn.commit()
+                    cur.execute('''INSERT INTO `feedback_resource` VALUES ({},{},{})''').format(feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id)
+                    conn.commit()
+
+                feedback_resource_resource3 = df.iloc[0][28]
+                if "nan" not in feedback_resource_resource3 and len(feedback_resource_resource3) != 3:
+                    feedback_resource_resource3_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource3))
+                    feedback_resource_resource3_id_fetch = cur.fetchone()
+                    if feedback_resource_resource3_id_fetch:
+                        feedback_resource_resource3_id = feedback_resource_resource3_id_fetch[0]
+                    else:
+                        #------------------TABLA RESOURCE POR RESOURCE EN ARCHIVO DE PREGUNTAS 3/3-------------------
+                        max_resource3_id_sql = cur.execute('''SELECT MAX(id) FROM resource; ''')
+                        max_resource3_id = cur.fetchone()
+                        resource3_id = max_resource3_id[0] + 1
+
+                        resource3_name = df.iloc[0][28]
+                        resource3_url = df.iloc[0][29]
+                        resource3_language = df.iloc[0][30]
+                        resource3_created_at = datetime.now()
+                        resource3_updated_at = datetime.now()
+
+                        feedback_resource_resource3_id = resource3_id
+
+                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at)
+                        conn.commit()
+                    cur.execute('''INSERT INTO `feedback_resource` VALUES ({},{},{})''').format(feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id)
+                    conn.commit()
+
 
 
 
