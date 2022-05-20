@@ -285,7 +285,7 @@ def CargaTrayectoriaView(request):
             #reader_file = csv.reader(open(obj.file.path,'r'))
             df = pd.read_csv(open(obj.file.path,'r'))
             dffile2 = pd.read_csv(open(obj.file2.path,'r'))
-            print("dffile2: ", dffile2)
+            #print("dffile2: ", dffile2)
             #print("reader_file ", reader_file)
             #-------obtener la descripcion de cada pregunta
             """  for indx, row in enumerate(reader_file):
@@ -369,8 +369,8 @@ def CargaTrayectoriaView(request):
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
 
             if valido and valido2:
-                print("dffile2.iloc[0]['Name Perfil']: ")
-                print(dffile2.iloc[0]['Name Perfil'])
+                #print("dffile2.iloc[0]['Name Perfil']: ")
+                #print(dffile2.iloc[0]['Name Perfil'])
                 #cursor.execute('INSERT INTO table(device, number1, number2) VALUES ("{}",{},{})'.format (string_var,number1_var, number2_var))
 
                 #query_insert = '''INSERT INTO `course` VALUES (43,1,'art - digital.svg','prueba insert django','CERPARCIUADMTES','','2021-08-27 23:53:54','2021-08-27 23:53:54',1,NULL,NULL,1,4,32,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,21)'''
@@ -386,9 +386,9 @@ def CargaTrayectoriaView(request):
                 course_created_at = datetime.now()
                 course_updated_at = datetime.now()
                 course_descripcion_html = markdown.markdown(dffile2.iloc[0]['Description'])
-                #cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
+                cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
                 conn.commit()
-                print("se hizo la insercion en tabla course checar en BD")
+                print("se hizo la insercion en tabla course checar en BD con id = ", course_id)
 
                 #------------------CARGA DE TABLA EVALUATION DEL ARCHIVO DE CONFIG-----------
                 evaluation_id = cur.execute('''SELECT * FROM `evaluation`; ''') + 1
@@ -406,9 +406,9 @@ def CargaTrayectoriaView(request):
                
                 evaluation_type_id_sql = cur.execute('''SELECT id FROM `evaluation_type` WHERE `name` = "{}"; '''.format(evaluation_type))
                 evaluation_type_id = cur.fetchone()
-                #cur.execute('''INSERT INTO `evaluation` VALUES ({},1,NULL,"{}",'',"{}",NULL,NULL,{},{},{},{},1,1,0,"{}","{}",1,{},0,8,'published',0,0,NULL,1,NULL)'''.format (evaluation_id, evaluation_name, evaluation_instructions, evaluation_limit_time, evaluation_min_score, evaluation_weight, evaluation_max_intents, evaluation_created_at, evaluation_updated_at, evaluation_type_id[0]))
+                cur.execute('''INSERT INTO `evaluation` VALUES ({},1,NULL,"{}",'',"{}",NULL,NULL,{},{},{},{},1,1,0,"{}","{}",1,{},0,8,'published',0,0,NULL,1,NULL)'''.format (evaluation_id, evaluation_name, evaluation_instructions, evaluation_limit_time, evaluation_min_score, evaluation_weight, evaluation_max_intents, evaluation_created_at, evaluation_updated_at, evaluation_type_id[0]))
                 conn.commit()
-                print("se hizo la insercion en tabla evaluation checar en BD")
+                print("se hizo la insercion en tabla evaluation checar en BD con id: ", evaluation_id)
 
                 #------------------CARGA DE TABLA QUESTION DEL ARCHIVO DE PREGUNTAS-----------
                 #------------------TABLA QUESTION------------------
@@ -424,6 +424,7 @@ def CargaTrayectoriaView(request):
                     question_type_updated_at = datetime.now()
                     cur.execute('''INSERT INTO `question_type` VALUES ({},"{}","{}", NULL,"{}","{}"  )'''.format(question_type_id, question_type, question_type, question_type_created_at, question_type_updated_at)) 
                     conn.commit()
+                    print("se hizo la insercion en tabla question_type checar en BD con id: ", question_type_id)
                     #print("es none y se a;adio: ", question_type)
                     question_question_type_id = question_type_id       
 
@@ -441,8 +442,9 @@ def CargaTrayectoriaView(request):
                     question_category_id = cur.execute('''SELECT * FROM `question_category`; ''') + 1
                     question_category_created_at = datetime.now()
                     question_category_updated_at = datetime.now()
-                    cur.execute('''INSERT INTO `question_category VALUES ({},"{}","{}","{}"  )'''.format(question_category_id, question_category, question_category, question_category_created_at, question_category_updated_at)) 
-                    #conn.commit()
+                    cur.execute('''INSERT INTO `question_category` VALUES ({},"{}","{}","{}"  )'''.format(question_category_id, question_category, question_category, question_category_created_at, question_category_updated_at)) 
+                    conn.commit()
+                    print("se hizo la insercion en tabla question_category checar en BD con id: ", question_category_id)
                     #print("es none y se a;adio: ", question_type)
                     question_question_category_id = question_category_id 
 
@@ -450,9 +452,9 @@ def CargaTrayectoriaView(request):
                 question_instructions = markdown.markdown(df.iloc[0]['Instrucción']) 
                 question_code = df.iloc[0]['Código']
                 #question count nromal termina en 2497
-                #cur.execute('''INSERT INTO `question` VALUES ({},{},1,NULL,"{}","{}",0,"{}","{}",{},{},"{}","{}")'''.format(question_id, question_question_type_id, question_shortname, question_question, question_created_at, question_updated_at, question_question_category_id, question_level, question_instructions, question_code))
+                cur.execute('''INSERT INTO `question` VALUES ({},{},1,NULL,"{}","{}",0,"{}","{}",{},{},"{}","{}")'''.format(question_id, question_question_type_id, question_shortname, question_question, question_created_at, question_updated_at, question_question_category_id, question_level, question_instructions, question_code))
                 conn.commit()
-                print("se hizo la insercion en tabla question checar en BD")
+                print("se hizo la insercion en tabla question checar en BD con id: ", question_id)
 
                 #------------------TABLA QUESTION_COMPETENCE------------------
                  
@@ -475,8 +477,9 @@ def CargaTrayectoriaView(request):
                     competence_created_at = datetime.now()
                     competence_updated_at = datetime.now()
                     competence_shortname = df.iloc[0]['ID Competencia']
-                    #cur.execute('''INSERT INTO `competence` VALUES ({},1,NULL,"{}",NULL,NULL,NULL,"{}","{}","{}",NULL,'published')'''.format(competence_id, competence_name, competence_created_at, competence_updated_at, competence_shortname)) 
-                    #conn.commit()
+                    cur.execute('''INSERT INTO `competence` VALUES ({},1,NULL,"{}",NULL,NULL,NULL,"{}","{}","{}",NULL,'published')'''.format(competence_id, competence_name, competence_created_at, competence_updated_at, competence_shortname)) 
+                    conn.commit()
+                    print("se hizo la insercion en tabla competence checar en BD con id: ", competence_id)
                     #print("es none y se a;adio: ", question_type)
                     question_competence_competence_id = competence_id
 
@@ -488,9 +491,9 @@ def CargaTrayectoriaView(request):
                 question_competence_created_at = datetime.now()
                 question_competence_updated_at = datetime.now()
                 #en la bd los registros son de 2637
-                #cur.execute('''INSERT INTO `question_competence` VALUES ({},{},{},{},"{}","{}")'''.format(question_competence_id, question_competence_question_id, question_competence_competence_id, question_competence_order, question_competence_created_at, question_competence_updated_at))
+                cur.execute('''INSERT INTO `question_competence` VALUES ({},{},{},{},"{}","{}")'''.format(question_competence_id, question_competence_question_id, question_competence_competence_id, question_competence_order, question_competence_created_at, question_competence_updated_at))
                 conn.commit()
-                print("se hizo la insercion en tabla question_competence checar en BD")
+                print("se hizo la insercion en tabla question_competence checar en BD con id: ", question_competence_id)
 
                 #------------------TABLA ANSWER------------------
                 
@@ -517,8 +520,9 @@ def CargaTrayectoriaView(request):
                     answer_created_at1 = datetime.now()
                     answer_updated_at1 = datetime.now()
                     
-                    #cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id, answer_question_id, answer_answer1_html, answer_qualification1, answer_order1, answer_created_at1, answer_updated_at1))
+                    cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id, answer_question_id, answer_answer1_html, answer_qualification1, answer_order1, answer_created_at1, answer_updated_at1))
                     conn.commit()
+                    print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id)
                 answer_answer2 = str(df.iloc[0][15]) #segunda respuesta del archivo pregunta
                 if "nan" not in answer_answer2 and len(answer_answer2) != 3:
                     max_answer_id2_sql = cur.execute('''SELECT MAX(id) FROM answer; ''')
@@ -540,8 +544,10 @@ def CargaTrayectoriaView(request):
                     answer_created_at2 = datetime.now()
                     answer_updated_at2 = datetime.now()
                     
-                    #cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id2, answer_question2_id, answer_answer2_html, answer_qualification2, answer_order2, answer_created_at2, answer_updated_at2))
+                    cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id2, answer_question2_id, answer_answer2_html, answer_qualification2, answer_order2, answer_created_at2, answer_updated_at2))
                     conn.commit()
+                    print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id2)
+
 
                 answer_answer3 = str(df.iloc[0][17]) #segunda respuesta del archivo pregunta
                 if "nan" not in answer_answer3 and len(answer_answer3) != 3:
@@ -564,8 +570,9 @@ def CargaTrayectoriaView(request):
                     answer_created_at3 = datetime.now()
                     answer_updated_at3 = datetime.now()
                     
-                    #cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id3, answer_question3_id, answer_answer3_html, answer_qualification3, answer_order3, answer_created_at3, answer_updated_at3))
+                    cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id3, answer_question3_id, answer_answer3_html, answer_qualification3, answer_order3, answer_created_at3, answer_updated_at3))
                     conn.commit()
+                    print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id3)
 
                 answer_answer4 = str(df.iloc[0][19]) #segunda respuesta del archivo pregunta
                 if "nan" not in answer_answer4 and len(answer_answer4) != 3: 
@@ -588,8 +595,9 @@ def CargaTrayectoriaView(request):
                     answer_created_at4 = datetime.now()
                     answer_updated_at4 = datetime.now()
                     
-                    #cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id4, answer_question4_id, answer_answer4_html, answer_qualification4, answer_order4, answer_created_at4, answer_updated_at4))
+                    cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id4, answer_question4_id, answer_answer4_html, answer_qualification4, answer_order4, answer_created_at4, answer_updated_at4))
                     conn.commit()
+                    print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id4)
 
                 #------------------TABLA FEEDBACK------------------
 
@@ -603,8 +611,8 @@ def CargaTrayectoriaView(request):
 
                 cur.execute('''INSERT INTO `feedback` VALUES ({},NULL,"{}",1,NULL,"{}","{}",1)'''.format(feedback_id, feedback_description, feedback_created_at, feedback_updated_at))
                 conn.commit()
-
-                
+                print("se hizo la insercion en tabla feedback checar en BD con id: ", feedback_id)
+            
                 
                 #------------------TABLA FEEDBACK_RESOURCE------------------
                 max_feedback_resource_id_sql = cur.execute('''SELECT MAX(id) FROM feedback_resource; ''')
@@ -639,19 +647,11 @@ def CargaTrayectoriaView(request):
 
                         cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at)
                         conn.commit()
-                    print("feedback_resource_id")
-                    print(feedback_resource_id)
-                    print("type(feedback_resource_id)")
-                    print(type(feedback_resource_id))
-
-                    print("fedback_resource_feedback_id")
-                    print(fedback_resource_feedback_id)
-
-                    print("feedback_resource_resource1_id")
-                    print(feedback_resource_resource1_id)
+                        print("se hizo la insercion en tabla resource checar en BD con id: ", resource1_id)
 
                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource1_id))
                     conn.commit()
+                    print("se hizo la insercion en tabla feedback_resource checar en BD con id: ", feedback_resource_id)
 
                 feedback_resource_resource2 = str(df.iloc[0][25])
                 if "nan" not in feedback_resource_resource2 and len(feedback_resource_resource2) != 3:
@@ -675,8 +675,10 @@ def CargaTrayectoriaView(request):
 
                         cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at)
                         conn.commit()
+                        print("se hizo la insercion en tabla resource checar en BD con id: ", resource2_id)
                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id))
                     conn.commit()
+                    print("se hizo la insercion en tabla feedback_resource checar en BD con id: ", feedback_resource_id)
 
                 feedback_resource_resource3 = str(df.iloc[0][28])
                 if "nan" not in feedback_resource_resource3 and len(feedback_resource_resource3) != 3:
@@ -700,8 +702,10 @@ def CargaTrayectoriaView(request):
 
                         cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at)
                         conn.commit()
+                        print("se hizo la insercion en tabla resource checar en BD con id: ", resource3_id)
                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id))
                     conn.commit()
+                    print("se hizo la insercion en tabla feedback_resource checar en BD con id: ", feedback_resource_id)
 
 
 
