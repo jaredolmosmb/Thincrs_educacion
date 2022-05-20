@@ -617,7 +617,7 @@ def CargaTrayectoriaView(request):
                 if feedback_resource_feedback_id_fetch:
                     fedback_resource_feedback_id = feedback_resource_feedback_id_fetch[0]
 
-                feedback_resource_resource1 = df.iloc[0][22]
+                feedback_resource_resource1 = str(df.iloc[0][22])
                 if "nan" not in feedback_resource_resource1 and len(feedback_resource_resource1) != 3:
                     feedback_resource_resource1_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource1))
                     feedback_resource_resource1_id_fetch = cur.fetchone()
@@ -639,10 +639,21 @@ def CargaTrayectoriaView(request):
 
                         cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at)
                         conn.commit()
-                    cur.execute('''INSERT INTO `feedback_resource` VALUES ({},{},{})''').format(feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource1_id)
+                    print("feedback_resource_id")
+                    print(feedback_resource_id)
+                    print("type(feedback_resource_id)")
+                    print(type(feedback_resource_id))
+
+                    print("fedback_resource_feedback_id")
+                    print(fedback_resource_feedback_id)
+
+                    print("feedback_resource_resource1_id")
+                    print(feedback_resource_resource1_id)
+
+                    cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource1_id))
                     conn.commit()
 
-                feedback_resource_resource2 = df.iloc[0][25]
+                feedback_resource_resource2 = str(df.iloc[0][25])
                 if "nan" not in feedback_resource_resource2 and len(feedback_resource_resource2) != 3:
                     feedback_resource_resource2_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource2))
                     feedback_resource_resource2_id_fetch = cur.fetchone()
@@ -664,10 +675,10 @@ def CargaTrayectoriaView(request):
 
                         cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at)
                         conn.commit()
-                    cur.execute('''INSERT INTO `feedback_resource` VALUES ({},{},{})''').format(feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id)
+                    cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id))
                     conn.commit()
 
-                feedback_resource_resource3 = df.iloc[0][28]
+                feedback_resource_resource3 = str(df.iloc[0][28])
                 if "nan" not in feedback_resource_resource3 and len(feedback_resource_resource3) != 3:
                     feedback_resource_resource3_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource3))
                     feedback_resource_resource3_id_fetch = cur.fetchone()
@@ -689,7 +700,7 @@ def CargaTrayectoriaView(request):
 
                         cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at)
                         conn.commit()
-                    cur.execute('''INSERT INTO `feedback_resource` VALUES ({},{},{})''').format(feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id)
+                    cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id))
                     conn.commit()
 
 
