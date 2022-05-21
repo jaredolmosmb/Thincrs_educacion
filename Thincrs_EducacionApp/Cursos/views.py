@@ -379,7 +379,12 @@ def CargaTrayectoriaView(request):
                 #conn.commit()
                 #------------------CARGA DE TABLA COURSE DEL ARCHIVO DE CONFIG-----------
                 cur = conn.cursor()
-                course_id = cur.execute('''SELECT * FROM `course`; ''') + 1
+
+                course_id_sql = cur.execute('''SELECT MAX(id) FROM course; ''')
+                max_course_id = cur.fetchone()
+                course_id = max_course_id[0] + 1
+
+                #course_id = cur.execute('''SELECT * FROM `course`; ''') + 1
                 course_name = dffile2.iloc[0]['Name Perfil']
                 course_short_name_list = [ s[0]+s[1]+s[2] if len(s) >= 3 else s[0] for s in course_name.split() ]
                 course_short_name = ''.join(course_short_name_list).upper()
@@ -391,7 +396,12 @@ def CargaTrayectoriaView(request):
                 print("se hizo la insercion en tabla course checar en BD con id = ", course_id)
 
                 #------------------CARGA DE TABLA EVALUATION DEL ARCHIVO DE CONFIG-----------
-                evaluation_id = cur.execute('''SELECT * FROM `evaluation`; ''') + 1
+                #evaluation_id = cur.execute('''SELECT * FROM `evaluation`; ''') + 1
+
+                evaluation_id_sql = cur.execute('''SELECT MAX(id) FROM evaluation; ''')
+                max_evaluation_id = cur.fetchone()
+                evaluation_id = max_evaluation_id[0] + 1
+
                 evaluation_name = dffile2.iloc[0]['Nombre Diagnostico']
                 evaluation_instructions = markdown.markdown(dffile2.iloc[0]['Instructions'])
                 evaluation_limit_time = 0
@@ -410,7 +420,11 @@ def CargaTrayectoriaView(request):
                 conn.commit()
                 print("se hizo la insercion en tabla evaluation checar en BD con id: ", evaluation_id)
                 #------------------TABLA EVALUATION_METHOD------------------
-                evaluation_method_id = cur.execute('''SELECT * FROM `evaluation_method`; ''') + 1
+                #evaluation_method_id = cur.execute('''SELECT * FROM `evaluation_method`; ''') + 1
+
+                evaluation_method_id_sql = cur.execute('''SELECT MAX(id) FROM evaluation_method; ''')
+                max_evaluation_method_id = cur.fetchone()
+                evaluation_method_id = max_evaluation_method_id[0] + 1
 
                 evaluation_method_evaluation = dffile2.iloc[0]['Nombre Diagnostico']
                 evaluation_method_evaluation_id_sql = cur.execute('''SELECT id FROM `evaluation` WHERE `name` = "{}"; '''.format(evaluation_method_evaluation))
@@ -427,7 +441,11 @@ def CargaTrayectoriaView(request):
                 print("se hizo la insercion en tabla evaluation_method checar en BD con id: ", evaluation_method_id)
              
                 #------------------TABLA EVALUATION_RULE------------------
-                evaluation_rule_id = cur.execute('''SELECT * FROM `evaluation_rule`; ''') + 1
+                #evaluation_rule_id = cur.execute('''SELECT * FROM `evaluation_rule`; ''') + 1
+
+                evaluation_rule_id_sql = cur.execute('''SELECT MAX(id) FROM evaluation_rule; ''')
+                max_evaluation_rule_id = cur.fetchone()
+                evaluation_rule_id = max_evaluation_rule_id[0] + 1
 
                 evaluation_rule_evaluation = dffile2.iloc[0]['Nombre Diagnostico']
                 evaluation_rule_evaluation_id_sql = cur.execute('''SELECT id FROM `evaluation` WHERE `name` = "{}"; '''.format(evaluation_rule_evaluation))
@@ -445,7 +463,12 @@ def CargaTrayectoriaView(request):
 
                 #------------------CARGA DE ARCHIVO DE PREGUNTAS-----------
                 #------------------TABLA QUESTION------------------
-                question_id = cur.execute('''SELECT * FROM `question`; ''') + 1
+                #question_id = cur.execute('''SELECT * FROM `question`; ''') + 1
+
+                question_id_sql = cur.execute('''SELECT MAX(id) FROM question; ''')
+                max_question_id = cur.fetchone()
+                question_id = max_question_id[0] + 1
+
                 question_type = df.iloc[0]['Tipo de ejercicio']
                 question_type_id_sql = cur.execute('''SELECT id FROM `question_type` WHERE `name` = "{}"; '''.format(question_type))
                 question_question_type_id_fetch = cur.fetchone()
@@ -491,7 +514,11 @@ def CargaTrayectoriaView(request):
 
                 #------------------TABLA QUESTION_COMPETENCE------------------
                  
-                question_competence_id = cur.execute('''SELECT * FROM `question_competence`; ''') + 1
+                #question_competence_id = cur.execute('''SELECT * FROM `question_competence`; ''') + 1
+
+                question_competence_id_sql = cur.execute('''SELECT MAX(id) FROM question_competence; ''')
+                max_question_competence_id = cur.fetchone()
+                question_competence_id = max_question_competence_id[0] + 1
 
                 question_competence_question = df.iloc[0]['ID Pregunta']
                 question_competence_question_id_sql = cur.execute('''SELECT id FROM `question` WHERE `short_name` = "{}"; '''.format(question_competence_question))
@@ -505,7 +532,12 @@ def CargaTrayectoriaView(request):
                 if question_competence_competence_id_fetch:
                     question_competence_competence_id = question_competence_competence_id_fetch[0]
                 else:
-                    competence_id = cur.execute('''SELECT * FROM `competence`; ''') + 1
+                    #competence_id = cur.execute('''SELECT * FROM `competence`; ''') + 1
+
+                    competence_id_sql = cur.execute('''SELECT MAX(id) FROM competence; ''')
+                    max_competence_id= cur.fetchone()
+                    competence_id = max_competence_id[0] + 1
+
                     competence_name = df.iloc[0]['Competencia']
                     competence_created_at = datetime.now()
                     competence_updated_at = datetime.now()
