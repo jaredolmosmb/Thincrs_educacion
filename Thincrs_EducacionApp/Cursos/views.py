@@ -273,8 +273,8 @@ def CargaTrayectoriaView(request):
             
 
             #--------------preguntas del archivo nuevo a cargar
-            file = form.cleaned_data.get('file')
-            file2 = form.cleaned_data.get('file2')
+            file = form.cleaned_data.get('file')# archivo preguntas
+            file2 = form.cleaned_data.get('file2')# archivo config
             obj = form.save(commit=False)
             #print("type(file): ", type(file))
             obj.file = file
@@ -369,8 +369,95 @@ def CargaTrayectoriaView(request):
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
 
             para_prueba = False
+            #if de prueba par ano utilizar el codigo que ya funciona para el archivo de config y una sola pregunta del archivo de preguntas
             if valido and valido2 and not para_prueba:
                 print("entre en para prueba")
+                #-----------------------------------INICIO DE CARGA DEL ARCHIVO DE CONFIG-------------------
+                #------------------CARGA DE TABLA COURSE DEL ARCHIVO DE CONFIG-----------
+                cur = conn.cursor()
+
+                course_id_sql = cur.execute('''SELECT MAX(id) FROM course; ''')
+                max_course_id = cur.fetchone()
+                course_id = max_course_id[0] + 1
+
+                #course_id = cur.execute('''SELECT * FROM `course`; ''') + 1
+                course_name = dffile2.iloc[0]['Name Perfil']
+                course_short_name_list = [ s[0]+s[1]+s[2] if len(s) >= 3 else s[0] for s in course_name.split() ]
+                course_short_name = ''.join(course_short_name_list).upper()
+                course_created_at = datetime.now()
+                course_updated_at = datetime.now()
+                course_descripcion_html = markdown.markdown(dffile2.iloc[0]['Description'])
+                cur.execute('''INSERT INTO `course` VALUES ({},1,'art - digital.svg',"{}","{}",'',"{}","{}",1,"{}",NULL,1,1,30,1,NULL,NULL,NULL,0,NULL,NULL,'published',1,1,0)'''.format (course_id, course_name, course_short_name, course_created_at, course_updated_at, course_descripcion_html))            
+                conn.commit()
+                print("se hizo la insercion en tabla course checar en BD con id = ", course_id)
+
+                #------------------CARGA DE TABLA EVALUATION DEL ARCHIVO DE CONFIG-----------
+                #evaluation_id = cur.execute('''SELECT * FROM `evaluation`; ''') + 1
+
+                evaluation_id_sql = cur.execute('''SELECT MAX(id) FROM evaluation; ''')
+                max_evaluation_id = cur.fetchone()
+                evaluation_id = max_evaluation_id[0] + 1
+
+                evaluation_name = dffile2.iloc[0]['Nombre Diagnostico']
+                evaluation_instructions = markdown.markdown(dffile2.iloc[0]['Instructions'])
+                evaluation_limit_time = 0
+                if dffile2.iloc[0]['Evaluation type'] == "pre-assesment" :
+                    evaluation_limit_time = 15
+                evaluation_min_score = dffile2.iloc[0]['Min score']
+                evaluation_weight = dffile2.iloc[0]['Weight']
+                evaluation_max_intents = dffile2.iloc[0]['Default attempts']
+                evaluation_created_at = datetime.now()
+                evaluation_updated_at = datetime.now()
+                evaluation_type = dffile2.iloc[0]['Evaluation type']
+               
+                evaluation_type_id_sql = cur.execute('''SELECT id FROM `evaluation_type` WHERE `name` = "{}"; '''.format(evaluation_type))
+                evaluation_type_id = cur.fetchone()
+                cur.execute('''INSERT INTO `evaluation` VALUES ({},1,NULL,"{}",'',"{}",NULL,NULL,{},{},{},{},1,1,0,"{}","{}",1,{},0,8,'published',0,0,NULL,1,NULL)'''.format (evaluation_id, evaluation_name, evaluation_instructions, evaluation_limit_time, evaluation_min_score, evaluation_weight, evaluation_max_intents, evaluation_created_at, evaluation_updated_at, evaluation_type_id[0]))
+                conn.commit()
+                print("se hizo la insercion en tabla evaluation checar en BD con id: ", evaluation_id)
+                #------------------TABLA EVALUATION_METHOD------------------
+                #evaluation_method_id = cur.execute('''SELECT * FROM `evaluation_method`; ''') + 1
+
+                evaluation_method_id_sql = cur.execute('''SELECT MAX(id) FROM evaluation_method; ''')
+                max_evaluation_method_id = cur.fetchone()
+                evaluation_method_id = max_evaluation_method_id[0] + 1
+
+                evaluation_method_evaluation = dffile2.iloc[0]['Nombre Diagnostico']
+                evaluation_method_evaluation_id_sql = cur.execute('''SELECT id FROM `evaluation` WHERE `name` = "{}"; '''.format(evaluation_method_evaluation))
+                evaluation_method_evaluation_id_fetch = cur.fetchone()
+                if evaluation_method_evaluation_id_fetch:
+                    evaluation_method_evaluation_id = evaluation_method_evaluation_id_fetch[0]
+
+                evaluation_method_created_at = datetime.now()
+                evaluation_method_updated_at = datetime.now()
+
+
+                cur.execute('''INSERT INTO `evaluation_method` VALUES ({},{},'',25,"{}","{}")'''.format (evaluation_method_id, evaluation_method_evaluation_id, evaluation_method_created_at, evaluation_method_updated_at))
+                conn.commit()
+                print("se hizo la insercion en tabla evaluation_method checar en BD con id: ", evaluation_method_id)
+             
+                #------------------TABLA EVALUATION_RULE------------------
+                #evaluation_rule_id = cur.execute('''SELECT * FROM `evaluation_rule`; ''') + 1
+
+                evaluation_rule_id_sql = cur.execute('''SELECT MAX(id) FROM evaluation_rule; ''')
+                max_evaluation_rule_id = cur.fetchone()
+                evaluation_rule_id = max_evaluation_rule_id[0] + 1
+
+                evaluation_rule_evaluation = dffile2.iloc[0]['Nombre Diagnostico']
+                evaluation_rule_evaluation_id_sql = cur.execute('''SELECT id FROM `evaluation` WHERE `name` = "{}"; '''.format(evaluation_rule_evaluation))
+                evaluation_rule_evaluation_id_fetch = cur.fetchone()
+                if evaluation_rule_evaluation_id_fetch:
+                    evaluation_rule_evaluation_id = evaluation_rule_evaluation_id_fetch[0]
+
+                evaluation_rule_created_at = datetime.now()
+                evaluation_rule_updated_at = datetime.now()
+
+                cur.execute('''INSERT INTO `evaluation_rule` VALUES ({},4,"",{},"{}","{}")'''.format (evaluation_rule_id, evaluation_rule_evaluation_id, evaluation_rule_created_at, evaluation_rule_updated_at))
+                conn.commit()
+                print("se hizo la insercion en tabla evaluation_rule checar en BD con id: ", evaluation_rule_id)
+                #-----------------------------------FIN DE CARGA DEL ARCHIVO DE CONFIG-------------------
+
+                #-----------------------------------INICIO DE CARGA DEL ARCHIVO DE PREGUNTAS-------------------
                 for ind1, elem1 in df.iterrows():
                     #ID_Pregunta = elem1[0]
                     ID_Pregunta = elem1['ID Pregunta']
