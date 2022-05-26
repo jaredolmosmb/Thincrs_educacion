@@ -458,14 +458,21 @@ def CargaTrayectoriaView(request):
                 #-----------------------------------FIN DE CARGA DEL ARCHIVO DE CONFIG-------------------
 
                 #-----------------------------------INICIO DE CARGA DEL ARCHIVO DE PREGUNTAS-------------------
+                #df es el dataframe del archivo de data
+                print("len(df.iterrows())")
+                #print(len(df.iterrows()))
                 for ind1, elem1 in df.iterrows():
+                    igual = False
                     #ID_Pregunta = elem1[0]
                     ID_Pregunta = elem1['ID Pregunta']
                     #-----------Hay que cambiar todo el df.iloc[0] por elem1 en la seccion de alta
                     print("ID_Pregunta: ", ID_Pregunta)
+                    #DF2 es el dataframe de las preguntas en la base de datos
                     for ind2, elem2 in df2.iterrows():
                         #comparacion por id para checar si est ala pregunta
+                        #si esta la pregunta en la base de datos hay dos posibilidades que se agregue otro parrafo, o que se agregue solo lo demas porque la similitud es 1
                         if ID_Pregunta == elem2[4]:
+                            igual = True
                             probabilidad_similitud2 = similar(elem1[12].replace("\n", "").replace("  "," "), markdownify.markdownify(elem2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]"))
                             print("misma pregunta por id = ", elem2[0])
                             if probabilidad_similitud2 == 1:
@@ -719,7 +726,7 @@ def CargaTrayectoriaView(request):
 
                                         feedback_resource_resource1_id = resource1_id
 
-                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at)
+                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at))
                                         conn.commit()
                                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource1_id)
 
@@ -747,7 +754,7 @@ def CargaTrayectoriaView(request):
 
                                         feedback_resource_resource2_id = resource2_id
 
-                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at)
+                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at))
                                         conn.commit()
                                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource2_id)
                                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id))
@@ -774,7 +781,7 @@ def CargaTrayectoriaView(request):
 
                                         feedback_resource_resource3_id = resource3_id
 
-                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at)
+                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at))
                                         conn.commit()
                                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource3_id)
                                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id))
@@ -835,8 +842,8 @@ def CargaTrayectoriaView(request):
                                 cur.execute('''UPDATE `question` SET question="{}" WHERE short_name="{}";'''.format(question_compuesto, ID_Pregunta))
                                 #
                                 #cur.execute('''INSERT INTO `question` VALUES ({},{},1,NULL,"{}","{}",0,"{}","{}",{},{},"{}","{}")'''.format(question_id, question_question_type_id, question_shortname, question_question, question_created_at, question_updated_at, question_question_category_id, question_level, question_instructions, question_code))
-                                #conn.commit()
-                                #print("se hizo la insercion en tabla question checar en BD con id: ", question_id)
+                                conn.commit()
+                                print("se hizo la insercion como update en tabla question checar en BD con id: ", question_id)
 
                                 #------------------TABLA QUESTION_COMPETENCE------------------
                                  
@@ -1036,7 +1043,7 @@ def CargaTrayectoriaView(request):
 
                                         feedback_resource_resource1_id = resource1_id
 
-                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at)
+                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at))
                                         conn.commit()
                                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource1_id)
 
@@ -1064,7 +1071,7 @@ def CargaTrayectoriaView(request):
 
                                         feedback_resource_resource2_id = resource2_id
 
-                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at)
+                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at))
                                         conn.commit()
                                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource2_id)
                                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id))
@@ -1091,7 +1098,7 @@ def CargaTrayectoriaView(request):
 
                                         feedback_resource_resource3_id = resource3_id
 
-                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at)
+                                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at))
                                         conn.commit()
                                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource3_id)
                                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id))
@@ -1099,6 +1106,332 @@ def CargaTrayectoriaView(request):
                                     print("se hizo la insercion en tabla feedback_resource checar en BD con id: ", feedback_resource_id)
                                     #------------------------------------------------termina "añadir la descricpion del csv a la pregunta en la columna question convertida a html"--------------------------------------
                                 #añadir la descricpion del csv a la pregunta en la columna question convertida a html
+                    if igual == False:
+
+                        #------------------------------------------------a;adir pregunta a la Bs porque no existe--------------------------------------
+                        #------------------TABLA QUESTION------------------
+                        #question_id = cur.execute('''SELECT * FROM `question`; ''') + 1
+
+                        question_id_sql = cur.execute('''SELECT MAX(id) FROM question; ''')
+                        max_question_id = cur.fetchone()
+                        question_id = max_question_id[0] + 1
+
+                        question_type = elem1['Tipo de ejercicio']
+                        question_type_id_sql = cur.execute('''SELECT id FROM `question_type` WHERE `name` = "{}"; '''.format(question_type))
+                        question_question_type_id_fetch = cur.fetchone()
+                        if question_question_type_id_fetch:
+                            question_question_type_id = question_question_type_id_fetch[0]
+                        else:
+                            question_type_id = cur.execute('''SELECT * FROM `question_type`; ''') + 1
+                            question_type_created_at = datetime.now()
+                            question_type_updated_at = datetime.now()
+                            cur.execute('''INSERT INTO `question_type` VALUES ({},"{}","{}", NULL,"{}","{}"  )'''.format(question_type_id, question_type, question_type, question_type_created_at, question_type_updated_at)) 
+                            conn.commit()
+                            print("se hizo la insercion en tabla question_type checar en BD con id: ", question_type_id)
+                            #print("es none y se a;adio: ", question_type)
+                            question_question_type_id = question_type_id       
+
+                        question_shortname = elem1['ID Pregunta']
+                        question_question = markdown.markdown((elem1['Descripción']).replace("![alt text]", " ![alt text]")) #descripcion del excel
+                        print("question_question convertido a html: ", question_question)
+                        question_question = question_question.replace("![alt text]", " ![alt text]")
+                        print("question_question convertido a html y remplazando el alt: ", question_question)
+
+                        question_question_elem2 = elem2[5] #descripcion de la base de datos
+                        question_compuesto = question_question_elem2 + question_question
+                        question_created_at = datetime.now()
+                        question_updated_at = datetime.now()
+
+                        question_category = elem1['Concepto']
+                        question_category_id_sql = cur.execute('''SELECT id FROM `question_category` WHERE `name` = "{}"; '''.format(question_category))
+                        question_question_category_id_fetch = cur.fetchone()
+                        if question_question_category_id_fetch:
+                            question_question_category_id = question_question_category_id_fetch[0]
+                        else:
+                            question_category_id = cur.execute('''SELECT * FROM `question_category`; ''') + 1
+                            question_category_created_at = datetime.now()
+                            question_category_updated_at = datetime.now()
+                            cur.execute('''INSERT INTO `question_category` VALUES ({},"{}","{}","{}"  )'''.format(question_category_id, question_category, question_category, question_category_created_at, question_category_updated_at)) 
+                            conn.commit()
+                            print("se hizo la insercion en tabla question_category checar en BD con id: ", question_category_id)
+                            #print("es none y se a;adio: ", question_type)
+                            question_question_category_id = question_category_id 
+
+                        question_level = elem1['Nivel']
+                        question_instructions = markdown.markdown(elem1['Instrucción']) 
+                        question_code = elem1['Código']
+                        #question count nromal termina en 2497
+                        #cur.execute('''UPDATE `question` SET question="{}" WHERE short_name="{}";'''.format(question_compuesto, ID_Pregunta))
+                        #
+                        cur.execute('''INSERT INTO `question` VALUES ({},{},1,NULL,"{}","{}",0,"{}","{}",{},{},"{}","{}")'''.format(question_id, question_question_type_id, question_shortname, question_question, question_created_at, question_updated_at, question_question_category_id, question_level, question_instructions, question_code))
+                        conn.commit()
+                        print("se hizo la insercion en tabla question checar en BD con id: ", question_id)
+
+                        #------------------TABLA QUESTION_COMPETENCE------------------
+                         
+                        #question_competence_id = cur.execute('''SELECT * FROM `question_competence`; ''') + 1
+
+                        question_competence_id_sql = cur.execute('''SELECT MAX(id) FROM question_competence; ''')
+                        max_question_competence_id = cur.fetchone()
+                        question_competence_id = max_question_competence_id[0] + 1
+
+                        question_competence_question = elem1['ID Pregunta']
+                        question_competence_question_id_sql = cur.execute('''SELECT id FROM `question` WHERE `short_name` = "{}"; '''.format(question_competence_question))
+                        question_competence_question_id_fetch = cur.fetchone()
+                        if question_competence_question_id_fetch:
+                            question_competence_question_id = question_competence_question_id_fetch[0]
+
+                        question_competence_competence = elem1['ID Competencia']
+                        question_competence_competence_id_sql = cur.execute('''SELECT id FROM `competence` WHERE `shortname` = "{}"; '''.format(question_competence_competence))
+                        question_competence_competence_id_fetch = cur.fetchone()
+                        if question_competence_competence_id_fetch:
+                            question_competence_competence_id = question_competence_competence_id_fetch[0]
+                        else:
+                            #competence_id = cur.execute('''SELECT * FROM `competence`; ''') + 1
+
+                            competence_id_sql = cur.execute('''SELECT MAX(id) FROM competence; ''')
+                            max_competence_id= cur.fetchone()
+                            competence_id = max_competence_id[0] + 1
+
+                            competence_name = elem1['Competencia']
+                            competence_created_at = datetime.now()
+                            competence_updated_at = datetime.now()
+                            competence_shortname = elem1['ID Competencia']
+                            cur.execute('''INSERT INTO `competence` VALUES ({},1,NULL,"{}",NULL,NULL,NULL,"{}","{}","{}",NULL,'published')'''.format(competence_id, competence_name, competence_created_at, competence_updated_at, competence_shortname)) 
+                            conn.commit()
+                            print("se hizo la insercion en tabla competence checar en BD con id: ", competence_id)
+                            #print("es none y se a;adio: ", question_type)
+                            question_competence_competence_id = competence_id
+
+                        if elem1['Prerrequisitos'] == "null":
+                            question_competence_order = 0
+                        else:
+                            question_competence_order = 1
+
+                        question_competence_created_at = datetime.now()
+                        question_competence_updated_at = datetime.now()
+                        #en la bd los registros son de 2637
+                        cur.execute('''INSERT INTO `question_competence` VALUES ({},{},{},{},"{}","{}")'''.format(question_competence_id, question_competence_question_id, question_competence_competence_id, question_competence_order, question_competence_created_at, question_competence_updated_at))
+                        conn.commit()
+                        print("se hizo la insercion en tabla question_competence checar en BD con id: ", question_competence_id)
+
+                        #------------------TABLA ANSWER------------------
+                        
+
+                        answer_answer1 = str(elem1[13]) #primer respuesta del archivo pregunta
+                        if "nan" not in answer_answer1 and len(answer_answer1) != 3:
+                            
+                            max_answer_id_sql = cur.execute('''SELECT MAX(id) FROM answer; ''')
+                            max_answer_id = cur.fetchone()
+                            #print("max_answer_id")
+                            #print(max_answer_id)
+                            answer_id = max_answer_id[0] + 1
+
+                            answer_question = elem1['ID Pregunta']
+                            answer_question_id_sql = cur.execute('''SELECT id FROM `question` WHERE `short_name` = "{}"; '''.format(answer_question))
+                            answer_question_id_fetch = cur.fetchone()
+                            if answer_question_id_fetch:
+                                answer_question_id = answer_question_id_fetch[0]
+                            
+                            answer_answer1_html = markdown.markdown(answer_answer1)
+                            
+                            answer_qualification1 = elem1[14]
+                            answer_order1 = elem1[14]
+                            answer_created_at1 = datetime.now()
+                            answer_updated_at1 = datetime.now()
+                            
+                            cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id, answer_question_id, answer_answer1_html, answer_qualification1, answer_order1, answer_created_at1, answer_updated_at1))
+                            conn.commit()
+                            print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id)
+                        answer_answer2 = str(elem1[15]) #segunda respuesta del archivo pregunta
+                        if "nan" not in answer_answer2 and len(answer_answer2) != 3:
+                            max_answer_id2_sql = cur.execute('''SELECT MAX(id) FROM answer; ''')
+                            max_answer_id2 = cur.fetchone()
+                            #print("max_answer_id")
+                            #print(max_answer_id)
+                            answer_id2 = max_answer_id2[0] + 1
+
+                            answer_question2 = elem1['ID Pregunta']
+                            answer_question2_id_sql = cur.execute('''SELECT id FROM `question` WHERE `short_name` = "{}"; '''.format(answer_question2))
+                            answer_question2_id_fetch = cur.fetchone()
+                            if answer_question2_id_fetch:
+                                answer_question2_id = answer_question2_id_fetch[0]
+                            
+                            answer_answer2_html = markdown.markdown(answer_answer2)
+                            
+                            answer_qualification2 = elem1[16]
+                            answer_order2 = elem1[16]
+                            answer_created_at2 = datetime.now()
+                            answer_updated_at2 = datetime.now()
+                            
+                            cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id2, answer_question2_id, answer_answer2_html, answer_qualification2, answer_order2, answer_created_at2, answer_updated_at2))
+                            conn.commit()
+                            print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id2)
+
+
+                        answer_answer3 = str(elem1[17]) #segunda respuesta del archivo pregunta
+                        if "nan" not in answer_answer3 and len(answer_answer3) != 3:
+                            max_answer_id3_sql = cur.execute('''SELECT MAX(id) FROM answer; ''')
+                            max_answer_id3 = cur.fetchone()
+                            #print("max_answer_id")
+                            #print(max_answer_id)
+                            answer_id3 = max_answer_id3[0] + 1
+
+                            answer_question3 = elem1['ID Pregunta']
+                            answer_question3_id_sql = cur.execute('''SELECT id FROM `question` WHERE `short_name` = "{}"; '''.format(answer_question3))
+                            answer_question3_id_fetch = cur.fetchone()
+                            if answer_question3_id_fetch:
+                                answer_question3_id = answer_question3_id_fetch[0]
+                            
+                            answer_answer3_html = markdown.markdown(answer_answer3)
+                            
+                            answer_qualification3 = elem1[18]
+                            answer_order3 = elem1[18]
+                            answer_created_at3 = datetime.now()
+                            answer_updated_at3 = datetime.now()
+                            
+                            cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id3, answer_question3_id, answer_answer3_html, answer_qualification3, answer_order3, answer_created_at3, answer_updated_at3))
+                            conn.commit()
+                            print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id3)
+
+                        answer_answer4 = str(elem1[19]) #segunda respuesta del archivo pregunta
+                        if "nan" not in answer_answer4 and len(answer_answer4) != 3: 
+                            max_answer_id4_sql = cur.execute('''SELECT MAX(id) FROM answer; ''')
+                            max_answer_id4 = cur.fetchone()
+                            #print("max_answer_id")
+                            #print(max_answer_id)
+                            answer_id4 = max_answer_id4[0] + 1
+
+                            answer_question4 = elem1['ID Pregunta']
+                            answer_question4_id_sql = cur.execute('''SELECT id FROM `question` WHERE `short_name` = "{}"; '''.format(answer_question4))
+                            answer_question4_id_fetch = cur.fetchone()
+                            if answer_question4_id_fetch:
+                                answer_question4_id = answer_question4_id_fetch[0]
+                            
+                            answer_answer4_html = markdown.markdown(answer_answer4)
+                            
+                            answer_qualification4 = elem1[20]
+                            answer_order4 = elem1[20]
+                            answer_created_at4 = datetime.now()
+                            answer_updated_at4 = datetime.now()
+                            
+                            cur.execute('''INSERT INTO `answer` VALUES ({},{},"{}",{},{},"{}","{}")'''.format(answer_id4, answer_question4_id, answer_answer4_html, answer_qualification4, answer_order4, answer_created_at4, answer_updated_at4))
+                            conn.commit()
+                            print("se hizo la insercion en tabla answer checar en BD con id: ", answer_id4)
+
+                        #------------------TABLA FEEDBACK------------------
+
+                        max_feedback_id_sql = cur.execute('''SELECT MAX(id) FROM feedback; ''')
+                        max_feedback_id = cur.fetchone()
+                        feedback_id = max_feedback_id[0] + 1
+                        feedback_description = elem1['Feedback']
+                        feedback_created_at = datetime.now()
+                        feedback_updated_at = datetime.now()
+
+
+                        cur.execute('''INSERT INTO `feedback` VALUES ({},NULL,"{}",1,NULL,"{}","{}",1)'''.format(feedback_id, feedback_description, feedback_created_at, feedback_updated_at))
+                        conn.commit()
+                        print("se hizo la insercion en tabla feedback checar en BD con id: ", feedback_id)
+                    
+                        
+                        #------------------TABLA FEEDBACK_RESOURCE------------------
+                        max_feedback_resource_id_sql = cur.execute('''SELECT MAX(id) FROM feedback_resource; ''')
+                        max_feedback_resource_id = cur.fetchone()
+                        feedback_resource_id = max_feedback_resource_id[0] + 1
+
+                        feedback_resource_feedback = elem1['Feedback']
+                        feedback_resource_feedback_id_sql = cur.execute('''SELECT id FROM `feedback` WHERE `description` = "{}"; '''.format(feedback_resource_feedback))
+                        feedback_resource_feedback_id_fetch = cur.fetchone()
+                        if feedback_resource_feedback_id_fetch:
+                            fedback_resource_feedback_id = feedback_resource_feedback_id_fetch[0]
+
+                        feedback_resource_resource1 = str(elem1[22])
+                        if "nan" not in feedback_resource_resource1 and len(feedback_resource_resource1) != 3:
+                            feedback_resource_resource1_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource1))
+                            feedback_resource_resource1_id_fetch = cur.fetchone()
+                            if feedback_resource_resource1_id_fetch:
+                                feedback_resource_resource1_id = feedback_resource_resource1_id_fetch[0]
+                            else:
+                                #------------------TABLA RESOURCE POR RESOURCE EN ARCHIVO DE PREGUNTAS 1/3-------------------
+                                max_resource1_id_sql = cur.execute('''SELECT MAX(id) FROM resource; ''')
+                                max_resource1_id = cur.fetchone()
+                                resource1_id = max_resource1_id[0] + 1
+
+                                resource1_name = elem1[22]
+                                resource1_url = elem1[23]
+                                resource1_language = elem1[24]
+                                resource1_created_at = datetime.now()
+                                resource1_updated_at = datetime.now()
+
+                                feedback_resource_resource1_id = resource1_id
+                                print("resource1_id", resource1_id)
+                                print("type(resource1_id)", type(resource1_id))
+
+                                cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at))
+                                conn.commit()
+                                print("se hizo la insercion en tabla resource checar en BD con id: ", resource1_id)
+
+                            cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource1_id))
+                            conn.commit()
+                            print("se hizo la insercion en tabla feedback_resource checar en BD con id: ", feedback_resource_id)
+
+                        feedback_resource_resource2 = str(elem1[25])
+                        if "nan" not in feedback_resource_resource2 and len(feedback_resource_resource2) != 3:
+                            feedback_resource_resource2_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource2))
+                            feedback_resource_resource2_id_fetch = cur.fetchone()
+                            if feedback_resource_resource2_id_fetch:
+                                feedback_resource_resource2_id = feedback_resource_resource2_id_fetch[0]
+                            else:
+                                #------------------TABLA RESOURCE POR RESOURCE EN ARCHIVO DE PREGUNTAS 2/3-------------------
+                                max_resource2_id_sql = cur.execute('''SELECT MAX(id) FROM resource; ''')
+                                max_resource2_id = cur.fetchone()
+                                resource2_id = max_resource2_id[0] + 1
+
+                                resource2_name = elem1[25]
+                                resource2_url = elem1[26]
+                                resource2_language = elem1[27]
+                                resource2_created_at = datetime.now()
+                                resource2_updated_at = datetime.now()
+
+                                feedback_resource_resource2_id = resource2_id
+
+                                cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at))
+                                conn.commit()
+                                print("se hizo la insercion en tabla resource checar en BD con id: ", resource2_id)
+                            cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id))
+                            conn.commit()
+                            print("se hizo la insercion en tabla feedback_resource checar en BD con id: ", feedback_resource_id)
+
+                        feedback_resource_resource3 = str(elem1[28])
+                        if "nan" not in feedback_resource_resource3 and len(feedback_resource_resource3) != 3:
+                            feedback_resource_resource3_id_sql = cur.execute('''SELECT id FROM `resource` WHERE `name` = "{}"; '''.format(feedback_resource_resource3))
+                            feedback_resource_resource3_id_fetch = cur.fetchone()
+                            if feedback_resource_resource3_id_fetch:
+                                feedback_resource_resource3_id = feedback_resource_resource3_id_fetch[0]
+                            else:
+                                #------------------TABLA RESOURCE POR RESOURCE EN ARCHIVO DE PREGUNTAS 3/3-------------------
+                                max_resource3_id_sql = cur.execute('''SELECT MAX(id) FROM resource; ''')
+                                max_resource3_id = cur.fetchone()
+                                resource3_id = max_resource3_id[0] + 1
+
+                                resource3_name = elem1[28]
+                                resource3_url = elem1[29]
+                                resource3_language = elem1[30]
+                                resource3_created_at = datetime.now()
+                                resource3_updated_at = datetime.now()
+
+                                feedback_resource_resource3_id = resource3_id
+
+                                cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at))
+                                conn.commit()
+                                print("se hizo la insercion en tabla resource checar en BD con id: ", resource3_id)
+                            cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id))
+                            conn.commit()
+                            print("se hizo la insercion en tabla feedback_resource checar en BD con id: ", feedback_resource_id)
+                            #------------------------------------------------termina "a;adir pregunta a la Bs porque no existe"--------------------------------------
+                        #a;adir pregunta a la Bs porque no existe
+                        print("pregunta con ind1 = "+str(ind1)+" es diferente a las de la bd")
+
 
 
             #quitar para_prueba para que funciona la carga a BD
@@ -1444,7 +1777,7 @@ def CargaTrayectoriaView(request):
 
                         feedback_resource_resource1_id = resource1_id
 
-                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at)
+                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource1_id, resource1_name, resource1_url, resource1_language, resource1_created_at, resource1_updated_at))
                         conn.commit()
                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource1_id)
 
@@ -1472,7 +1805,7 @@ def CargaTrayectoriaView(request):
 
                         feedback_resource_resource2_id = resource2_id
 
-                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at)
+                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource2_id, resource2_name, resource2_url, resource2_language, resource2_created_at, resource1_updated_at))
                         conn.commit()
                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource2_id)
                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource2_id))
@@ -1499,7 +1832,7 @@ def CargaTrayectoriaView(request):
 
                         feedback_resource_resource3_id = resource3_id
 
-                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")''').format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at)
+                        cur.execute('''INSERT INTO `resource` VALUES ({},"{}",NULL, "{}", 'web', "{}", 1, "{}", "{}")'''.format(resource3_id, resource3_name, resource3_url, resource3_language, resource3_created_at, resource3_updated_at))
                         conn.commit()
                         print("se hizo la insercion en tabla resource checar en BD con id: ", resource3_id)
                     cur.execute('''INSERT INTO `feedback_resource` VALUES (%s,%s,%s)''', (feedback_resource_id, fedback_resource_feedback_id, feedback_resource_resource3_id))
