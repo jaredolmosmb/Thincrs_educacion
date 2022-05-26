@@ -368,7 +368,7 @@ def CargaTrayectoriaView(request):
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
 
-            para_prueba = True
+            para_prueba = False
             #if de prueba par ano utilizar el codigo que ya funciona para el archivo de config y una sola pregunta del archivo de preguntas
             if valido and valido2 and not para_prueba:
                 print("entre en para prueba")
@@ -491,7 +491,12 @@ def CargaTrayectoriaView(request):
                                 if question_question_type_id_fetch:
                                     question_question_type_id = question_question_type_id_fetch[0]
                                 else:
-                                    question_type_id = cur.execute('''SELECT * FROM `question_type`; ''') + 1
+                                    #question_type_id = cur.execute('''SELECT * FROM `question_type`; ''') + 1
+
+                                    question_type_id_sql = cur.execute('''SELECT MAX(id) FROM question_type; ''')
+                                    max_question_type_id = cur.fetchone()
+                                    question_type_id = max_question_type_id[0] + 1
+
                                     question_type_created_at = datetime.now()
                                     question_type_updated_at = datetime.now()
                                     cur.execute('''INSERT INTO `question_type` VALUES ({},"{}","{}", NULL,"{}","{}"  )'''.format(question_type_id, question_type, question_type, question_type_created_at, question_type_updated_at)) 
@@ -511,7 +516,12 @@ def CargaTrayectoriaView(request):
                                 if question_question_category_id_fetch:
                                     question_question_category_id = question_question_category_id_fetch[0]
                                 else:
-                                    question_category_id = cur.execute('''SELECT * FROM `question_category`; ''') + 1
+                                    #question_category_id = cur.execute('''SELECT * FROM `question_category`; ''') + 1
+
+                                    question_category_id_sql = cur.execute('''SELECT MAX(id) FROM question_category; ''')
+                                    max_question_category_id = cur.fetchone()
+                                    question_category_id = max_question_category_id[0] + 1
+
                                     question_category_created_at = datetime.now()
                                     question_category_updated_at = datetime.now()
                                     cur.execute('''INSERT INTO `question_category` VALUES ({},"{}","{}","{}"  )'''.format(question_category_id, question_category, question_category, question_category_created_at, question_category_updated_at)) 
@@ -557,14 +567,14 @@ def CargaTrayectoriaView(request):
                                     competence_name = elem1[3]
                                     competence_created_at = datetime.now()
                                     competence_updated_at = datetime.now()
-                                    competence_shortname = elem1['ID Competencia']
+                                    competence_shortname = elem1[2]
                                     cur.execute('''INSERT INTO `competence` VALUES ({},1,NULL,"{}",NULL,NULL,NULL,"{}","{}","{}",NULL,'published')'''.format(competence_id, competence_name, competence_created_at, competence_updated_at, competence_shortname)) 
                                     conn.commit()
                                     print("se hizo la insercion en tabla competence checar en BD con id: ", competence_id)
                                     #print("es none y se a;adio: ", question_type)
                                     question_competence_competence_id = competence_id
 
-                                if elem1['Prerrequisitos'] == "null":
+                                if elem1[4] == "null":
                                     question_competence_order = 0
                                 else:
                                     question_competence_order = 1
@@ -1203,7 +1213,7 @@ def CargaTrayectoriaView(request):
                             #print("es none y se a;adio: ", question_type)
                             question_competence_competence_id = competence_id
 
-                        if elem1['Prerrequisitos'] == "null":
+                        if elem1[4] == "null":
                             question_competence_order = 0
                         else:
                             question_competence_order = 1
