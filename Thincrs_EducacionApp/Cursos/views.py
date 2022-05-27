@@ -368,7 +368,7 @@ def CargaTrayectoriaView(request):
             else:
               print("checar archivo de excel hay posible repeticion con alguna(s) pregunta(s) en la BD")
 
-            para_prueba = False
+            para_prueba = True
             #if de prueba par ano utilizar el codigo que ya funciona para el archivo de config y una sola pregunta del archivo de preguntas
             if valido and valido2 and not para_prueba:
                 print("entre en para prueba")
@@ -1446,134 +1446,64 @@ def CargaTrayectoriaView(request):
 
             #quitar para_prueba para que funciona la carga a BD
             if valido and valido2 and para_prueba:
-                #--------------------columnas de curso
-                print("df.iloc[0]['ID Pregunta']")
-                print(df.iloc[0]['ID Pregunta'])
-                print(df.iloc[0][0])
+                cur = conn.cursor()
+                question_id_sql = cur.execute('''SELECT MAX(id) FROM question; ''')
+                max_question_id = cur.fetchone()
+                question_id = max_question_id[0] + 1
 
-                print("df.iloc[0]['Código']")
-                print(df.iloc[0]['Código'])
-                print(df.iloc[0][1])
+                #dffile2.iloc[0][3]
+                question_type = df.iloc[0][8]
+                question_type_id_sql = cur.execute('''SELECT id FROM `question_type` WHERE `name` = "{}"; '''.format(question_type))
+                question_question_type_id_fetch = cur.fetchone()
+                if question_question_type_id_fetch:
+                    question_question_type_id = question_question_type_id_fetch[0]
+                else:
+                    question_type_id = cur.execute('''SELECT * FROM `question_type`; ''') + 1
+                    question_type_created_at = datetime.now()
+                    question_type_updated_at = datetime.now()
+                    cur.execute('''INSERT INTO `question_type` VALUES ({},"{}","{}", NULL,"{}","{}"  )'''.format(question_type_id, question_type, question_type, question_type_created_at, question_type_updated_at)) 
+                    conn.commit()
+                    print("se hizo la insercion en tabla question_type checar en BD con id: ", question_type_id)
+                    #print("es none y se a;adio: ", question_type)
+                    question_question_type_id = question_type_id       
 
-                print("df.iloc[0]['ID Competencia']")
-                print(df.iloc[0]['ID Competencia'])
-                print(df.iloc[0][2])
+                question_shortname = df.iloc[0][0]
+                question_question = markdown.markdown((df.iloc[0][12]).replace("![alt text]", " ![alt text]")) #descripcion del excel
+                print("question_question convertido a html: ", question_question)
+                question_question = question_question.replace("![alt text]", " ![alt text]")
+                print("question_question convertido a html y remplazando el alt: ", question_question)
 
-                print("df.iloc[0]['Competencia']")
-                print(df.iloc[0]['Competencia'])
-                print(df.iloc[0][3])
+                #question_question_elem2 = elem2[5] #descripcion de la base de datos
+                #question_compuesto = question_question_elem2 + question_question
+                question_created_at = datetime.now()
+                question_updated_at = datetime.now()
+
+                question_category = df.iloc[0][7]
+                question_category_id_sql = cur.execute('''SELECT id FROM `question_category` WHERE `name` = "{}"; '''.format(question_category))
+                question_question_category_id_fetch = cur.fetchone()
+                if question_question_category_id_fetch:
+                    question_question_category_id = question_question_category_id_fetch[0]
+                else:
+                    question_category_id = cur.execute('''SELECT * FROM `question_category`; ''') + 1
+                    question_category_created_at = datetime.now()
+                    question_category_updated_at = datetime.now()
+                    cur.execute('''INSERT INTO `question_category` VALUES ({},"{}","{}","{}"  )'''.format(question_category_id, question_category, question_category, question_category_created_at, question_category_updated_at)) 
+                    conn.commit()
+                    print("se hizo la insercion en tabla question_category checar en BD con id: ", question_category_id)
+                    #print("es none y se a;adio: ", question_type)
+                    question_question_category_id = question_category_id 
+
+                question_level = df.iloc[0][10]
+                question_instructions = markdown.markdown(df.iloc[0][11]) 
+                question_code = df.iloc[0][1]
+                #question count nromal termina en 2497
+                #cur.execute('''UPDATE `question` SET question="{}" WHERE short_name="{}";'''.format(question_compuesto, ID_Pregunta))
+                cur.execute('''INSERT INTO `question` VALUES ({},{},1,NULL,"{}","{}",0,"{}","{}",{},{},"{}","{}")'''.format(question_id, question_question_type_id, question_shortname, question_question, question_created_at, question_updated_at, question_question_category_id, question_level, question_instructions, question_code))
+                conn.commit()
+                print("se hizo la insercion en tabla question checar en BD con id: ", question_id)
+                pass
+
                 
-                print("df.iloc[0]['Prerrequisitos']")
-                print(df.iloc[0]['Prerrequisitos'])
-                print(df.iloc[0][4])
-
-                print("df.iloc[0]['Módulo']")
-                print(df.iloc[0]['Módulo'])
-                print(df.iloc[0][5])
-
-                print("df.iloc[0]['Tipo de Evaluación']")
-                print(df.iloc[0]['Tipo de Evaluación'])
-                print(df.iloc[0][6])
-
-                print("df.iloc[0]['Concepto']")
-                print(df.iloc[0]['Concepto'])
-                print(df.iloc[0][7])
-
-                print("df.iloc[0]['Tipo de ejercicio']")
-                print(df.iloc[0]['Tipo de ejercicio'])
-                print(df.iloc[0][8])
-                
-                print("df.iloc[0]['Puntaje']")
-                print(df.iloc[0]['Puntaje'])
-                print(df.iloc[0][9])
-
-                print("df.iloc[0]['Nivel']")
-                print(df.iloc[0]['Nivel'])
-                print(df.iloc[0][10])
-
-                print("df.iloc[0]['Instrucción']")
-                print(df.iloc[0]['Instrucción'])
-                print(df.iloc[0][11])
-
-                print("df.iloc[0]['Descripción']")
-                print(df.iloc[0]['Descripción'])
-                print(df.iloc[0][12])
-
-                print("df.iloc[0]['Respuesta']")
-                print(df.iloc[0]['Respuesta'])
-                print(df.iloc[0][13])
-                
-                print("df.iloc[0]['Ponderación']")
-                print(df.iloc[0]['Ponderación'])
-                print(df.iloc[0][14])
-
-                print("df.iloc[0]['Respuesta']")
-                print(df.iloc[0]['Respuesta'])
-                print(df.iloc[0][15])
-                
-                print("df.iloc[0]['Ponderación']")
-                print(df.iloc[0]['Ponderación'])
-                print(df.iloc[0][16])
-
-                print("df.iloc[0]['Respuesta']")
-                print(df.iloc[0]['Respuesta'])
-                print(df.iloc[0][17])
-                
-                print("df.iloc[0]['Ponderación']")
-                print(df.iloc[0]['Ponderación'])
-                print(df.iloc[0][18])
-
-                print("df.iloc[0]['Respuesta']")
-                print(df.iloc[0]['Respuesta'])
-                print(df.iloc[0][19])
-                
-                print("df.iloc[0]['Ponderación']")
-                print(df.iloc[0]['Ponderación'])
-                print(df.iloc[0][20])
-
-                print("df.iloc[0]['Feedback']")
-                print(df.iloc[0]['Feedback'])
-                print(df.iloc[0][21])
-
-                print("df.iloc[0]['Recurso - Nombre']")
-                print(df.iloc[0]['Recurso - Nombre'])
-                print(df.iloc[0][22])
-
-                print("df.iloc[0]['Recurso - URL']")
-                print(df.iloc[0]['Recurso - URL'])
-                print(df.iloc[0][23])
-
-                print("df.iloc[0]['Idioma']")
-                print(df.iloc[0]['Idioma'])
-                print(df.iloc[0][24])
-
-                print("df.iloc[0]['Recurso - Nombre']")
-                print(df.iloc[0]['Recurso - Nombre'])
-                print(df.iloc[0][25])
-
-                print("df.iloc[0]['Recurso - URL']")
-                print(df.iloc[0]['Recurso - URL'])
-                print(df.iloc[0][26])
-
-                print("df.iloc[0]['Idioma']")
-                print(df.iloc[0]['Idioma'])
-                print(df.iloc[0][27])
-
-                print("df.iloc[0]['Recurso - Nombre']")
-                print(df.iloc[0]['Recurso - Nombre'])
-                print(df.iloc[0][28])
-
-                print("df.iloc[0]['Recurso - URL']")
-                print(df.iloc[0]['Recurso - URL'])
-                print(df.iloc[0][29])
-
-                print("df.iloc[0]['Idioma']")
-                print(df.iloc[0]['Idioma'])
-                print(df.iloc[0][30])
-                
-                print("df.iloc[0]['Instrucciones del módulo']")
-                print(df.iloc[0]['Instrucciones del módulo'])
-                print(df.iloc[0][31])
                 
 
                 
