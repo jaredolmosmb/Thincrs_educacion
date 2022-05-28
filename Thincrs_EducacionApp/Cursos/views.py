@@ -238,7 +238,7 @@ def ListaUsuariosView(request):
     return render(request, 'Cursos/ListaUsuarios.html', {'todos_u': todos_u})
 
 #---configuraciones para BD thincrs en servidor de AWS
-mypkey = paramiko.RSAKey.from_private_key_file("cursos/clave.pem")
+mypkey = paramiko.RSAKey.from_private_key_file("clave.pem")
 # if you want to use ssh password use - ssh_password='your ssh password', bellow
 
 sql_hostname = 'develop-instance.cici1guul97n.us-east-2.rds.amazonaws.com'
