@@ -236,7 +236,7 @@ def ListaUsuariosView(request):
     todos_u=CustomUser.objects.all()
     return render(request, 'Cursos/ListaUsuarios.html', {'todos_u': todos_u})
 
-"""#---configuraciones para BD thincrs en servidor de AWS
+#---configuraciones para BD thincrs en servidor de AWS
 mypkey = paramiko.RSAKey.from_private_key_file("cursos/clave.pem")
 # if you want to use ssh password use - ssh_password='your ssh password', bellow
 
@@ -249,17 +249,17 @@ ssh_host = '18.222.146.90'
 ssh_user = 'ubuntu'
 ssh_port = 22
 sql_ip = '1.1.1.1.1'
-#----------Termina configuraciones en servidor de AWS"""
+#----------Termina configuraciones en servidor de AWS
 
 
-#---configuraciones para BD local
+"""#---configuraciones para BD local
 # if you want to use ssh password use - ssh_password='your ssh password', bellow
 sql_hostname = '127.0.0.1'
 sql_username = 'root'
 sql_password = ''
 sql_main_database = 'develop_thincrs'
 sql_port = 3306
-#-------Termina las configuraciones en Bd local
+#-------Termina las configuraciones en Bd local"""
 
 @authenticated_user
 def CargaTrayectoriaView(request):
