@@ -284,7 +284,7 @@ def CargaTrayectoriaView(request):
             #f = obj.file.open('r')
             #reader_file = csv.reader(open(obj.file.path,'r'))
             df = pd.read_csv(open(obj.file.path,'r'))#archivo de preguntas
-            dffile2 = pd.read_csv(open(obj.file2.path,'r'))# archivo de config
+            #dffile2 = pd.read_csv(open(obj.file2.path,'r'))# archivo de config
             #print("dffile2: ", dffile2)
             #print("reader_file ", reader_file)
             #-------obtener la descripcion de cada pregunta
@@ -1446,61 +1446,7 @@ def CargaTrayectoriaView(request):
 
             #quitar para_prueba para que funciona la carga a BD
             if valido and valido2 and para_prueba:
-                cur = conn.cursor()
-                question_id_sql = cur.execute('''SELECT MAX(id) FROM question; ''')
-                max_question_id = cur.fetchone()
-                question_id = max_question_id[0] + 1
-
-                #dffile2.iloc[0][3]
-                question_type = df.iloc[0][8]
-                question_type_id_sql = cur.execute('''SELECT id FROM `question_type` WHERE `name` = "{}"; '''.format(question_type))
-                question_question_type_id_fetch = cur.fetchone()
-                if question_question_type_id_fetch:
-                    question_question_type_id = question_question_type_id_fetch[0]
-                else:
-                    question_type_id = cur.execute('''SELECT * FROM `question_type`; ''') + 1
-                    question_type_created_at = datetime.now()
-                    question_type_updated_at = datetime.now()
-                    cur.execute('''INSERT INTO `question_type` VALUES ({},"{}","{}", NULL,"{}","{}"  )'''.format(question_type_id, question_type, question_type, question_type_created_at, question_type_updated_at)) 
-                    conn.commit()
-                    print("se hizo la insercion en tabla question_type checar en BD con id: ", question_type_id)
-                    #print("es none y se a;adio: ", question_type)
-                    question_question_type_id = question_type_id       
-
-                question_shortname = df.iloc[0][0]
-                question_question = markdown.markdown((df.iloc[0][12]).replace("![alt text]", " ![alt text]")) #descripcion del excel
-                print("question_question convertido a html: ", question_question)
-                question_question = question_question.replace("![alt text]", " ![alt text]")
-                print("question_question convertido a html y remplazando el alt: ", question_question)
-
-                #question_question_elem2 = elem2[5] #descripcion de la base de datos
-                #question_compuesto = question_question_elem2 + question_question
-                question_created_at = datetime.now()
-                question_updated_at = datetime.now()
-
-                question_category = df.iloc[0][7]
-                question_category_id_sql = cur.execute('''SELECT id FROM `question_category` WHERE `name` = "{}"; '''.format(question_category))
-                question_question_category_id_fetch = cur.fetchone()
-                if question_question_category_id_fetch:
-                    question_question_category_id = question_question_category_id_fetch[0]
-                else:
-                    question_category_id = cur.execute('''SELECT * FROM `question_category`; ''') + 1
-                    question_category_created_at = datetime.now()
-                    question_category_updated_at = datetime.now()
-                    cur.execute('''INSERT INTO `question_category` VALUES ({},"{}","{}","{}"  )'''.format(question_category_id, question_category, question_category, question_category_created_at, question_category_updated_at)) 
-                    conn.commit()
-                    print("se hizo la insercion en tabla question_category checar en BD con id: ", question_category_id)
-                    #print("es none y se a;adio: ", question_type)
-                    question_question_category_id = question_category_id 
-
-                question_level = df.iloc[0][10]
-                question_instructions = markdown.markdown(df.iloc[0][11]) 
-                question_code = df.iloc[0][1]
-                #question count nromal termina en 2497
-                #cur.execute('''UPDATE `question` SET question="{}" WHERE short_name="{}";'''.format(question_compuesto, ID_Pregunta))
-                cur.execute('''INSERT INTO `question` VALUES ({},{},1,NULL,"{}","{}",0,"{}","{}",{},{},"{}","{}")'''.format(question_id, question_question_type_id, question_shortname, question_question, question_created_at, question_updated_at, question_question_category_id, question_level, question_instructions, question_code))
-                conn.commit()
-                print("se hizo la insercion en tabla question checar en BD con id: ", question_id)
+               
                 pass
 
                 
@@ -1516,9 +1462,9 @@ def CargaTrayectoriaView(request):
                 print("no se hizo la inserción a la BD porque se debe de verificar el archivo")
 
             open(obj.file.path,'r').close()
-            open(obj.file2.path,'r').close()
+            #open(obj.file2.path,'r').close()
             os.remove(obj.file.path)
-            os.remove(obj.file2.path)
+            #os.remove(obj.file2.path)
             return render(request, 'Cursos/carga_trayectoria.html',{'form': form, 'valido': valido, 'valido2': valido2, 'lista_verificacion' : lista_verificacion, 'lista_verificacion_BD' : lista_verificacion_BD})
             
             
