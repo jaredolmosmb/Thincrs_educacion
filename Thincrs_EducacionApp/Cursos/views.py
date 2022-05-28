@@ -284,7 +284,7 @@ def CargaTrayectoriaView(request):
 
             #f = obj.file.open('r')
             #reader_file = csv.reader(open(obj.file.path,'r'))
-            df = pd.read_csv(open(obj.file.path,'r'))#archivo de preguntas
+            df = pd.read_csv(open(obj.file.path,'r'), encoding='utf8')#archivo de preguntas
             #dffile2 = pd.read_csv(open(obj.file2.path,'r'))# archivo de config
             #print("dffile2: ", dffile2)
             #print("reader_file ", reader_file)
