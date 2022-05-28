@@ -315,28 +315,28 @@ def CargaTrayectoriaView(request):
               for pregunta in lista_verificacion:
                 print("En la pregunta "+ str(pregunta[0]) + " en la linea "+str(pregunta[1])+ " y la linea "+str(pregunta[2]))
 
-            """#-------------Conexion a la BD de thincrs para sacar el total de preguntas de aws via ssh
-                                                with SSHTunnelForwarder(
-                                                    (ssh_host, ssh_port),
-                                                    ssh_username=ssh_user,
-                                                    ssh_pkey=mypkey,
-                                                    remote_bind_address=(sql_hostname, sql_port)) as tunnel:
-                                                    conn = pymysql.connect(host='127.0.0.1', user=sql_username,
-                                                            passwd=sql_password, db=sql_main_database,
-                                                            port=tunnel.local_bind_port)
-                                                    query2 = '''select * from question;'''
-                                                    df2 = pd.read_sql_query(query2, conn)
-                                                #------Termina conexion de BD thincrs para sacer el totla de preguntas"""
+            #-------------Conexion a la BD de thincrs para sacar el total de preguntas de aws via ssh
+            with SSHTunnelForwarder(
+                (ssh_host, ssh_port),
+                ssh_username=ssh_user,
+                ssh_pkey=mypkey,
+                remote_bind_address=(sql_hostname, sql_port)) as tunnel:
+                conn = pymysql.connect(host='127.0.0.1', user=sql_username,
+                        passwd=sql_password, db=sql_main_database,
+                        port=tunnel.local_bind_port)
+                query2 = '''select * from question;'''
+                df2 = pd.read_sql_query(query2, conn)
+            #------Termina conexion de BD thincrs para sacer el totla de preguntas
 
             """for ind, fila in data2.iterrows():
                                                     if ind == 0:
                                                         print(markdownify.markdownify(fila[5]).replace("\n", "").replace("  "," "))"""
             #-------------Conexion a la BD de thincrs en local para sacar el total de preguntas
-            conn = pymysql.connect(host='127.0.0.1', user=sql_username,
-                    passwd=sql_password, db=sql_main_database,
-                    port=sql_port)
-            query2 = '''select * from question;'''
-            df2 = pd.read_sql_query(query2, conn)
+            #conn = pymysql.connect(host='127.0.0.1', user=sql_username,
+             #       passwd=sql_password, db=sql_main_database,
+              #      port=sql_port)
+            #query2 = '''select * from question;'''
+            #df2 = pd.read_sql_query(query2, conn)
 
             #--------------Conexion a la BD replica en local-------------
             
