@@ -21,7 +21,8 @@ import re
 import csv
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
-import markdownify
+#import markdownify
+import html2markdown
 import markdown
 
 from difflib import SequenceMatcher
@@ -349,7 +350,7 @@ def CargaTrayectoriaView(request):
                 #if index == 16 and index2 == 522:
                 #if index<index2: # asegurar que no se compara de manera reciproca
                   if element[0] == element2[4]:# verifico que compara solo preguntas con el mismo ID:
-                    probabilidad_similitud = similar(element[12].replace("\n", "").replace("  "," "), markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]")) # saque nivel de similitud de descripciones
+                    probabilidad_similitud = similar(element[12].replace("\n", "").replace("  "," "), html2markdown.convert(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]")) # saque nivel de similitud de descripciones
 
                     if probabilidad_similitud >0.9 and probabilidad_similitud < 1.0:# si se sospecha de una descripcion que pudiera ser la misma se marca como invalido para carga ra bd
                         #print("descripcion "+str(index+2)+" en preguntas2: ")
@@ -359,8 +360,8 @@ def CargaTrayectoriaView(request):
                         print("descripcion "+str(index+2)+" en preguntas2: ")
                         print(element[12].replace("\n", "").replace("  "," "))
                         print("descripcion "+str(index2+2)+" en out: ")
-                        print(markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]"))
-                        lista_verificacion_BD.append([element[0], index+2, index2+2, markdownify.markdownify(element2[5]).replace("\n", "").replace("  "," ")])
+                        print(html2markdown.convert(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]"))
+                        lista_verificacion_BD.append([element[0], index+2, index2+2, html2markdown.convert(element2[5]).replace("\n", "").replace("  "," ")])
                         valido2 = False
                         print("La descripcion " +str(index+2)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2+2)+ " podria tratarse de la misma pregunta. Favor de revisar  " +element[0])# se indica los renglones a revisar
             if valido2:
@@ -473,7 +474,7 @@ def CargaTrayectoriaView(request):
                         #si esta la pregunta en la base de datos hay dos posibilidades que se agregue otro parrafo, o que se agregue solo lo demas porque la similitud es 1
                         if ID_Pregunta == elem2[4]:
                             igual = True
-                            probabilidad_similitud2 = similar(elem1[12].replace("\n", "").replace("  "," "), markdownify.markdownify(elem2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]"))
+                            probabilidad_similitud2 = similar(elem1[12].replace("\n", "").replace("  "," "), html2markdown.convert(elem2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]"))
                             print("misma pregunta por id = ", elem2[0])
                             if probabilidad_similitud2 == 1:
                                 print("igual a 1")
