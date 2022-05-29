@@ -24,6 +24,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #import markdownify
 import html2markdown
 import markdown
+import chardet
 
 from difflib import SequenceMatcher
 
@@ -284,7 +285,12 @@ def CargaTrayectoriaView(request):
 
             #f = obj.file.open('r')
             #reader_file = csv.reader(open(obj.file.path,'r'))
-            df = pd.read_csv(open(obj.file.path,'rb'), encoding='utf8')#archivo de preguntas
+            with open(obj.file.path, 'rb') as f:
+                result = chardet.detect(f.read())  # or readline if the file is large
+
+
+            #pd.read_csv('filename.csv', )
+            df = pd.read_csv(open(obj.file.path,'rb'), encoding=result['encoding'])#archivo de preguntas
             #dffile2 = pd.read_csv(open(obj.file2.path,'r'))# archivo de config
             #print("dffile2: ", dffile2)
             #print("reader_file ", reader_file)
