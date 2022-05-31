@@ -366,7 +366,7 @@ def CargaTrayectoriaView(request):
                         print("descripcion "+str(index+2)+" en preguntas2: ")
                         print(element[12].replace("\n", "").replace("  "," "))
                         print("descripcion "+str(index2+2)+" en out: ")
-                        print(html2markdown.convert(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]").replace("&amp;space", "&space").replace("__", "++"))
+                        print(html2markdown.convert(element2[5]).replace("\n", "").replace("  "," ").replace(" ![alt text]", "![alt text]").replace("&amp;space", "&space").replace("__", "**"))
                         lista_verificacion_BD.append([element[0], index+2, index2+2, html2markdown.convert(element2[5]).replace("\n", "").replace("  "," ")])
                         valido2 = False
                         print("La descripcion " +str(index+2)+ " es similar en un: " +str(probabilidad_similitud)+ " de la descripción " +str(index2+2)+ " podria tratarse de la misma pregunta. Favor de revisar  " +element[0])# se indica los renglones a revisar
