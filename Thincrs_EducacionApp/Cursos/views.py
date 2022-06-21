@@ -242,11 +242,18 @@ def ListaUsuariosView(request):
 mypkey = paramiko.RSAKey.from_private_key_file("clave.pem")
 # if you want to use ssh password use - ssh_password='your ssh password', bellow
 
-sql_hostname = 'develop-instance.cici1guul97n.us-east-2.rds.amazonaws.com'
+"""sql_hostname = 'develop-instance.cici1guul97n.us-east-2.rds.amazonaws.com'
 sql_username = 'develop_thincrs'
 sql_password = 'Thincrs_password2021'
 sql_main_database = 'Develop_thincrs'
+sql_port = 3306"""
+
+sql_hostname = 'production-instance.cici1guul97n.us-east-2.rds.amazonaws.com'
+sql_username = 'production_doom'
+sql_password = 'EduPaszword2021_'
+sql_main_database = 'Production_thincrs'
 sql_port = 3306
+
 ssh_host = '18.222.146.90'
 ssh_user = 'ubuntu'
 ssh_port = 22
